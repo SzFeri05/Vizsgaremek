@@ -1,0 +1,41 @@
+/*Ha a képernyő monitor méretű*/
+@media only screen and (min-width: 768px) {
+    div#foDiv {
+        justify-content: space-between;
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+
+    div#elsoLap {
+        background-color: aqua;
+        width: 50%;
+        height: 100%;
+    }
+
+    div#masodikLap {
+        background-color: black;
+        width: 50%;
+        height: 100%;
+    }
+}
+
+/*Ha a képernyő telefon méretű*/
+@media only screen and (max-width: 767px) {
+    div#foDiv {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    div#elsoLap {
+        background-color: aqua;
+        width: 100%;
+        height: 100%;
+    }
+
+    div#masodikLap {
+        background-color: black;
+        display: none;
+    }
+}

@@ -18,6 +18,20 @@
     <title>Suliújság</title>
 </head>
 <body>
+    <!--Fő "div", az újság lapjait tartamlazza-->
+    <div id="foDiv">
+        <!--Az első "újságoldal"-->
+        <div id="elsoLap">
+            <!--Ide jön a BAL oldali újságlap tartalma-->
+        </div>
+
+        <!--A második "újságoldal"-->
+        <div id="masodikLap">
+            <!--Ide jön a JOBB oldali újságlap tartalma-->
+        </div>
+    </div>
+
+
     <!--Bootstrap 5 JavaScript Bundle-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
