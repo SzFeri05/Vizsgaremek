@@ -37,16 +37,23 @@ body, html {
         background-color: rgba(0, 0, 0, 0.1);
     }
 
-    span#balraNyil {
+    img#balraNyil {
         position: absolute;
         top: 50%;
-        float: left;
+        width: 2%;
+        height: 4%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
     }
 
-    span#jobbraNyil {
+    img#jobbraNyil {
         position: absolute;
         top: 50%;
-        float: right;
+        margin-left: 0.55%;
+        width: 2%;
+        height: 4%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
     }
 
     div.oldalLeptetoNyil:hover {
@@ -70,6 +77,10 @@ body, html {
 
     div#masodikLap {
         background-color: black;
+        display: none;
+    }
+
+    div.oldalLeptetoNyil {
         display: none;
     }
 }

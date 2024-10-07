@@ -21,7 +21,7 @@
     <!--Fő "div", az újság lapjait tartamlazza-->
     <div id="foDiv">
         <div class="oldalLeptetoNyil">
-            <span id="balraNyil"><</span>
+            <img id="balraNyil" src="./img/balNyíl.png">
         </div>
         <!--Az első "újságoldal"-->
         <div id="elsoLap">
@@ -34,7 +34,7 @@
         </div>
 
         <div class="oldalLeptetoNyil">
-            <span id="jobbraNyil">></span>
+            <img id="jobbraNyil" src="./img/jobbNyíl.png">
         </div>
     </div>
 
