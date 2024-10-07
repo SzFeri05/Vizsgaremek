@@ -1,3 +1,9 @@
+/*Teljes oldal háttérszíne*/
+body, html {
+    background-color: #EBEBEB;
+}
+
+
 /*Ha a képernyő monitor méretű*/
 @media only screen and (min-width: 768px) {
     div#foDiv {
@@ -6,21 +12,45 @@
         height: 100%;
         width: 100%;
         justify-content: center;
-        background-color: red;
+        padding-left: 12%;
     }
 
     div#elsoLap {
         background-color: aqua;
-        width: 30%;
+        width: 40%;
         height: 100%;
-        margin-right: 3%;
+        margin-right: 1%;
+        background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
     }
 
     div#masodikLap {
         background-color: black;
-        width: 30%;
+        width: 40%;
         height: 100%;
-        margin-left: 3%;
+        margin-left: 1%;
+        background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
+    }
+
+    div.oldalLeptetoNyil {
+        height: 100%;
+        width: 3%;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    span#balraNyil {
+        position: absolute;
+        top: 50%;
+        float: left;
+    }
+
+    span#jobbraNyil {
+        position: absolute;
+        top: 50%;
+        float: right;
+    }
+
+    div.oldalLeptetoNyil:hover {
+        background-color: rgba(0, 0, 0, 0.3);
     }
 }
 
@@ -44,3 +74,15 @@
     }
 }
 
+
+div#kibontottNavbar {
+    height: 50%;
+}
+
+button#kibontoGomb {
+    height: 5%;
+    width: 5%;
+    background-color: black;
+    float: left;
+    margin-bottom: 90%;
+}

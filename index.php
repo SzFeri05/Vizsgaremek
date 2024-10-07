@@ -20,6 +20,9 @@
 <body>
     <!--Fő "div", az újság lapjait tartamlazza-->
     <div id="foDiv">
+        <div class="oldalLeptetoNyil">
+            <span id="balraNyil"><</span>
+        </div>
         <!--Az első "újságoldal"-->
         <div id="elsoLap">
             <!--Ide jön a BAL oldali újságlap tartalma-->
@@ -28,6 +31,10 @@
         <!--A második "újságoldal"-->
         <div id="masodikLap">
             <!--Ide jön a JOBB oldali újságlap tartalma-->
+        </div>
+
+        <div class="oldalLeptetoNyil">
+            <span id="jobbraNyil">></span>
         </div>
     </div>
 
