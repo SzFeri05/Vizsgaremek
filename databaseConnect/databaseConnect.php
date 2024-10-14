@@ -1,7 +1,7 @@
 <?php
     function adatLekeres($muvelet)
     {
-        $db = new mysqli("localhost", "root", "", "vizsgaremek_suliujsag");
+        $db = new mysqli("localhost", "root", "", "vizsga");
         
         if($db->connect_errno == 0)
         {
