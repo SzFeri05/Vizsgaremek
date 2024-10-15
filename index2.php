@@ -1,5 +1,5 @@
 <?php
-    include "./databaseConnect/databaseConnect.php";
+    include "./php/databaseConnect.php";
 ?>
 
 <html lang="hu">
