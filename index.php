@@ -24,6 +24,7 @@
         <!--Navbar-->
         <button class="btn btn-dark bg-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="hamburgerButton"><img src="./img/hamburgerMenu.png" id="hamburgerIcon"></button>
 
+        <!--Offcanvas-->
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
                 <img src="./img/TesztPFP.jpg" class="card-img-top rounded-circle" id="pfp">
@@ -44,7 +45,7 @@
             </div>
         </div>
 
-        
+        <!--Bal oldalléptető nyíl-->
         <div class="oldalLeptetoNyil" id="balNyilDiv">
             <img id="balraNyil" src="./img/balNyíl.png">
         </div>
@@ -57,7 +58,7 @@
         <div id="masodikLap">
             <!--Ide jön a JOBB oldali újságlap tartalma-->
         </div>
-
+        <!--Jobb oldalléptető nyíl-->
         <div class="oldalLeptetoNyil" id="jobbNyilDiv">
             <img id="jobbraNyil" src="./img/jobbNyíl.png">
         </div>
