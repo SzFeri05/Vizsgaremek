@@ -44,20 +44,24 @@
                 </div>
             </div>
         </div>
+        
 
         <!--Bal oldalléptető nyíl-->
         <div class="oldalLeptetoNyil" id="balNyilDiv">
             <img id="balraNyil" src="./img/balNyíl.png">
         </div>
+
         <!--Az első "újságoldal"-->
         <div id="elsoLap">
             <!--Ide jön a BAL oldali újságlap tartalma-->
         </div>
 
+
         <!--A második "újságoldal"-->
         <div id="masodikLap">
             <!--Ide jön a JOBB oldali újságlap tartalma-->
         </div>
+
         <!--Jobb oldalléptető nyíl-->
         <div class="oldalLeptetoNyil" id="jobbNyilDiv">
             <img id="jobbraNyil" src="./img/jobbNyíl.png">
