@@ -38,13 +38,13 @@
             <div class="offcanvas-body" id="offcanvasDatum">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <p class="card-text">Év.Hónap.Nap</p>
-                        <p class="card-text"><small class="text-muted">Óra.Perc.Másodperc</small></p>
+                        <p class="card-text"><span id="ora">Óra.Perc.Másodperc</span></p>
+                        <p class="card-text"><small class="text-muted" id="datum">Év.Hónap.Nap</small></p>
                     </div>
                 </div>
             </div>
         </div>
-        
+
 
         <!--Bal oldalléptető nyíl-->
         <div class="oldalLeptetoNyil" id="balNyilDiv">

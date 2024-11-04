@@ -9,11 +9,28 @@
             $erkezettAdatok = json_decode($erkezettAdatok, true);
 
             $lekeres = "SELECT * FROM posztok";
-            echo adatLekeres($lekeres);
+            $eredmeny = adatLekeres($lekeres);
 
-            //return $eredmeny;
-            break;
-        
+            return strval($eredmeny);
+
+        case 'diakok':
+            $erkezettAdatok = file_get_contents("php://input");
+            $erkezettAdatok = json_decode($erkezettAdatok, true);
+
+            $lekeres = "SELECT * FROM diakok";
+            $eredmeny = adatLekeres($lekeres);
+
+            return strval($eredmeny);
+
+        case 'iskolak':
+            $erkezettAdatok = file_get_contents("php://input");
+            //$erkezettAdatok = json_decode($erkezettAdatok, true);
+
+            $lekeres = "SELECT * FROM iskolak";
+            $eredmeny = adatLekeres($lekeres);
+
+            return strval($eredmeny);
+
         default:
             break;
     }
