@@ -1,19 +1,24 @@
 async function cikkekKiirasa() {
     try {
-        let eredmeny = await fetch("php/jsDatabaseConnect.php/iskolak");
+        let eredmeny = await fetch("./php/jsDatabaseConnect.php/iskolak");
         let valasz = await eredmeny.json();
 
-        valasz.forEach(e => {
-            console.log(e);
-        });
+        //console.log(valasz);
 
-        /*valasz.forEach(e => {
-            p.innerHTML += e["adat"];
-            p.innerHTML += "<br>";
-        });*/
+        let elsoLap = document.getElementById("elsoLap");
+        elsoLap.innerHTML = "";
+
+        valasz.forEach(e => {
+            elsoLap.innerHTML += e["iskNev"];
+            elsoLap.innerHTML += "<br>";
+        });
     } catch (error) {
         console.log(error);
     }
+}
+
+function cikkekElrendezese() {
+
 }
 
 
@@ -37,13 +42,12 @@ function datumEsIdo() {
 
     //Dátum beállítása
     datumSmall.innerHTML = ev + ". " + parseInt(honap + 1) + ". " + ((nap < 10) ? "0" + nap : nap) + ".";
-
-    setInterval(datumEsIdo, 1000);
 }
 
 
 
 window.addEventListener("load", () => {
     cikkekKiirasa()
+    setInterval(datumEsIdo, 1000)
     datumEsIdo()
 });

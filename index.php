@@ -46,6 +46,79 @@
         </div>
 
 
+        <!--Login modal-->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Bejelentkezés</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./php/login.php" method="POST">
+                        <input type="text" name="username" id="username" placeholder="Felhasználónév" style="padding: 5px;">
+                        <br>
+                        <br>
+                        <input type="password" name="password" id="password" placeholder="Jelszó" style="padding: 5px;">
+
+                        <br>
+                        <br>
+
+                        <input type="submit" value="Bejelentkezés!">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span>Még nincs fiókja? Regisztráljon!</span>
+                    <button class="btn btn-primary" data-bs-target="#registerModal" data-bs-toggle="modal" data-bs-dismiss="modal">Regisztráció</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Register modal-->
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Regisztráció</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./php/register.php" method="POST">
+                        <input type="text" name="username" id="Rusername" placeholder="Felhasználónév" style="padding: 5px;">
+                        <br>
+                        <br>
+                        <input type="text" name="iskola" id="Riskola" placeholder="Iskolai e-mail címe" style="padding: 5px;">
+                        <br>
+                        <br>
+                        <input type="text" name="osztály" id="Rosztaly" placeholder="Osztály (pl.: 12.C)" style="padding: 5px;">
+                        <br>
+                        <br>
+                        <input type="password" name="password" id="Rpassword" placeholder="Jelszó" style="padding: 5px;">
+                        <br>
+                        <br>
+                        <input type="password" name="password" id="RpasswordUjra" placeholder="Jelszó újra" style="padding: 5px;">
+
+                        <br>
+                        <br>
+
+                        <input type="submit" value="Regisztrálás!">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span>Már van fiókja? Jelentkezzen be!</span>
+                    <button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bejelentkezés</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Login modal nyitó-->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Launch demo modal
+        </button>
+
+
         <!--Bal oldalléptető nyíl-->
         <div class="oldalLeptetoNyil" id="balNyilDiv">
             <img id="balraNyil" src="./img/balNyíl.png">
