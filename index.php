@@ -19,10 +19,51 @@
 </head>
 <body>
     <!--Fő "div", az újság lapjait tartamlazza-->
-    <div id="foDiv">
+    <div id="foDiv" class="container-fluid">
+        <div class="row">
+            <div class="col col-md-1">
+                <!--Navbar-->
+                <button class="btn btn-dark bg-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="hamburgerButton"><img src="./img/hamburgerMenu.png" id="hamburgerIcon"></button>
+            </div>
 
-        <!--Navbar-->
-        <button class="btn btn-dark bg-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="hamburgerButton"><img src="./img/hamburgerMenu.png" id="hamburgerIcon"></button>
+            <div class="col col-md-11">
+                <div class="row">
+                    <!--Bal oldalléptető nyíl-->
+                    <div class="oldalLeptetoNyil col col-md-1" id="balNyilDiv">
+                        <img id="balraNyil" src="./img/balNyíl.png">
+                    </div>
+
+                    <!--Az első "újságoldal"-->
+                    <div class="col col-md-4" id="elsoLap">
+                        <!--Ide jön a BAL oldali újságlap tartalma-->
+                        <div class="row">
+                            <div class="ujsagCol col-3">
+                                <!--Bal oldali vékony-->
+                            </div>
+
+                            <div class="ujsagCol col-6">
+                                <!--Középső vastag-->
+                            </div>
+
+                            <div class="ujsagCol col-3">
+                                <!--Jobb oldali vékony-->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--A második "újságoldal"-->
+                    <div class="col col-md-4" id="masodikLap">
+                        <!--Ide jön a JOBB oldali újságlap tartalma-->
+                    </div>
+
+                    <!--Jobb oldalléptető nyíl-->
+                    <div class="oldalLeptetoNyil col col-md-1" id="jobbNyilDiv">
+                        <img id="jobbraNyil" src="./img/jobbNyíl.png">
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!--Offcanvas-->
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -113,33 +154,11 @@
             </div>
         </div>
 
-        <!--Login modal nyitó-->
+        <!--MŰKÖDIK-->
+        <!--Login modal nyitó
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
             Launch demo modal
-        </button>
-
-
-        <!--Bal oldalléptető nyíl-->
-        <div class="oldalLeptetoNyil" id="balNyilDiv">
-            <img id="balraNyil" src="./img/balNyíl.png">
-        </div>
-
-        <!--Az első "újságoldal"-->
-        <div id="elsoLap">
-            <!--Ide jön a BAL oldali újságlap tartalma-->
-            
-        </div>
-
-
-        <!--A második "újságoldal"-->
-        <div id="masodikLap">
-            <!--Ide jön a JOBB oldali újságlap tartalma-->
-        </div>
-
-        <!--Jobb oldalléptető nyíl-->
-        <div class="oldalLeptetoNyil" id="jobbNyilDiv">
-            <img id="jobbraNyil" src="./img/jobbNyíl.png">
-        </div>
+        </button>-->
     </div>
 
 

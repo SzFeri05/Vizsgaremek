@@ -1,3 +1,17 @@
+/*Teszt formázások*/
+div {
+    height: 100%;
+}
+
+.row {
+    width: 100%;
+}
+
+.ujsagCol {
+    border: 1px solid black;
+}
+
+
 /*Teljes oldal háttérszíne*/
 body, html {
     background-color: #EBEBEB;
@@ -19,14 +33,12 @@ body, html {
     div#elsoLap {
         width: 40%;
         height: 100%;
-        margin-right: 1%;
         background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
     }
 
     div#masodikLap {
         width: 40%;
         height: 100%;
-        margin-left: 1%;
         background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
     }
 
@@ -49,7 +61,6 @@ body, html {
     img#jobbraNyil {
         position: absolute;
         top: 50%;
-        margin-left: 0.55%;
         width: 2%;
         height: 4%;
         -ms-transform: translateY(-50%);
@@ -60,13 +71,6 @@ body, html {
         background-color: rgba(0, 0, 0, 0.3);
     }
 
-    div#balNyilDiv {
-        margin-left: 15%;
-    }
-
-    div#jobbNyilDiv {
-        margin-right: 10%;
-    }
 
     /*Hamburgermenu*/
     img#hamburgerIcon {
@@ -117,7 +121,6 @@ body, html {
     }
 
     div#masodikLap {
-        background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
         display: none;
     }
 
