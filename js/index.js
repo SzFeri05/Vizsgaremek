@@ -47,7 +47,7 @@ function datumEsIdo() {
 
 
 window.addEventListener("load", () => {
-    cikkekKiirasa()
+    //cikkekKiirasa()
     setInterval(datumEsIdo, 1000)
     datumEsIdo()
 });
