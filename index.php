@@ -73,8 +73,13 @@
                 <h5 id="offcanvasRightLabel">Név, osztály</h5>
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
+            <div class="offcanvas-body" id="offcanvasBejelentkezes">
+                <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Bejelentkezés
+                </button>
+            </div>
             <div class="offcanvas-body" id="offcanvasUjCikkGomb">
-                <button type="button" class="btn btn-secondary btn-lg">Új cikk feltöltése</button>
+                <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#ujcikkModal">Új cikk feltöltése</button>
             </div>
             <div class="offcanvas-body" id="offcanvasDatum">
                 <div class="card mb-3">
@@ -97,15 +102,15 @@
                 </div>
                 <div class="modal-body">
                     <form action="./php/login.php" method="POST">
-                        <input type="text" name="username" id="username" placeholder="Felhasználónév" style="padding: 5px;">
+                        <input type="text" name="username" id="username"  >
                         <br>
                         <br>
-                        <input type="password" name="password" id="password" placeholder="Jelszó" style="padding: 5px;">
+                        <input type="password" name="password" id="password"  >
 
                         <br>
                         <br>
 
-                        <input type="submit" value="Bejelentkezés!">
+                        <input type="submit" class="btn btn-info" value="Bejelentkezés!">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -143,7 +148,7 @@
                         <br>
                         <br>
 
-                        <input type="submit" value="Regisztrálás!">
+                        <input type="submit" class="btn btn-info" value="Regisztrálás!">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -154,11 +159,32 @@
             </div>
         </div>
 
-        <!--MŰKÖDIK-->
-        <!--Login modal nyitó
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
-            Launch demo modal
-        </button>-->
+        <!--Új cikk feltöltése modal(Az input mezők nem működnek, kivéve ha a 'meghívó' gomb alatt van a modal)-->
+        <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ujcikkModalLabel">Új Cikk Létrehozása</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./php/ujcikk.php" method="POST">
+                        <input type="text" name="cim" id="cim" placeholder="Cím" style="padding: 5px;">
+                        <br>
+                        <br>
+                        <input type="text" name="szoveg" id="szoveg" placeholder="Leírás" style="padding: 5px;">
+                        <br>
+                        <br>
+                        <input type="text" name="kep" id="kep" placeholder="Kép" style="padding: 5px;">
+
+                        <br>
+                        <br>
+
+                        <input type="submit" class="btn btn-success" value="Feltöltés!">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 

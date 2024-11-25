@@ -91,17 +91,31 @@ body, html {
         text-align: center;
     }
 
-    div#offcanvasUjCikkGomb {
+    div#offcanvasBejelentkezes
+    {
         margin-top: 5%;
     }
 
     div#offcanvasDatum {
         margin-top: 15%;
+        overflow-y: hidden;
     }
 
     img#pfp {
         width: auto;
         height: auto;
+    }
+
+    div#loginModal {
+        height: unset;
+    }
+
+    div#registerModal {
+        height: unset;
+    }
+
+    div#ujcikkModal {
+        height: unset;
     }
 }
 
