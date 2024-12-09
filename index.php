@@ -1,15 +1,17 @@
 <?php
-    include "./php/databaseConnect.php";
+include "./php/databaseConnect.php";
 ?>
 
 <html lang="hu">
+
 <head>
     <!--"meta" tagek-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!--Bootstrap 5 CSS-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!--Saját CSS-->
     <link rel="stylesheet" href="./css/index.css">
@@ -17,13 +19,16 @@
     <!--"title" tag-->
     <title>Suliújság</title>
 </head>
+
 <body>
     <!--Fő "div", az újság lapjait tartamlazza-->
     <div id="foDiv" class="container-fluid">
         <div class="row">
             <div class="col col-md-1">
                 <!--Navbar-->
-                <button class="btn btn-dark bg-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="hamburgerButton"><img src="./img/hamburgerMenu.png" id="hamburgerIcon"></button>
+                <button class="btn btn-dark bg-secondary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="hamburgerButton"><img
+                        src="./img/hamburgerMenu.png" id="hamburgerIcon"></button>
             </div>
 
             <div class="col col-md-11">
@@ -71,15 +76,94 @@
                 <img src="./img/TesztPFP.jpg" class="card-img-top rounded-circle" id="pfp">
                 <h5 id="offcanvasRightLabel">Iskola Teljes Neve</h5>
                 <h5 id="offcanvasRightLabel">Név, osztály</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
             </div>
             <div class="offcanvas-body" id="offcanvasBejelentkezes">
                 <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal">
                     Bejelentkezés
                 </button>
+                <!--Login modal-->
+                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="loginModalLabel">Bejelentkezés</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <input type="text" name="username" id="loginUsername">
+                                    <br>
+                                    <br>
+                                    <input type="password" name="password" id="loginPassword">
+
+                                    <br>
+                                    <br>
+
+                                    <input type="button" class="btn btn-info" value="Bejelentkezés!">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <span>Még nincs fiókja? Regisztráljon!</span>
+                                <!--data-bs-target="#registerModal" data-bs-toggle="modal"-->
+                                <button id="loginModalButton" class="btn btn-primary">
+                                    Regisztráció
+                                </button>
+                                <!--Register modal-->
+                                <div class="modal fade" id="registerModal" tabindex="-1"
+                                    aria-labelledby="registerModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="registerModalLabel">Regisztráció</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="./php/register.php" method="POST">
+                                                    <input type="text" name="username" id="Rusername"
+                                                        placeholder="Felhasználónév" style="padding: 5px;">
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="iskola" id="Riskola"
+                                                        placeholder="Iskolai e-mail címe" style="padding: 5px;">
+                                                    <br>
+                                                    <br>
+                                                    <input type="text" name="osztály" id="Rosztaly"
+                                                        placeholder="Osztály (pl.: 12.C)" style="padding: 5px;">
+                                                    <br>
+                                                    <br>
+                                                    <input type="password" name="password" id="Rpassword"
+                                                        placeholder="Jelszó" style="padding: 5px;">
+                                                    <br>
+                                                    <br>
+                                                    <input type="password" name="password" id="RpasswordUjra"
+                                                        placeholder="Jelszó újra" style="padding: 5px;">
+
+                                                    <br>
+                                                    <br>
+
+                                                    <input type="button " class="btn btn-info" value="Regisztrálás!">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <span>Már van fiókja? Jelentkezzen be!</span>
+                                                <button id="registerModalButton" class="btn btn-primary">Bejelentkezés</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="offcanvas-body" id="offcanvasUjCikkGomb">
-                <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#ujcikkModal">Új cikk feltöltése</button>
+                <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal"
+                    data-bs-target="#ujcikkModal">Új cikk feltöltése</button>
             </div>
             <div class="offcanvas-body" id="offcanvasDatum">
                 <div class="card mb-3">
@@ -92,106 +176,42 @@
         </div>
 
 
-        <!--Login modal-->
-        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Bejelentkezés</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="./php/login.php" method="POST">
-                        <input type="text" name="username" id="username"  >
-                        <br>
-                        <br>
-                        <input type="password" name="password" id="password"  >
-
-                        <br>
-                        <br>
-
-                        <input type="submit" class="btn btn-info" value="Bejelentkezés!">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <span>Még nincs fiókja? Regisztráljon!</span>
-                    <button class="btn btn-primary" data-bs-target="#registerModal" data-bs-toggle="modal" data-bs-dismiss="modal">Regisztráció</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!--Register modal-->
-        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Regisztráció</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="./php/register.php" method="POST">
-                        <input type="text" name="username" id="Rusername" placeholder="Felhasználónév" style="padding: 5px;">
-                        <br>
-                        <br>
-                        <input type="text" name="iskola" id="Riskola" placeholder="Iskolai e-mail címe" style="padding: 5px;">
-                        <br>
-                        <br>
-                        <input type="text" name="osztály" id="Rosztaly" placeholder="Osztály (pl.: 12.C)" style="padding: 5px;">
-                        <br>
-                        <br>
-                        <input type="password" name="password" id="Rpassword" placeholder="Jelszó" style="padding: 5px;">
-                        <br>
-                        <br>
-                        <input type="password" name="password" id="RpasswordUjra" placeholder="Jelszó újra" style="padding: 5px;">
-
-                        <br>
-                        <br>
-
-                        <input type="submit" class="btn btn-info" value="Regisztrálás!">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <span>Már van fiókja? Jelentkezzen be!</span>
-                    <button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal" data-bs-dismiss="modal">Bejelentkezés</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
         <!--Új cikk feltöltése modal(Az input mezők nem működnek, kivéve ha a 'meghívó' gomb alatt van a modal)-->
         <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ujcikkModalLabel">Új Cikk Létrehozása</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="./php/ujcikk.php" method="POST">
-                        <input type="text" name="cim" id="cim" placeholder="Cím" style="padding: 5px;">
-                        <br>
-                        <br>
-                        <input type="text" name="szoveg" id="szoveg" placeholder="Leírás" style="padding: 5px;">
-                        <br>
-                        <br>
-                        <input type="text" name="kep" id="kep" placeholder="Kép" style="padding: 5px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ujcikkModalLabel">Új Cikk Létrehozása</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="./php/ujcikk.php" method="POST">
+                            <input type="text" name="cim" id="cim" placeholder="Cím" style="padding: 5px;">
+                            <br>
+                            <br>
+                            <input type="text" name="szoveg" id="szoveg" placeholder="Leírás" style="padding: 5px;">
+                            <br>
+                            <br>
+                            <input type="text" name="kep" id="kep" placeholder="Kép" style="padding: 5px;">
 
-                        <br>
-                        <br>
+                            <br>
+                            <br>
 
-                        <input type="submit" class="btn btn-success" value="Feltöltés!">
-                    </form>
+                            <input type="submit" class="btn btn-success" value="Feltöltés!">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <!--Bootstrap 5 JavaScript Bundle-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!--Bootstrap 5 JavaScript Bundle-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
-    <!--Saját JavaScript-->
-    <script src="./js/index.js"></script>
+        <!--Saját JavaScript-->
+        <script src="./js/index.js"></script>
 </body>
+
 </html>

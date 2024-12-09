@@ -1,26 +1,19 @@
-async function cikkekKiirasa() {
-    try {
-        let eredmeny = await fetch("./php/jsDatabaseConnect.php/iskolak");
-        let valasz = await eredmeny.json();
+function $(id)
+{
+    return document.getElementById(id);
+}
 
-        //console.log(valasz);
 
-        let elsoLap = document.getElementById("elsoLap");
-        elsoLap.innerHTML = "";
 
-        valasz.forEach(e => {
-            elsoLap.innerHTML += e["iskNev"];
-            elsoLap.innerHTML += "<br>";
-        });
-    } catch (error) {
-        console.log(error);
+async function teszt() {
+    let lekeres = await fetch("./teszt");
+
+    if(lekeres.ok) {
+        let eredmeny = await lekeres.json();
+
+        console.log(eredmeny);
     }
 }
-
-function cikkekElrendezese() {
-
-}
-
 
 function datumEsIdo() {
     //Órát és dátumot kiíró dom elemek
@@ -47,7 +40,33 @@ function datumEsIdo() {
 
 
 window.addEventListener("load", () => {
-    //cikkekKiirasa()
+    teszt()
     setInterval(datumEsIdo, 1000)
     datumEsIdo()
+});
+
+
+function showModal(melyik) {
+    const rMod = new bootstrap.Modal(document.getElementById("registerModal"));
+    const lMod = new bootstrap.Modal(document.getElementById("loginModal"));
+
+    if(melyik == "register") {
+        rMod.show();
+        lMod.hide();
+    }
+
+    else {
+        lMod.show();
+        rMod.hide();
+    }
+
+    console.log("asd");
+}
+
+document.getElementById("loginModalButton").addEventListener("click", () => {
+    showModal("register");
+});
+
+document.getElementById("registerModalButton").addEventListener("click", () => {
+    showModal("login");
 });
