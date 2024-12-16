@@ -1,8 +1,4 @@
 /*Teszt formázások*/
-div {
-    height: 100%;
-}
-
 .row {
     width: 100%;
 }
@@ -27,6 +23,14 @@ body, html {
         width: 100%;
         justify-content: center;
         
+    }
+
+    div#foKep {
+        height: 100%;
+    }
+
+    div.row {
+        height: 100% !important;
     }
 
     /*Lapok*/
@@ -86,24 +90,26 @@ body, html {
         background-color: rgba(0, 0, 0, 0.5) !important;
     }
 
-    div#offcanvasRight {
-        width: 100%;
+    img#profilKep {
+        width: 125px;
+        height: 125px;
+        border-radius: 100px;
+
+        float: left;
+    }
+
+    hr {
+        border: 1px dashed black;
+        background-color: inherit;
+        opacity: 1;
+    }
+
+    h4.h4OC {
+        text-decoration: underline;
+    }
+
+    div.offcanvas-body {
         text-align: center;
-    }
-
-    div#offcanvasBejelentkezes
-    {
-        margin-top: 5%;
-    }
-
-    div#offcanvasDatum {
-        margin-top: 15%;
-        overflow-y: hidden;
-    }
-
-    img#pfp {
-        width: auto;
-        height: auto;
     }
 
     div#loginModal {

@@ -21,6 +21,110 @@ include "./php/databaseConnect.php";
 </head>
 
 <body>
+    <!--LOGIN, REGISTER, ÚJ CIKK modals-->
+
+    <!--login-->
+    <div class="modal fade" id="loginModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bejelentkezés</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="loginFelahsznaloNev" class="form-label">Felhasználónév:</label>
+                            <input type="text" class="form-control" id="loginFelahsznaloNev">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="loginJelszo" class="form-label">Jelszó:</label>
+                            <input type="password" class="form-control" id="loginJelszo">
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="loginMarad">
+                            <label class="form-check-label" for="loginMarad">Maradjak bejelentkezve</label>
+                        </div>
+
+                        <button type="button" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight">Bejelentkezés!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--register-->
+    <div class="modal fade" id="registerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Regisztráció</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email cím:</label>
+                            <input type="email" class="form-control" id="registerEmail">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerTeljesNev" class="form-label">Teljes név:</label>
+                            <input type="text" class="form-control" id="registerTeljesNev">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerFelahsznaloNev" class="form-label">Felhasználónév:</label>
+                            <input type="text" class="form-control" id="registerFelahsznaloNev">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerIskola" class="form-label">Iskola:</label>
+
+                            <select class="form-select" id="registerIskola">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="registerOsztaly">Osztály:</label>
+                            <select class="form-select" id="registerOsztaly">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerJelszo" class="form-label">Jelszó:</label>
+                            <input type="password" class="form-control" id="registerJelszo">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerJelszoUjra" class="form-label">Jelszó újra:</label>
+                            <input type="password" class="form-control" id="registerJelszoUjra">
+                        </div>
+
+                        <button type="button" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight">Bejelentkezés!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!--Fő "div", az újság lapjait tartamlazza-->
     <div id="foDiv" class="container-fluid">
         <div class="row">
@@ -32,7 +136,7 @@ include "./php/databaseConnect.php";
             </div>
 
             <div class="col col-md-11">
-                <div class="row">
+                <div class="row" id="foKep">
                     <!--Bal oldalléptető nyíl-->
                     <div class="oldalLeptetoNyil col col-md-1" id="balNyilDiv">
                         <img id="balraNyil" src="./img/balNyíl.png">
@@ -42,15 +146,15 @@ include "./php/databaseConnect.php";
                     <div class="col col-md-4" id="elsoLap">
                         <!--Ide jön a BAL oldali újságlap tartalma-->
                         <div class="row">
-                            <div class="ujsagCol col-3">
+                            <div class="ujsagCol col col-3">
                                 <!--Bal oldali vékony-->
                             </div>
 
-                            <div class="ujsagCol col-6">
+                            <div class="ujsagCol col col-6">
                                 <!--Középső vastag-->
                             </div>
 
-                            <div class="ujsagCol col-3">
+                            <div class="ujsagCol col col-3">
                                 <!--Jobb oldali vékony-->
                             </div>
                         </div>
@@ -73,105 +177,36 @@ include "./php/databaseConnect.php";
         <!--Offcanvas-->
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
-                <img src="./img/TesztPFP.jpg" class="card-img-top rounded-circle" id="pfp">
-                <h5 id="offcanvasRightLabel">Iskola Teljes Neve</h5>
-                <h5 id="offcanvasRightLabel">Név, osztály</h5>
+                <img src="./img/TesztPFP.jpg" alt="Profilkép" id="profilKep">
+
+                <h5 class="offcanvas-title" id="offcanvasTitle">Felhasznalonev</h5>
+
                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body" id="offcanvasBejelentkezes">
-                <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal">
-                    Bejelentkezés
-                </button>
-                <!--Login modal-->
-                <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="loginModalLabel">Bejelentkezés</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <input type="text" name="username" id="loginUsername">
-                                    <br>
-                                    <br>
-                                    <input type="password" name="password" id="loginPassword">
 
-                                    <br>
-                                    <br>
+            <hr>
 
-                                    <input type="button" class="btn btn-info" value="Bejelentkezés!">
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <span>Még nincs fiókja? Regisztráljon!</span>
-                                <!--data-bs-target="#registerModal" data-bs-toggle="modal"-->
-                                <button id="loginModalButton" class="btn btn-primary">
-                                    Regisztráció
-                                </button>
-                                <!--Register modal-->
-                                <div class="modal fade" id="registerModal" tabindex="-1"
-                                    aria-labelledby="registerModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="registerModalLabel">Regisztráció</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action="./php/register.php" method="POST">
-                                                    <input type="text" name="username" id="Rusername"
-                                                        placeholder="Felhasználónév" style="padding: 5px;">
-                                                    <br>
-                                                    <br>
-                                                    <input type="text" name="iskola" id="Riskola"
-                                                        placeholder="Iskolai e-mail címe" style="padding: 5px;">
-                                                    <br>
-                                                    <br>
-                                                    <input type="text" name="osztály" id="Rosztaly"
-                                                        placeholder="Osztály (pl.: 12.C)" style="padding: 5px;">
-                                                    <br>
-                                                    <br>
-                                                    <input type="password" name="password" id="Rpassword"
-                                                        placeholder="Jelszó" style="padding: 5px;">
-                                                    <br>
-                                                    <br>
-                                                    <input type="password" name="password" id="RpasswordUjra"
-                                                        placeholder="Jelszó újra" style="padding: 5px;">
+            <div class="offcanvas-body">
+                <h4 class="h4OC">Iskola</h4>
+                <h5 class="h5OC">VSZC Ipari Technikum</h5>
 
-                                                    <br>
-                                                    <br>
+                <h4 class="h4OC">Név</h4>
+                <h5 class="h5OC">Tivadari Soma István</h5>
 
-                                                    <input type="button " class="btn btn-info" value="Regisztrálás!">
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <span>Már van fiókja? Jelentkezzen be!</span>
-                                                <button id="registerModalButton" class="btn btn-primary">Bejelentkezés</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="offcanvas-body" id="offcanvasUjCikkGomb">
-                <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal"
-                    data-bs-target="#ujcikkModal">Új cikk feltöltése</button>
-            </div>
-            <div class="offcanvas-body" id="offcanvasDatum">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <p class="card-text"><span id="ora">Óra.Perc.Másodperc</span></p>
-                        <p class="card-text"><small class="text-muted" id="datum">Év.Hónap.Nap</small></p>
-                    </div>
-                </div>
+                <hr>
+
+                <!--Gombok-->
+                <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal"
+                    data-bs-dismiss="offcanvas">Bejelentkezés</button>
+                <br>
+                <br>
+                <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal"
+                    data-bs-dismiss="offcanvas">Regisztráció</button>
+                <br>
+                <br>
+                <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
+                    data-bs-target="#ujCikkModal" data-bs-dismiss="offcanvas">Új cikk feltöltése</button>
             </div>
         </div>
 
@@ -203,15 +238,16 @@ include "./php/databaseConnect.php";
                 </div>
             </div>
         </div>
+    </div>
 
 
-        <!--Bootstrap 5 JavaScript Bundle-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    <!--Bootstrap 5 JavaScript Bundle-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-        <!--Saját JavaScript-->
-        <script src="./js/index.js"></script>
+    <!--Saját JavaScript-->
+    <script src="./js/index.js"></script>
 </body>
 
 </html>
