@@ -88,9 +88,7 @@ include "./php/databaseConnect.php";
                             <label for="registerIskola" class="form-label">Iskola:</label>
 
                             <select class="form-select" id="registerIskola">
-                                <option value="1" selected>1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+
                             </select>
                         </div>
 
@@ -98,9 +96,7 @@ include "./php/databaseConnect.php";
                         <div class="mb-3">
                             <label for="registerOsztaly">Osztály:</label>
                             <select class="form-select" id="registerOsztaly">
-                                <option value="1" selected>1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+
                             </select>
                         </div>
 
@@ -114,13 +110,45 @@ include "./php/databaseConnect.php";
                             <input type="password" class="form-control" id="registerJelszoUjra">
                         </div>
 
-                        <button type="button" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" class="btn btn-info" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight">Bejelentkezés!</button>
+                            data-bs-target="#offcanvasRight">Regisztráció!</button>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!--Új cikk feltöltése modal-->
+    <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ujcikkModalLabel">Új Cikk Létrehozása</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./php/ujcikk.php" method="POST">
+                        <div class="mb-3">
+                            <label for="cikkCim" class="form-label">Cím:</label>
+                            <input type="text" class="form-control" id="cikkCim">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cikkSzoveg">Szöveg:</label>
+                            <textarea class="form-control" id="cikkSzoveg" style="height: 100px"></textarea>
+                        </div>
+                        <br>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="cikkKep">
+                        </div>
+                        <button type="button" class="btn btn-success" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" id="cikkFeltoltes">Feltöltés!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
 
@@ -177,7 +205,7 @@ include "./php/databaseConnect.php";
         <!--Offcanvas-->
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
             <div class="offcanvas-header">
-                <img src="./img/TesztPFP.jpg" alt="Profilkép" id="profilKep">
+                <img src="./img/TesztPFP.jpg" alt="Profilkép" id="profilKep" title="Feri">
 
                 <h5 class="offcanvas-title" id="offcanvasTitle">Felhasznalonev</h5>
 
@@ -201,7 +229,7 @@ include "./php/databaseConnect.php";
                     data-bs-dismiss="offcanvas">Bejelentkezés</button>
                 <br>
                 <br>
-                <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal"
+                <button type="button" id="registerButton" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal"
                     data-bs-dismiss="offcanvas">Regisztráció</button>
                 <br>
                 <br>
@@ -211,43 +239,13 @@ include "./php/databaseConnect.php";
         </div>
 
 
-        <!--Új cikk feltöltése modal(Az input mezők nem működnek, kivéve ha a 'meghívó' gomb alatt van a modal)-->
-        <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ujcikkModalLabel">Új Cikk Létrehozása</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="./php/ujcikk.php" method="POST">
-                            <input type="text" name="cim" id="cim" placeholder="Cím" style="padding: 5px;">
-                            <br>
-                            <br>
-                            <input type="text" name="szoveg" id="szoveg" placeholder="Leírás" style="padding: 5px;">
-                            <br>
-                            <br>
-                            <input type="text" name="kep" id="kep" placeholder="Kép" style="padding: 5px;">
+        <!--Bootstrap 5 JavaScript Bundle-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
-                            <br>
-                            <br>
-
-                            <input type="submit" class="btn btn-success" value="Feltöltés!">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!--Bootstrap 5 JavaScript Bundle-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-
-    <!--Saját JavaScript-->
-    <script src="./js/index.js"></script>
+        <!--Saját JavaScript-->
+        <script src="./js/index.js"></script>
 </body>
 
 </html>

@@ -2,4 +2,4 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule ^(.*)$ /13c-tivadari/vizsgaremek/Vizsgaremek/php/SQLkeresek.php [NC,L,QSA]
+RewriteRule ^(.*)$ ./php/SQLkeresek.php [NC,L,QSA]
