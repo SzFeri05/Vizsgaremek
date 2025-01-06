@@ -117,13 +117,13 @@ function datumEsIdo() {
 
     //Dátum beállítása
     datumSmall.innerHTML =
-        ev + ". " + parseInt(honap + 1) + ". " + (nap < 10 ? "0" + nap : nap) + ".";
+        ev + ". " + (honap < 9 ? "0" + (honap+1) : (honap+1)) + ". " + (nap < 10 ? "0" + nap : nap) + ".";
 }
 
 
 window.addEventListener("load", () => {
-    //setInterval(datumEsIdo, 1000);
-    //datumEsIdo();
+    setInterval(datumEsIdo, 1000);
+    datumEsIdo();
 });
 
 $("registerButton").addEventListener("click", () => {

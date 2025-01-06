@@ -235,6 +235,13 @@ include "./php/databaseConnect.php";
                 <br>
                 <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
                     data-bs-target="#ujCikkModal" data-bs-dismiss="offcanvas">Új cikk feltöltése</button>
+
+                <hr>
+
+                <!--Dátum és idő-->
+                <span id="ora"></span>
+                <br>
+                <small id="datum"></small>
             </div>
         </div>
 
