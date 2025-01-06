@@ -15,143 +15,104 @@ body, html {
 }
 
 
-/*Ha a képernyő monitor méretű*/
-@media only screen and (min-width: 768px) {
-    div#foDiv {
-        justify-content: space-between;
-        display: flex;
-        height: 100%;
-        width: 100%;
-        justify-content: center;
-        
-    }
-
-    div#foKep {
-        height: 100%;
-    }
-
-    div.row {
-        height: 100% !important;
-    }
-
-    /*Lapok*/
-    div#elsoLap {
-        width: 40%;
-        height: 100%;
-        background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
-    }
-
-    div#masodikLap {
-        width: 40%;
-        height: 100%;
-        background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
-    }
-
-    /*Oldalléptető nyilak*/
-    div.oldalLeptetoNyil {
-        height: 100%;
-        width: 3%;
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    img#balraNyil {
-        position: absolute;
-        top: 50%;
-        width: 2%;
-        height: 4%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    img#jobbraNyil {
-        position: absolute;
-        top: 50%;
-        width: 2%;
-        height: 4%;
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    div.oldalLeptetoNyil:hover {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
-
-
-    /*Hamburgermenu*/
-    img#hamburgerIcon {
-        width: 100%; height: 100%;
-    }
-
-    button#hamburgerButton {
-        height: 10%;
-        background-color: rgba(0, 0, 0, 0.3) !important;
-    }
-
-    button#hamburgerButton:hover {
-        background-color: rgba(0, 0, 0, 0.5) !important;
-    }
-
-    img#profilKep {
-        width: 125px;
-        height: 125px;
-        border-radius: 100px;
-
-        float: left;
-    }
-
-    hr {
-        border: 1px dashed black;
-        background-color: inherit;
-        opacity: 1;
-    }
-
-    h4.h4OC {
-        text-decoration: underline;
-    }
-
-    div.offcanvas-body {
-        text-align: center;
-    }
-
-    div#loginModal {
-        height: unset;
-    }
-
-    div#registerModal {
-        height: unset;
-    }
-
-    div#ujcikkModal {
-        height: unset;
-    }
+div#foDiv {
+    justify-content: space-between;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    
 }
 
-/*Ha a képernyő telefon méretű*/
-@media only screen and (max-width: 767px) {
-    div#foDiv {
-        display: block;
-        width: 100%;
-        height: 100%;
-    }
+div#foKep {
+    height: 100%;
+}
 
-    /*Lapok*/
-    div#elsoLap {
-        background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
-        width: 100%;
-        height: 100%;
-    }
+div.row {
+    height: 100% !important;
+}
 
-    div#masodikLap {
-        display: none;
-    }
+/*Lapok*/
+div#elsoLap {
+    height: 100%;
+    background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
+}
 
-    /*Oldalléptető nyilak*/
-    div.oldalLeptetoNyil {
-        display: none;
-    }
+/*Oldalléptető nyilak*/
+div.oldalLeptetoNyil {
+    height: 100%;
+    width: 3%;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.6%;
+}
 
-    /*Hamburgermenu*/
-    button#hamburgerButton {
-        display: none;
-    }
+img#balraNyil {
+    position: absolute;
+    top: 50%;
+    width: 2%;
+    /*height: 4%;*/
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+img#jobbraNyil {
+    position: absolute;
+    top: 50%;
+    width: 2%;
+    /*height: 4%;*/
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+div.oldalLeptetoNyil:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+/*Hamburgermenu*/
+img#hamburgerIcon {
+    width: 100%; height: 100%;
+}
+
+button#hamburgerButton {
+    height: 10%;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+button#hamburgerButton:hover {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+img#profilKep {
+    width: 125px;
+    height: 125px;
+    border-radius: 100px;
+
+    float: left;
+}
+
+hr {
+    border: 1px dashed black;
+    background-color: inherit;
+    opacity: 1;
+}
+
+h4.h4OC {
+    text-decoration: underline;
+}
+
+div.offcanvas-body {
+    text-align: center;
+}
+
+div#loginModal {
+    height: unset;
+}
+
+div#registerModal {
+    height: unset;
+}
+
+div#ujcikkModal {
+    height: unset;
 }
