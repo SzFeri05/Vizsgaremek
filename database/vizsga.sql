@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Okt 14. 11:52
+-- Létrehozás ideje: 2025. Jan 06. 13:03
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -42,7 +42,7 @@ CREATE TABLE `diakok` (
 --
 
 INSERT INTO `diakok` (`diakID`, `diakFelhasznaloNev`, `diakTeljesNev`, `diakOsztaly`, `diakEmail`, `diakJelszo`, `diakIskolaID`) VALUES
-(1, 'Somaaaalol', 'Tivadari Soma István', '13.C', '13c-tivadaro@ipari.vein.hu', 'Jelszo123', 1),
+(1, 'Somaaaalol', 'Tivadari Soma István', '13.C', '13c-tivadari@ipari.vein.hu', 'Jelszo123', 1),
 (2, 'TesztJakab', 'Teszt Jakab', '12.E', '12e-tjakab@teszt.iskola.hu', 'Jelszo123', 2);
 
 -- --------------------------------------------------------
@@ -54,16 +54,18 @@ INSERT INTO `diakok` (`diakID`, `diakFelhasznaloNev`, `diakTeljesNev`, `diakOszt
 CREATE TABLE `iskolak` (
   `iskID` int(11) NOT NULL COMMENT 'Elsődleges kulcs',
   `iskNev` varchar(255) DEFAULT NULL COMMENT 'Az intézmény teljes neve',
-  `iskEmailVegzodes` varchar(255) DEFAULT NULL COMMENT 'Az iskolai email címek végződsése, pl.: ''ipari.vein.hu'''
+  `iskEmailVegzodes` varchar(255) DEFAULT NULL COMMENT 'Az iskolai email címek végződsése, pl.: ''ipari.vein.hu''',
+  `evfolyamDarab` int(11) NOT NULL,
+  `szakDarab` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `iskolak`
 --
 
-INSERT INTO `iskolak` (`iskID`, `iskNev`, `iskEmailVegzodes`) VALUES
-(1, 'Veszprémi Szakképzési Centrum Ipari Technikum', 'ipari.vein.hu'),
-(2, 'Teszt Iskola', 'teszt.iskola.hu');
+INSERT INTO `iskolak` (`iskID`, `iskNev`, `iskEmailVegzodes`, `evfolyamDarab`, `szakDarab`) VALUES
+(1, 'Veszprémi Szakképzési Centrum Ipari Technikum', 'ipari.vein.hu', 5, 6),
+(2, 'Teszt Iskola', 'teszt.iskola.hu', 4, 5);
 
 -- --------------------------------------------------------
 
@@ -93,7 +95,8 @@ INSERT INTO `posztok` (`postID`, `postCim`, `postSzoveg`, `postVanKep`, `postKep
 (4, 'Lorem ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', NULL, NULL, '2024-10-14 11:48:17', 1, 1),
 (5, 'Lorem ipsum dolor', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', NULL, NULL, '2024-10-14 11:48:17', 1, 1),
 (6, 'Lorem ied lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', NULL, NULL, '2024-10-14 11:48:51', 1, 1),
-(7, 'Libh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', NULL, NULL, '2024-10-14 11:48:51', 1, 1);
+(7, 'Libh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed dui ac risus bibendum gravida. Nullam metus tellus, aliquet sit amet elit a, lacinia ultrices ante. Donec lobortis sapien sed ullamcorper ultrices. Quisque dictum urna non nibh mollis feugiat. Nulla in augue quam. Praesent placerat aliquam urna, non elementum felis maximus non. Quisque at tortor vestibulum, efficitur nibh a, lacinia neque. Nullam sodales sed lectus sit amet scelerisque. Nam scelerisque ornare ex, eu accumsan lectus luctus a.', NULL, NULL, '2024-10-14 11:48:51', 1, 1),
+(8, 'Próba', 'Oldalról feltötlve', 0, '', '2025-01-06 11:56:20', 0, 1);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -127,7 +130,7 @@ ALTER TABLE `posztok`
 -- AUTO_INCREMENT a táblához `diakok`
 --
 ALTER TABLE `diakok`
-  MODIFY `diakID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Elsődleges kulcs', AUTO_INCREMENT=3;
+  MODIFY `diakID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Elsődleges kulcs', AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `iskolak`
@@ -139,7 +142,7 @@ ALTER TABLE `iskolak`
 -- AUTO_INCREMENT a táblához `posztok`
 --
 ALTER TABLE `posztok`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Elsődleges kulcs', AUTO_INCREMENT=8;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Elsődleges kulcs', AUTO_INCREMENT=9;
 
 --
 -- Megkötések a kiírt táblákhoz
