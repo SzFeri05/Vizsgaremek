@@ -125,7 +125,7 @@ include "./php/databaseConnect.php";
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="ujcikkModalLabel">Új Cikk Létrehozása</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
                 </div>
                 <div class="modal-body">
                     <form action="./php/ujcikk.php" method="POST">
