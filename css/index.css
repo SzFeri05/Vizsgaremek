@@ -11,6 +11,7 @@
 /*Teljes oldal háttérszíne*/
 body, html {
     background-color: #EBEBEB;
+    padding: 5px;
 }
 
 

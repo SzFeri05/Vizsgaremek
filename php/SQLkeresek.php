@@ -9,10 +9,6 @@ $kerdojelesResz = explode('?', $vegzodes);
 $bodyAdatok = json_decode(file_get_contents("php://input"), true);
 
 switch ($kerdojelesResz[0]) {
-    case "evfolyamok":
-
-        break;
-
     case "posztok":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $lekeres = "SELECT * FROM posztok";
