@@ -40,6 +40,13 @@ async function ujCikk() {
         body: JSON.stringify(kuldendoadatok),
     });
 
+    if(lekeres.ok) {
+        alert("Sikeres cikkfeltöltés!");
+    }
+
+    else {
+        alert("Sikertelen cikkfeltöltés!");
+    }
 }
 
 async function registerFormFeltoltes() {
