@@ -64,12 +64,15 @@ async function registerFormFeltoltes() {
             iskolakSelect.appendChild(iskolaOption);
         });
     }
+
+    osztalyokFeltoltes();
 }
 
 async function osztalyokFeltoltes() {
     let iskolakSelect = $("registerIskola");
     let index = iskolakSelect.options[iskolakSelect.selectedIndex].value;
     let osztalySelect = $("registerOsztaly");
+    osztalySelect.innerHTML = "";
 
     let kuldendoAdat = {
         "id" : parseInt(index)
@@ -94,11 +97,20 @@ async function osztalyokFeltoltes() {
     if (evfolyamokLekeres.ok && szakLekeres.ok) {
         let evfolyamok = await evfolyamokLekeres.json();
         let szakok = await szakLekeres.json();
+        let szakBetuk = ["A", "B", "C", "D", "E", "F", "G"];
 
-        for (i in evfolyamok) {
-            for (j in szakok) {
-                console.log(i + "." + j);
-            }
+        for(let i = 9; i < (9 + parseInt(evfolyamok[0].evfolyamDarab)); i++) {
+            for(let j = 0; j < szakok[0].szakDarab; j++) {
+                console.log(i + "." + szakBetuk[j]);
+
+                let osztaly = i + "." + szakBetuk[j];
+
+                let osztalyOption = document.createElement("option");
+                osztalyOption.value = osztaly;
+                osztalyOption.innerHTML = osztaly;
+
+                osztalySelect.appendChild(osztalyOption);
+            }   
         }
     }
 }

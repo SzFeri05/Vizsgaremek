@@ -69,7 +69,6 @@ switch ($kerdojelesResz[0]) {
 
     case "szakok":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            var_dump($bodyAdatok["id"]);
             $lekeres = "SELECT iskolak.szakDarab FROM iskolak WHERE iskolak.iskID = " . $bodyAdatok["id"] . ";";
             $eredmeny = adatokLekerdezese($lekeres);
 
