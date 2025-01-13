@@ -154,3 +154,4 @@ $("registerIskola").addEventListener("change", () => {
 })
 
 $("cikkFeltoltes").addEventListener("click", ujCikk);
+

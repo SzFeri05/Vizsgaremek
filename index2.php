@@ -173,7 +173,7 @@ include "./php/databaseConnect.php";
                     <!--Az első "újságoldal"-->
                     <div class="col col-10" id="elsoLap">
                         <!--Ide jön a BAL oldali újságlap tartalma-->
-                        <div class="row">
+                        <div class="row mx-auto">
                             <div class="ujsagCol col col-3">
                                 <!--Bal oldali vékony-->
                             </div>

@@ -26,6 +26,7 @@ div#foDiv {
 
 div#foKep {
     height: 100%;
+    width: 100%;
 }
 
 div.row {
@@ -35,6 +36,8 @@ div.row {
 /*Lapok*/
 div#elsoLap {
     height: 100%;
+    width: 90%;
+    text-align: center;
     background-image: radial-gradient(circle, #f3dfc1, #efd3a9, #ebc894, #e7bd7e, #dea754);
 }
 
