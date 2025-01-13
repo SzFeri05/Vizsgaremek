@@ -107,7 +107,7 @@ switch ($kerdojelesResz[0]) {
 
     case "ujcikk":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $lekeres = "INSERT INTO `posztok` (`postID`, `postCim`, `postSzoveg`, `postVanKep`, `postKepElerhetoseg`, `postLetrehozasDatuma`, `postElfogadva`, `postDiakID`) VALUES (NULL, '" . $bodyAdatok["postCim"] . "', '" . $bodyAdatok["postSzoveg"] . "', '" . $bodyAdatok["postVanKep"] . "', '" . $bodyAdatok["postKepElerhetoseg"] . "', current_timestamp(), '0', '1');";
+            $lekeres = "INSERT INTO `cikkek` (`id`, `cim`, `szoveg`, `diak_id`, `datum`, `elfogadva`, `elfogadta_id`) VALUES (NULL,'" . $bodyAdatok["postCim"] . "','" . $bodyAdatok["postSzoveg"] . "', 1, current_timestamp(), 0, NULL)";
             $eredmeny = adatokManipulalasa($lekeres);
 
             if ($eredmeny == "Sikeres művelet!") {

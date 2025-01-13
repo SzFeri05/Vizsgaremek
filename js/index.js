@@ -47,6 +47,10 @@ async function ujCikk() {
     else {
         alert("Sikertelen cikkfeltöltés!");
     }
+
+    cikkCim.innerHTML= "";
+    cikkSzoveg.innerHTML = "";
+    cikkKep.innerHTML = "";
 }
 
 async function registerFormFeltoltes() {
