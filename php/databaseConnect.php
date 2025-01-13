@@ -1,7 +1,7 @@
 <?php
 function adatokLekerdezese($muvelet)
 {
-    $db = new mysqli("localhost", "root", "", "vizsga");
+    $db = new mysqli("localhost", "root", "", "13c_suliujsag");
 
     if ($db->connect_errno == 0) {
         $eredmeny = $db->query($muvelet);
@@ -22,7 +22,7 @@ function adatokLekerdezese($muvelet)
 
 function adatokManipulalasa($muvelet)
 {
-    $db = new mysqli("localhost", "root", "", "vizsga");
+    $db = new mysqli("localhost", "root", "", "13c_suliujsag");
 
     if ($db->connect_errno == 0) {
         $db->query($muvelet);
