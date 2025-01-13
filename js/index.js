@@ -54,70 +54,30 @@ async function ujCikk() {
 }
 
 async function registerFormFeltoltes() {
-    let iskolakSelect = $("registerIskola");
-    let iskolaLekeres = await fetch("./php/SQLkeresek.php/iskolak");
+    let iskolaSelect = $("registerIskola");
 
-    if (iskolaLekeres.ok) {
-        let iskolak = await iskolaLekeres.json();
+    let iskolakLekeres = await fetch("./php/SQLkeresek.php/iskolak");
+
+    if(iskolakLekeres.ok) {
+        let iskolak = await iskolakLekeres.json();
 
         iskolak.forEach(iskola => {
-            let iskolaOption = document.createElement("option");
-            iskolaOption.value = iskola.iskID;
-            iskolaOption.innerHTML = iskola.iskNev;
+            let opt = document.createElement("option");
 
-            iskolakSelect.appendChild(iskolaOption);
+            opt.value = iskola.id;
+            opt.innerHTML = iskola.nev;
+
+            iskolaSelect.appendChild(opt);
         });
-    }
 
-    osztalyokFeltoltes();
+        osztalyokFeltoltes();
+    }
 }
 
 async function osztalyokFeltoltes() {
-    let iskolakSelect = $("registerIskola");
-    let index = iskolakSelect.options[iskolakSelect.selectedIndex].value;
-    let osztalySelect = $("registerOsztaly");
-    osztalySelect.innerHTML = "";
-
-    let kuldendoAdat = {
-        "id" : parseInt(index)
-    };
-
-    let evfolyamokLekeres = await fetch("./php/SQLkeresek.php/evfolyamok", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(kuldendoAdat)
-    });
-
-    let szakLekeres = await fetch("./php/SQLkeresek.php/szakok", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(kuldendoAdat)
-    })
-
-    if (evfolyamokLekeres.ok && szakLekeres.ok) {
-        let evfolyamok = await evfolyamokLekeres.json();
-        let szakok = await szakLekeres.json();
-        let szakBetuk = ["A", "B", "C", "D", "E", "F", "G"];
-
-        for(let i = 9; i < (9 + parseInt(evfolyamok[0].evfolyamDarab)); i++) {
-            for(let j = 0; j < szakok[0].szakDarab; j++) {
-                console.log(i + "." + szakBetuk[j]);
-
-                let osztaly = i + "." + szakBetuk[j];
-
-                let osztalyOption = document.createElement("option");
-                osztalyOption.value = osztaly;
-                osztalyOption.innerHTML = osztaly;
-
-                osztalySelect.appendChild(osztalyOption);
-            }   
-        }
-    }
+    
 }
+
 
 function datumEsIdo() {
     //Órát és dátumot kiíró dom elemek

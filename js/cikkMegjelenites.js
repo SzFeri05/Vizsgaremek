@@ -38,4 +38,4 @@ async function cikkMegjelenites() {
 
 
 
-window.addEventListener("load", cikkMegjelenites);
+//window.addEventListener("load", cikkMegjelenites);
