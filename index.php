@@ -156,24 +156,24 @@ include "./php/databaseConnect.php";
     <!--Fő "div", az újság lapjait tartamlazza-->
     <div id="foDiv" class="container-fluid">
         <div class="row">
-            <div class="col col-md-1">
+            <div class="col col-1">
                 <!--Navbar-->
                 <button class="btn btn-dark bg-secondary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="hamburgerButton"><img
                         src="./img/hamburgerMenu.png" id="hamburgerIcon"></button>
             </div>
 
-            <div class="col col-md-11">
+            <div class="col col-11">
                 <div class="row" id="foKep">
                     <!--Bal oldalléptető nyíl-->
-                    <div class="oldalLeptetoNyil col col-md-1" id="balNyilDiv">
+                    <div class="oldalLeptetoNyil col col-1" id="balNyilDiv">
                         <img id="balraNyil" src="./img/balNyíl.png">
                     </div>
 
                     <!--Az első "újságoldal"-->
-                    <div class="col col-md-4" id="elsoLap">
+                    <div class="col col-10" id="elsoLap">
                         <!--Ide jön a BAL oldali újságlap tartalma-->
-                        <div class="row">
+                        <div class="row mx-auto">
                             <div class="ujsagCol col col-3">
                                 <!--Bal oldali vékony-->
                             </div>
@@ -188,14 +188,8 @@ include "./php/databaseConnect.php";
                         </div>
                     </div>
 
-
-                    <!--A második "újságoldal"-->
-                    <div class="col col-md-4" id="masodikLap">
-                        <!--Ide jön a JOBB oldali újságlap tartalma-->
-                    </div>
-
                     <!--Jobb oldalléptető nyíl-->
-                    <div class="oldalLeptetoNyil col col-md-1" id="jobbNyilDiv">
+                    <div class="oldalLeptetoNyil col col-1" id="jobbNyilDiv">
                         <img id="jobbraNyil" src="./img/jobbNyíl.png">
                     </div>
                 </div>
