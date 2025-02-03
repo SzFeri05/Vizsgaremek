@@ -75,7 +75,99 @@ async function registerFormFeltoltes() {
 }
 
 async function osztalyokFeltoltes() {
+    let selectedIskola = $("registerIskola").value;
+
+    let evfolyamLekeres = await fetch("./php/SQLkeresek.php/evfolyamok", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "id" : selectedIskola
+        })
+    });
+    let szakLekeres = await fetch("./php/SQLkeresek.php/szakok", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "id" : selectedIskola
+        })
+    });
     
+    if(evfolyamLekeres.ok && szakLekeres.ok)
+    {
+        let evfolyamok = await evfolyamLekeres.json();
+        let szakok = await szakLekeres.json();
+
+        let osztalySelect = $("registerOsztaly");
+
+        for (let i = 9; i < (parseInt(evfolyamok[0].evfolyamDarab) + 8); i++) {
+            szakok.forEach(szak => {
+                let opt = document.createElement("option");
+                console.log("asddd");
+
+                opt.value = szak.id;
+                opt.innerHTML = i + ". " + szak.szakJeloles + " (" + szak.nev + ")";
+
+                osztalySelect.appendChild(opt);
+            });
+        }
+    }
+       
+    
+}
+
+async function register() {
+    let email = $("registerEmail").value;
+    let teljesNev = $("registerTeljesNev").value;
+    let felhasznaloNev = $("registerFelahsznaloNev").value;
+    let iskola = $("registerIskola").value;
+    let osztaly = $("registerOsztaly").value;
+    let jelszo = $("registerJelszo").value;
+    let jelszoUjra = $("registerJelszoUjra").value;
+    let evfolyam = $("registerOsztaly").options[$("registerOsztaly").selectedIndex].text.split('.')[0];
+
+    if(email == "" || teljesNev == "" || felhasznaloNev == "" || iskola == "" || osztaly == "" || jelszo == "" || jelszoUjra == "") {
+        alert("Kérem töltsön ki minden mezőt!");
+    }
+
+
+    else if(jelszo != jelszoUjra) {
+        alert("A két jelszó nem egyezik!");
+        $("registerJelszo").innerHTML = "";
+        $("registerJelszoUjra").innerHTML = "";
+    }
+
+    else {
+        let kuldendoAdatok = {
+            "email" : email,
+            "teljesNev" : teljesNev,
+            "felhasznaloNev" : felhasznaloNev,
+            "iskola" : iskola,
+            "osztaly" : osztaly,
+            "evfolyam" : evfolyam,
+            "jelszo" : jelszo
+        }
+
+        let lekeres = await fetch("./php/SQLkeresek.php/registerdiak", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(kuldendoAdatok),
+        });
+ 
+
+        if(lekeres.ok) {
+            alert("Sikeres regisztráció!");
+        }
+
+        else {
+            alert("Sikertelen regisztráció, próbálja újra később!", "Hiba!");
+        }
+    }
 }
 
 
@@ -109,7 +201,7 @@ window.addEventListener("load", () => {
     datumEsIdo();
 });
 
-$("registerButton").addEventListener("click", () => {
+$("registerButtonModal").addEventListener("click", () => {
     registerFormFeltoltes();
 })
 
@@ -119,3 +211,5 @@ $("registerIskola").addEventListener("change", () => {
 
 $("cikkFeltoltes").addEventListener("click", ujCikk);
 
+//$("loginButton").addEventListener("click", login);
+$("registerButton").addEventListener("click", register);

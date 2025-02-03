@@ -49,7 +49,7 @@ include "./php/databaseConnect.php";
                             <label class="form-check-label" for="loginMarad">Maradjak bejelentkezve</label>
                         </div>
 
-                        <button type="button" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" id="loginButton" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasRight">Bejelentkezés!</button>
                     </form>
@@ -110,7 +110,7 @@ include "./php/databaseConnect.php";
                             <input type="password" class="form-control" id="registerJelszoUjra">
                         </div>
 
-                        <button type="button" class="btn btn-info" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" id="registerButton" class="btn btn-info" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasRight">Regisztráció!</button>
                     </form>
@@ -166,12 +166,12 @@ include "./php/databaseConnect.php";
             <div class="col col-11">
                 <div class="row" id="foKep">
                     <!--Bal oldalléptető nyíl-->
-                    <div class="oldalLeptetoNyil col col-1" id="balNyilDiv">
+                    <div class="oldalLeptetoNyil col col-2" id="balNyilDiv">
                         <img id="balraNyil" src="./img/balNyíl.png">
                     </div>
 
                     <!--Az első "újságoldal"-->
-                    <div class="col col-10" id="elsoLap">
+                    <div class="col col-8" id="elsoLap">
                         <!--Ide jön a BAL oldali újságlap tartalma-->
                         <div class="row mx-auto">
                             <div class="ujsagCol col col-3">
@@ -189,7 +189,7 @@ include "./php/databaseConnect.php";
                     </div>
 
                     <!--Jobb oldalléptető nyíl-->
-                    <div class="oldalLeptetoNyil col col-1" id="jobbNyilDiv">
+                    <div class="oldalLeptetoNyil col col-2" id="jobbNyilDiv">
                         <img id="jobbraNyil" src="./img/jobbNyíl.png">
                     </div>
                 </div>
@@ -223,7 +223,7 @@ include "./php/databaseConnect.php";
                     data-bs-dismiss="offcanvas">Bejelentkezés</button>
                 <br>
                 <br>
-                <button type="button" id="registerButton" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal"
+                <button type="button" id="registerButtonModal" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal"
                     data-bs-dismiss="offcanvas">Regisztráció</button>
                 <br>
                 <br>

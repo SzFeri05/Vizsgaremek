@@ -50,7 +50,7 @@ switch ($kerdojelesResz[0]) {
 
     case "evfolyamok":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $lekeres = "SELECT iskolak.evfolyamDarab FROM iskolak WHERE iskolak.iskID = " . $bodyAdatok["id"] . ";";
+            $lekeres = "SELECT iskolak.evfolyamDarab FROM iskolak WHERE iskolak.id = " . $bodyAdatok['id'] . ";";
             $eredmeny = adatokLekerdezese($lekeres);
 
             if (is_array($eredmeny)) {
@@ -69,7 +69,7 @@ switch ($kerdojelesResz[0]) {
 
     case "szakok":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $lekeres = "SELECT iskolak.szakDarab FROM iskolak WHERE iskolak.iskID = " . $bodyAdatok["id"] . ";";
+            $lekeres = "SELECT szakok.id, szakok.szakJeloles, szakok.nev FROM szakok INNER JOIN iskola_szak ON szakok.id = iskola_szak.szak_id INNER JOIN iskolak ON iskola_szak.iskola_id = iskolak.id WHERE iskolak.id = " . $bodyAdatok["id"] . " ORDER BY szakok.szakJeloles ;";
             $eredmeny = adatokLekerdezese($lekeres);
 
             if (is_array($eredmeny)) {
@@ -109,6 +109,54 @@ switch ($kerdojelesResz[0]) {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $lekeres = "INSERT INTO `cikkek` (`id`, `cim`, `szoveg`, `diak_id`, `datum`, `elfogadva`, `elfogadta_id`) VALUES (NULL,'" . $bodyAdatok["postCim"] . "','" . $bodyAdatok["postSzoveg"] . "', 1, current_timestamp(), 0, NULL)";
             $eredmeny = adatokManipulalasa($lekeres);
+
+            if ($eredmeny == "Sikeres művelet!") {
+                header("CREATED", true, 201);
+                echo json_encode($eredmeny, JSON_UNESCAPED_UNICODE);
+            } else {
+                header("NOT FOUND", true, 404);
+                echo json_encode(["valasz" => "Sikertelen művelet!"], JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            header("BAD REQUEST", true, 405);
+            echo json_encode(["valasz" => "Hibás metódus!"], JSON_UNESCAPED_UNICODE);
+        }
+
+        break;
+
+    case "diakNevAlapjan":
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $nev = $bodyAdatok["nev"];
+
+            $lekeres = "SELECT * FROM diakok WHERE diakok.nev LIKE '". $nev ."';";
+            $eredmeny = adatokLekerdezese($lekeres);
+
+            if(!empty($eredmeny)) {
+                header("OK", true, 200);
+                echo json_encode($eredmeny, JSON_UNESCAPED_UNICODE);
+            } else {
+                header("NOT FOUND", true, 404);
+                echo json_encode(["valasz" => "Nincs adat!"], JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            header("BAD REQUEST", true, 405);
+            echo json_encode(["valasz" => "Hibás metódus!"], JSON_UNESCAPED_UNICODE);
+        }
+
+        break;
+
+    case "registerdiak":
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
+            $email = $bodyAdatok["email"];
+            $teljesNev = $bodyAdatok["teljesNev"];
+            $felhasznaloNev = $bodyAdatok["felhasznaloNev"];
+            $iskola = $bodyAdatok["iskola"];
+            $osztaly = $bodyAdatok["osztaly"];
+            $evfolyam = $bodyAdatok["evfolyam"];
+            $jelszo = password_hash($bodyAdatok["jelszo"], PASSWORD_DEFAULT);
+
+            $felkeres = "INSERT INTO `diakok` (`id`, `nev`, `email`, `evfolyam`, `iskola_id`, `szak_id`, `felhasznalonev`, `jelszo`) VALUES (NULL, '". $teljesNev ."', '". $email ."', '". $evfolyam ."', '". $iskola ."', '". $osztaly ."', '". $felhasznaloNev ."', '". $jelszo ."');";
+            $eredmeny = adatokManipulalasa($felkeres);
 
             if ($eredmeny == "Sikeres művelet!") {
                 header("CREATED", true, 201);
