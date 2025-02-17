@@ -170,6 +170,50 @@ async function register() {
     }
 }
 
+async function login() {
+    let felhasznalonev = $("loginFelahsznaloNev").value;
+    let jelszo = $("loginJelszo").value;
+
+    if(felhasznalonev == "" || jelszo == "") {
+        alert("Kérem töltsön ki minden mezőt!");
+    }
+
+    else {
+        let kuldendoAdatok = {
+            "loginFelhasznaloNev" : felhasznalonev,
+            "loginJelszo" : jelszo
+        }
+
+        let lekeres = await fetch("./php/SQLkeresek.php/logindiak", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(kuldendoAdatok),
+        });
+    }
+ 
+
+
+/*        if(lekeres.ok) {
+            let egyezes = await lekeres.json();
+            if(egyezes[0])
+            {
+                alert("Sikeres bejelentkezés");
+            }
+            else
+            {
+                alert("Sikertelen bejelentkezés, próbálja újra később!", "Hiba!");
+            }
+            
+        }
+
+        else {
+            alert("Hiba");
+        }
+*/
+}
+
 
 function datumEsIdo() {
     //Órát és dátumot kiíró dom elemek
@@ -211,5 +255,5 @@ $("registerIskola").addEventListener("change", () => {
 
 $("cikkFeltoltes").addEventListener("click", ujCikk);
 
-//$("loginButton").addEventListener("click", login);
+$("loginButton").addEventListener("click", login);
 $("registerButton").addEventListener("click", register);

@@ -155,7 +155,7 @@ switch ($kerdojelesResz[0]) {
             $evfolyam = $bodyAdatok["evfolyam"];
             $jelszo = password_hash($bodyAdatok["jelszo"], PASSWORD_DEFAULT);
 
-            $felkeres = "INSERT INTO `diakok` (`id`, `nev`, `email`, `evfolyam`, `iskola_id`, `szak_id`, `felhasznalonev`, `jelszo`) VALUES (NULL, '". $teljesNev ."', '". $email ."', '". $evfolyam ."', '". $iskola ."', '". $osztaly ."', '". $felhasznaloNev ."', '". $jelszo ."');";
+            $felkeres = "INSERT INTO `diakok` (`id`, `nev`, `email`, `osztaly`, `iskola_id`, `szak_id`, `felhasznalonev`, `jelszo`) VALUES (NULL, '". $teljesNev ."', '". $email ."', '". $evfolyam ."', '". $iskola ."', '". $osztaly ."', '". $felhasznaloNev ."', '". $jelszo ."');";
             $eredmeny = adatokManipulalasa($felkeres);
 
             if ($eredmeny == "Sikeres művelet!") {
@@ -169,6 +169,42 @@ switch ($kerdojelesResz[0]) {
             header("BAD REQUEST", true, 405);
             echo json_encode(["valasz" => "Hibás metódus!"], JSON_UNESCAPED_UNICODE);
         }
+
+        break;
+
+    
+    case "logindiak":
+        if($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $loginFelhasznaloNev = $bodyAdatok["loginFelhasznaloNev"];
+            $loginJelszo = password_hash($bodyAdatok["loginJelszo"], PASSWORD_DEFAULT);
+
+            $lekeres = "SELECT diakok.felhasznalonev, diakok.jelszo FROM `diakok`";
+            $eredmeny = adatokLekerdezese($lekeres);
+
+            $egyezes = false;
+
+            if(!empty($eredmeny)) {
+                foreach($eredmeny as $e) { 
+                    if($e["jelszo"] == $loginJelszo && $e["felhasznalonev"])
+                    {
+                        $egyezes = true;
+                        header("OK", true, 200);
+                        echo json_encode($egyezes, JSON_UNESCAPED_UNICODE);
+
+                        break;
+                    }
+                }
+                
+            } else {
+                header("NOT FOUND", true, 404);
+                echo json_encode(["valasz" => "Nincs adat!"], JSON_UNESCAPED_UNICODE);
+            }
+        } else {
+            header("BAD REQUEST", true, 405);
+            echo json_encode(["valasz" => "Hibás metódus!"], JSON_UNESCAPED_UNICODE);
+        }
+
 
         break;
 
