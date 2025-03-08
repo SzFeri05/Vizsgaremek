@@ -148,7 +148,7 @@ async function register() {
         let kuldendoAdatok = {
             "email" : email,
             "teljesNev" : teljesNev,
-            "felhasznaloNev" : felhasznaloNev,
+            "felhasznalonev" : felhasznaloNev,
             "iskola" : iskola,
             "osztaly" : osztaly,
             "evfolyam" : evfolyam,
@@ -166,6 +166,13 @@ async function register() {
 
         if(lekeres.ok) {
             alert("Sikeres regisztráció!");
+            email.innerHTML = "";
+            teljesNev = "";
+            felhasznaloNev = "";
+            iskola = "";
+            osztaly = "";
+            jelszo = "";
+            jelszoUjra = "";
         }
 
         else {

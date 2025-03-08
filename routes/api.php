@@ -19,5 +19,5 @@ Route::post("/szakok", [SzakokController::class, "Szakok"]);
 
 Route::get("/diakok", [DiakokController::class, "DiakLekerdezes"]);
 Route::post("/diakNevAlapjan", [DiakokController::class, "DiakNevController"]);
-Route::post("/registerDiak", [DiakokController::class, "RegisterDiak"]);
+Route::post("/registerdiak", [DiakokController::class, "RegisterDiak"]);
 Route::post("/loginDiak", [DiakokController::class, "LoginDiak"]);
