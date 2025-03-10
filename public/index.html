@@ -125,7 +125,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="./php/ujcikk.php" method="POST">
+                    <form id="ujCikkForm" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="cikkCim" class="form-label">Cím:</label>
                             <input type="text" class="form-control" id="cikkCim">
@@ -136,7 +136,7 @@
                         </div>
                         <br>
                         <div class="input-group mb-3">
-                            <input type="file" class="form-control" id="cikkKep">
+                            <input type="file" class="form-control" id="cikkKep" name="cikkKep"> <!-- Fontos a "name" attribútum! -->
                         </div>
                         <button type="button" class="btn btn-success" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close" data-bs-toggle="offcanvas"
@@ -145,7 +145,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
 

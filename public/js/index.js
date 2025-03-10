@@ -10,57 +10,38 @@ function $(id) {
 }
 
 async function ujCikk() {
-    let kuldendoadatok;
-
     let cikkCim = $("cikkCim").value;
     let cikkSzoveg = $("cikkSzoveg").value;
-    let cikkKep = $("cikkKep").value;
+    let cikkKep = $("cikkKep").files[0];
 
     if (cikkCim != "" && cikkSzoveg != "") {
-        if (cikkKep != "") {
-            kuldendoadatok = {
-                "postCim": cikkCim,
-                "postSzoveg": cikkSzoveg,
-                "postVanKep": 1,
-                "postKepElerhetoseg": cikkKep,
-            }
+        let formData = new FormData(); 
+        formData.append('cim', cikkCim); 
+        formData.append('szoveg', cikkSzoveg);
+
+        if (cikkKep) {
+            formData.append('kep', cikkKep); 
+        }
+
+        let lekeres = await fetch("./api/ujcikk", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (lekeres.ok) {
+            alert("Sikeres cikkfeltöltés!");
+            $("cikkCim").value = "";
+            $("cikkSzoveg").value = "";
+            $("cikkKep").value = "";
+
         }
         else {
-            kuldendoadatok = {
-                "postCim": cikkCim,
-                "postSzoveg": cikkSzoveg,
-                "postVanKep": 0,
-                "postKepElerhetoseg": null,
-            }
+            alert("Sikertelen cikkfeltöltés!");
         }
     }
     else {
         alert("Kérem minden mezőt töltsön ki!", "Hiányos adatok!");
     }
-
-
-    let lekeres = await fetch("./api/ujcikk", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(kuldendoadatok),
-    });
-
-    if(lekeres.ok) {
-        alert("Sikeres cikkfeltöltés!");
-        cikkCim.innerHTML = ""; 
-        cikkSzoveg.innerHTML = ""; 
-        cikkKep.innerHTML = ""; 
-    }
-
-    else {
-        alert("Sikertelen cikkfeltöltés!");
-        cikkCim.innerHTML = ""; 
-        cikkSzoveg.innerHTML = ""; 
-        cikkKep.innerHTML = ""; 
-    }
-
 }
 
 async function registerFormFeltoltes() {
@@ -324,24 +305,48 @@ async function cikkekBetoltese(oldal) {
 
     cikkekHelye.innerHTML = "";
     for (const poszt of posztok) {
-      let fieldset = document.createElement("fieldset");
-      let legend = document.createElement("legend");
-      let h1 = document.createElement("h1");
+      let fodiv = document.createElement("div");
+      let div = document.createElement("div");
+      let div2 = document.createElement("div");
+      let img = document.createElement("img");
+      let h5 = document.createElement("h3");
       let p = document.createElement("p");
+      let span = document.createElement("h5");
       let small = document.createElement("small");
 
-      fieldset.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
-      legend.innerHTML = poszt.felhasznalonev;
-      h1.innerHTML = poszt.cim;
+      fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
+
+      div.className = "card align-items-center";
+      div.style = "width: 18rem; background-color: rgb(235, 200, 148);";
+
+      img.src = "./favicon.png";
+      img.classList = "card-img-top";
+      img.style = "height: 75%;";
+      img.style = "width: 75%;";
+
+      div2.classList = "card-body";
+
+      h5.classList = "card-title";
+      h5.innerHTML = poszt.cim;
+
+      p.classList = "card-text";
       p.innerHTML = poszt.szoveg;
+
+      span.innerHTML = poszt.felhasznalonev;
+
       small.innerHTML = poszt.datum;
 
-      fieldset.appendChild(legend);
-      fieldset.appendChild(h1);
-      fieldset.appendChild(p);
-      fieldset.appendChild(small);
+      div2.appendChild(h5);
+      div2.appendChild(p);
+      div2.appendChild(span);
+      div2.appendChild(small);
 
-      cikkekHelye.appendChild(fieldset);
+      div.appendChild(img);  
+      div.appendChild(div2);
+
+      fodiv.appendChild(div);
+
+      cikkekHelye.appendChild(fodiv);
     }
 
     betoltodik = false;
@@ -403,7 +408,9 @@ if(document.title == "Suliújság") {
         osztalyokFeltoltes();
     });
     
-    $("cikkFeltoltes").addEventListener("click", ujCikk);
+    $("cikkFeltoltes").addEventListener("click", () => {  
+        ujCikk();
+    });
     
     $("loginButton").addEventListener("click", login);
     $("registerButton").addEventListener("click", register);
