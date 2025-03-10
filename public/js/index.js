@@ -1,3 +1,10 @@
+//Globális változók
+let oldalSzam = 1; // Kezdő oldal
+const limit = 8;   //Hány cikk jelenjen meg oldalanként
+let oldalakSzama = 1; // Kezdetben 1 oldal, API frissíti
+let betoltodik = false;
+
+
 function $(id) {
     return document.getElementById(id);
 }
@@ -221,15 +228,13 @@ async function login() {
                 if(diakAdatai.ok) {
                     let adatok = await diakAdatai.json();
 
-                    let profilKep = $("profilKep");
-                    let offcanvasTitle = $("offcanvasTitle");
-                    let offcanvasIskola = $("offcanvasIskola");
-                    let offcanvasNev = $("offcanvasNev");
+                    $("loginFelahsznaloNev").value = "";
+                    $("loginJelszo").value = "";
+                    $("loginMarad").checked = false;
 
-                    //profilKep.src = adatok[0]["kep"];
-                    offcanvasTitle.innerHTML = adatok[0]["felhasznalonev"];
-                    offcanvasIskola.innerHTML = adatok[0]["iNev"];
-                    offcanvasNev.innerHTML = adatok[0]["dNev"];
+                    let url = document.location.href;
+                    let ujUrl = url.replace("/login.html", "/index.html");
+                    document.location.href = ujUrl;
 
                     let bejelentkezveMarad = $("loginMarad").checked;
 
@@ -244,7 +249,8 @@ async function login() {
                     }
 
                     else {
-                        document.cookie = "felhasznalonev=" + resp["valasz"];
+                        document.cookie = "felhasznalonev=" + resp["valasz"] + ";";
+                        document.cookie = "id=;";
                     }
                 }
 
@@ -266,12 +272,35 @@ async function login() {
     }
 }
 
+async function loginAdatokMegjelenitese() {
+    let decodedCookies = decodeURIComponent(document.cookie);
+    let cookies = decodedCookies.split(';');
+    let felhaszNevCookie = "";
 
+    cookies.forEach(cookie => {
+        if(cookie.includes("felhasznalonev")) {
+            felhaszNevCookie = cookie.split('=')[1];
+        }
+    });
+    
+    let diakAdatai = await fetch("/api/diakNevAlapjan", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            "nev" : felhaszNevCookie
+        })
+    });
 
-let oldalSzam = 1; // Kezdő oldal
-const limit = 8;   //Hány cikk jelenjen meg oldalanként
-let oldalakSzama = 1; // Kezdetben 1 oldal, API frissíti
-let betoltodik = false;
+    if(diakAdatai.ok) {
+        let adatok = await diakAdatai.json();
+
+        $("offcanvasTitle").innerHTML = felhaszNevCookie;
+        $("offcanvasIskola").innerHTML = adatok[0]["iNev"];
+        $("offcanvasNev").innerHTML = adatok[0]["dNev"];
+    }
+}
 
 async function cikkekBetoltese(oldal) {
   if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
@@ -323,26 +352,6 @@ async function cikkekBetoltese(oldal) {
   }
 }
 
-// Első oldal betöltése induláskor
-cikkekBetoltese(oldalSzam);
-
-//Nyilakhoz
-let jobbraNyil = document.getElementById("jobbNyilDiv");
-let balraNyil = document.getElementById("balNyilDiv");
-
-jobbraNyil.addEventListener("click", function() {
-    if (oldalSzam < oldalakSzama) {
-        oldalSzam++;
-        cikkekBetoltese(oldalSzam);
-    }
-});
-
-balraNyil.addEventListener("click", function() {
-    if (oldalSzam > 1) {
-        oldalSzam--;
-        cikkekBetoltese(oldalSzam);
-    }
-});
 
 function frissitNyilak() {
     //Bal nyíl letiltása, ha az első oldalon vagyunk
@@ -353,11 +362,6 @@ function frissitNyilak() {
     jobbraNyil.disabled = (oldalSzam === oldalakSzama);
     jobbraNyil.style.opacity = (oldalSzam === oldalakSzama) ? 0.5 : 1; //opacitás
 }
-
-
-
-
-
 
 function datumEsIdo() {
     //Órát és dátumot kiíró dom elemek
@@ -383,21 +387,51 @@ function datumEsIdo() {
         ev + ". " + (honap < 9 ? "0" + (honap+1) : (honap+1)) + ". " + (nap < 10 ? "0" + nap : nap) + ".";
 }
 
+if(document.title == "Suliújság") {
+    window.addEventListener("load", () => {
+        setInterval(datumEsIdo, 1000);
+        datumEsIdo();
+        cikkekBetoltese(oldalSzam);
+        loginAdatokMegjelenitese();
+    });
+    
+    $("registerButtonModal").addEventListener("click", () => {
+        registerFormFeltoltes();
+    });
+    
+    $("registerIskola").addEventListener("change", () => {
+        osztalyokFeltoltes();
+    });
+    
+    $("cikkFeltoltes").addEventListener("click", ujCikk);
+    
+    $("loginButton").addEventListener("click", login);
+    $("registerButton").addEventListener("click", register);
 
-window.addEventListener("load", () => {
-    setInterval(datumEsIdo, 1000);
-    datumEsIdo();
-});
+    $("jobbNyilDiv").addEventListener("click", () => {
+        if (oldalSzam < oldalakSzama) {
+            oldalSzam++;
+            cikkekBetoltese(oldalSzam);
+        }
+    });
+    
+    $("balNyilDiv").addEventListener("click", () => {
+        if (oldalSzam > 1) {
+            oldalSzam--;
+            cikkekBetoltese(oldalSzam);
+        }
+    });
+}
 
-$("registerButtonModal").addEventListener("click", () => {
-    registerFormFeltoltes();
-})
+if(document.title == "Kezdőoldal") {
+    $("registerSpan").addEventListener("click", () => {
+        registerFormFeltoltes();
+    });
 
-$("registerIskola").addEventListener("change", () => {
-    osztalyokFeltoltes();
-})
+    $("registerIskola").addEventListener("change", () => {
+        osztalyokFeltoltes();
+    });
 
-$("cikkFeltoltes").addEventListener("click", ujCikk);
-
-$("loginButton").addEventListener("click", login);
-$("registerButton").addEventListener("click", register);
+    $("loginButton").addEventListener("click", login);
+    $("registerButton").addEventListener("click", register);
+}

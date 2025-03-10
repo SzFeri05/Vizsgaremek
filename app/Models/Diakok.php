@@ -29,7 +29,7 @@ class Diakok extends Model
             ->insertGetId([
                 "nev" => $teljesNev,
                 "email" => $email,
-                "osztaly" => $evfolyam,
+                "evfolyam" => $evfolyam,
                 "iskola_id" => $iskola,
                 "szak_id" => $osztaly,
                 "felhasznalonev" => $felhasznalonev,
