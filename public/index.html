@@ -18,103 +18,6 @@
 </head>
 
 <body>
-    <!--LOGIN, REGISTER, ÚJ CIKK modals-->
-
-    <!--login-->
-    <div class="modal fade" id="loginModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bejelentkezés</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="loginFelahsznaloNev" class="form-label">Felhasználónév:</label>
-                            <input type="text" class="form-control" id="loginFelahsznaloNev">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="loginJelszo" class="form-label">Jelszó:</label>
-                            <input type="password" class="form-control" id="loginJelszo">
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="loginMarad">
-                            <label class="form-check-label" for="loginMarad">Maradjak bejelentkezve</label>
-                        </div>
-
-                        <button type="button" id="loginButton" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight">Bejelentkezés!</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--register-->
-    <div class="modal fade" id="registerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Regisztráció</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="registerEmail" class="form-label">Email cím:</label>
-                            <input type="email" class="form-control" id="registerEmail">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="registerTeljesNev" class="form-label">Teljes név:</label>
-                            <input type="text" class="form-control" id="registerTeljesNev">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="registerFelahsznaloNev" class="form-label">Felhasználónév:</label>
-                            <input type="text" class="form-control" id="registerFelahsznaloNev">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="registerIskola" class="form-label">Iskola:</label>
-
-                            <select class="form-select" id="registerIskola">
-
-                            </select>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="registerOsztaly">Osztály:</label>
-                            <select class="form-select" id="registerOsztaly">
-
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="registerJelszo" class="form-label">Jelszó:</label>
-                            <input type="password" class="form-control" id="registerJelszo">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="registerJelszoUjra" class="form-label">Jelszó újra:</label>
-                            <input type="password" class="form-control" id="registerJelszoUjra">
-                        </div>
-
-                        <button type="button" id="registerButton" class="btn btn-info" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight">Regisztráció!</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--Új cikk feltöltése modal-->
     <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true">
@@ -205,17 +108,15 @@
                 <hr>
 
                 <!--Gombok-->
-                <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal"
-                    data-bs-dismiss="offcanvas">Bejelentkezés</button>
-                <br>
-                <br>
-                <button type="button" id="registerButtonModal" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal"
-                    data-bs-dismiss="offcanvas">Regisztráció</button>
-                <br>
-                <br>
                 <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
                     data-bs-target="#ujCikkModal" data-bs-dismiss="offcanvas">Új cikk feltöltése</button>
 
+                <br>
+                <br>
+
+                <button type="button" id="kijelentkezesButton" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#"
+                data-bs-dismiss="offcanvas">Kijelentkezés</button>
+                
                 <hr>
 
                 <!--Dátum és idő-->

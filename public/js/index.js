@@ -10,9 +10,12 @@ function $(id) {
 }
 
 async function ujCikk() {
+    let cookies = document.cookie;
     let cikkCim = $("cikkCim").value;
     let cikkSzoveg = $("cikkSzoveg").value;
     let cikkKep = $("cikkKep").files[0];
+
+    console.log(cookies);
 
     if (cikkCim != "" && cikkSzoveg != "") {
         let formData = new FormData(); 
@@ -231,7 +234,7 @@ async function login() {
 
                     else {
                         document.cookie = "felhasznalonev=" + resp["valasz"] + ";";
-                        document.cookie = "id=;";
+                        document.cookie = "id=" + adatok[0]["id"] + ";";
                     }
                 }
 
@@ -292,11 +295,7 @@ async function cikkekBetoltese(oldal) {
     let valasz = await cikkLekeres.json();
     let posztok = valasz.posztok;
     oldalakSzama = valasz.oldalakSzama; // Globális változó frissítése
-    let osszes = valasz.osszes;
 
-    console.log("Lekért adatok:", valasz); // Ellenőrzés
-
-    let elsoLap = document.getElementById("elsoLap");
     let cikkekHelye = document.getElementById("cikkekHelye");
 
     if (oldal === 1) { // Első oldal betöltésekor töröljük a korábbi tartalmat
@@ -317,7 +316,7 @@ async function cikkekBetoltese(oldal) {
       fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
 
       div.className = "card align-items-center";
-      div.style = "width: 18rem; background-color: rgb(235, 200, 148);";
+      div.style = "width: auto; background-color: rgb(235, 200, 148);";
 
       img.src = "./favicon.png";
       img.classList = "card-img-top";
@@ -331,6 +330,7 @@ async function cikkekBetoltese(oldal) {
 
       p.classList = "card-text";
       p.innerHTML = poszt.szoveg;
+      p.style = "width: 100%;";
 
       span.innerHTML = poszt.felhasznalonev;
 
@@ -359,6 +359,7 @@ async function cikkekBetoltese(oldal) {
 
 
 function frissitNyilak() {
+    let balDiv = document.getElementById("balNyilDiv");
     //Bal nyíl letiltása, ha az első oldalon vagyunk
     balraNyil.disabled = (oldalSzam === 1);
     balraNyil.style.opacity = (oldalSzam === 1) ? 0.5 : 1; //opacitás
@@ -366,6 +367,16 @@ function frissitNyilak() {
     //Jobb nyíl letiltása, ha az utolsó oldalon vagyunk
     jobbraNyil.disabled = (oldalSzam === oldalakSzama);
     jobbraNyil.style.opacity = (oldalSzam === oldalakSzama) ? 0.5 : 1; //opacitás
+}
+
+function kijelentkezes()
+{
+    document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+    let url = document.location.href;
+    let ujUrl = url.replace("/index.html", "/login.html");
+    document.location.href = ujUrl;
 }
 
 function datumEsIdo() {
@@ -400,20 +411,9 @@ if(document.title == "Suliújság") {
         loginAdatokMegjelenitese();
     });
     
-    $("registerButtonModal").addEventListener("click", () => {
-        registerFormFeltoltes();
-    });
-    
-    $("registerIskola").addEventListener("change", () => {
-        osztalyokFeltoltes();
-    });
-    
     $("cikkFeltoltes").addEventListener("click", () => {  
         ujCikk();
     });
-    
-    $("loginButton").addEventListener("click", login);
-    $("registerButton").addEventListener("click", register);
 
     $("jobbNyilDiv").addEventListener("click", () => {
         if (oldalSzam < oldalakSzama) {
@@ -428,6 +428,10 @@ if(document.title == "Suliújság") {
             cikkekBetoltese(oldalSzam);
         }
     });
+
+    $("kijelentkezesButton").addEventListener("click", () => {
+        kijelentkezes();
+    })
 }
 
 if(document.title == "Kezdőoldal") {
