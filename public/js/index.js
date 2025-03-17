@@ -418,7 +418,6 @@ async function cikkekBetoltese(oldal) {
 
 
 function frissitNyilak() {
-    let balDiv = document.getElementById("balNyilDiv");
     //Bal nyíl letiltása, ha az első oldalon vagyunk
     balraNyil.disabled = (oldalSzam === 1);
     balraNyil.style.opacity = (oldalSzam === 1) ? 0.5 : 1; //opacitás
@@ -426,6 +425,187 @@ function frissitNyilak() {
     //Jobb nyíl letiltása, ha az utolsó oldalon vagyunk
     jobbraNyil.disabled = (oldalSzam === oldalakSzama);
     jobbraNyil.style.opacity = (oldalSzam === oldalakSzama) ? 0.5 : 1; //opacitás
+}
+
+async function mentesElfogadva() {
+    let cookies = document.cookie;
+    let adminId = parseInt(cookies.split(";")[1].split("=")[1]);
+    let cikkSzoveg = "";
+    let checkBoxok = document.getElementsByName("elfogadva");
+    let checkboxHossz = checkBoxok.length;
+    let nemJelolt = 0;
+    let eredmeny;
+
+    for (const box of checkBoxok) {
+        if(box.checked)
+        {
+            cikkSzoveg = box.value;
+            let cikkLekeres = await fetch(`./api/cikkelfogadas`, {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    "adminId" : adminId,
+                    "cikkSzoveg" : cikkSzoveg
+                })
+            });
+
+            eredmeny = await cikkLekeres.json();
+        }
+        else
+        {
+            nemJelolt++;
+        }
+    }
+
+    if(nemJelolt == checkboxHossz)
+    {
+        alert("Legalább egyet jelöljön ki!");
+    }
+    else
+    {
+        alert(eredmeny.valasz);
+        nemElfogadottCikkek(oldalSzam);
+    }
+}
+
+async function nemElfogadottCikkek(oldal) {
+    if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
+    betoltodik = true;
+  
+    try {
+      let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}`);
+      let valasz = await cikkLekeres.json();
+      let posztok = valasz.posztok;
+      oldalakSzama = 1; // Globális változó frissítése
+  
+      let cikkekHelye = document.getElementById("cikkekHelye");
+  
+      if (oldal === 1) { // Első oldal betöltésekor töröljük a korábbi tartalmat
+        cikkekHelye.innerHTML = "";
+      }
+  
+      if(valasz.valasz == "Nincsenek találatok!")
+      {
+        alert("Nincs megjeleníthető cikk!");
+        location.reload();
+      }
+      else
+      {
+        cikkekHelye.innerHTML = "";
+        let seged = 0;
+        for (const poszt of posztok) {
+            let fodiv = document.createElement("div");
+            let div = document.createElement("div");
+            let div2 = document.createElement("div");
+            let img = document.createElement("img");
+            let h5 = document.createElement("h3");
+            let p = document.createElement("p");
+            let span = document.createElement("h5");
+            let small = document.createElement("small");
+            let checkbox = document.createElement("input");
+            let label = document.createElement("label");
+            let div3 = document.createElement("div");
+    
+            fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
+    
+            div.className = "card align-items-center";
+            div.style = "width: auto; background-color: rgb(235, 200, 148);";
+    
+            img.src = "./favicon.png";
+            img.classList = "card-img-top";
+            img.style = "height: 75%;";
+            img.style = "width: 75%;";
+    
+            div2.classList = "card-body";
+    
+            h5.classList = "card-title";
+            h5.innerHTML = poszt.cim;
+    
+            p.classList = "card-text";
+            p.innerHTML = poszt.szoveg;
+            p.style = "width: 100%;";
+
+            div3.classList = "form-check form-switch mb-3";
+
+            checkbox.classList = "form-check-input elfogadva";
+            checkbox.type = "checkbox";
+            checkbox.name = "elfogadva";
+            checkbox.style = "float: none;";
+            checkbox.id = "elfogadva" + seged;
+            checkbox.value = poszt.szoveg;
+
+            label.classList = "form-check-label";
+            label.setAttribute("for", "elfogadva" + seged);
+            label.style = "font-weight: bolder;";
+            label.innerHTML = "Elfogadva";
+    
+            span.innerHTML = poszt.felhasznalonev;
+    
+            small.innerHTML = poszt.datum;
+    
+            div3.appendChild(checkbox);
+            div3.appendChild(label);
+
+            div2.appendChild(h5);
+            div2.appendChild(p);
+            div2.appendChild(div3);
+            div2.appendChild(span);
+            div2.appendChild(small);
+    
+            div.appendChild(img);  
+            div.appendChild(div2);
+    
+            fodiv.appendChild(div);
+    
+            cikkekHelye.appendChild(fodiv);
+
+            seged++;
+        }
+
+        let mentesButton = document.createElement("button");
+
+        mentesButton.type = "button";
+        mentesButton.classList = "col-12 col-sm-12 col-md-12 col-lg-12 mx-auto btn btn-info btn-lg";
+
+        if(window.innerWidth < 992 && window.innerWidth > 767)
+            {
+                mentesButton.style = "width: 70%; height: 5%;";
+            }
+            else if(window.innerWidth < 768 && window.innerWidth > 0)
+            {
+                mentesButton.style = "width: 50%; height: 5%;";
+            }
+            else
+            {
+                mentesButton.style = "width: 90%; height: 5%;";
+            }
+
+        mentesButton.innerHTML = "Mentés";
+        mentesButton.id = "mentesElfogadva";
+        mentesButton.onclick = mentesElfogadva;
+
+        cikkekHelye.appendChild(mentesButton);
+    
+        betoltodik = false;
+        adminNyilakFrissites();
+      }
+    } catch (error) {
+      console.error("Hiba a cikkek betöltésekor:", error);
+      betoltodik = false;
+    }
+  }
+
+function adminNyilakFrissites()
+{
+    //Bal nyíl letiltása, ha az első oldalon vagyunk
+    balraNyil.disabled = (oldalSzam === 1);
+    balraNyil.style.opacity = (oldalSzam === 1) ? 0.5 : 1; //opacitás
+
+    //Jobb nyíl letiltása, ha az utolsó oldalon vagyunk
+    jobbraNyil.disabled = (oldalSzam === 1);
+    jobbraNyil.style.opacity = (oldalSzam === 1) ? 0.5 : 1; //opacitás
 }
 
 function kijelentkezes() {
@@ -516,6 +696,11 @@ if(document.title == "Suliújság") {
 
     $("kijelentkezesButton").addEventListener("click", () => {
         kijelentkezes();
+    });
+
+    $("adminGomb").addEventListener("click", () => {
+        setLimit();
+        nemElfogadottCikkek(oldalSzam);
     });
 }
 

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/posztok", [CikkekController::class, "CikkekLekerdezesse"]);
 Route::post("/ujcikk", [CikkekController::class, "ujCikkController"]);
+Route::get("/adminposztok", [CikkekController::class, "AdminCikkekLekerdezesse"]);
+Route::post("/cikkelfogadas", [CikkekController::class, "cikkElfogadasController"]);
 
 
 Route::get("/iskolak", [IskolakController::class, "Iskolak"]);
