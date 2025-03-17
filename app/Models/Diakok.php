@@ -17,7 +17,7 @@ class Diakok extends Model
     public static function DiakLekerdezesNev($nev)
     {
         return DB::table("diakok")
-            ->selectRaw("diakok.id, diakok.nev as dNev, iskolak.nev as iNev, diakok.felhasznalonev")
+            ->selectRaw("diakok.id, diakok.nev as dNev, iskolak.nev as iNev, diakok.felhasznalonev, diakok.adminE")
             ->join("iskolak", "diakok.iskola_id", "=", "iskolak.id")
             ->whereLike("diakok.felhasznalonev", $nev)
             ->get();

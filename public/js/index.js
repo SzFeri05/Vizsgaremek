@@ -24,9 +24,31 @@ function setLimit() {
 }
 
 async function diakAdatok() {
+    let cookies = document.cookie;
     let felhasznalonev = cookies.split(";")[0].split("=")[1];
     
-    let lekeres
+    let diakAdatai = await fetch("/api/diakNevAlapjan", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            "nev" : felhasznalonev
+        })
+    });
+
+    if(diakAdatai.ok)
+    {
+        let eredmeny = await diakAdatai.json();
+        console.log(eredmeny);
+
+        if(eredmeny[0]["adminE"] == 1)
+        {
+            let adminGomb = document.getElementById("adminGomb");
+
+            adminGomb.innerHTML += '<button type="button" class="btn btn-info btn-lg" id="adminGomb">Admin oldal</button> <br><br>'
+        }
+    }
 }
 
 async function ujCikk() {
@@ -463,6 +485,7 @@ if(document.title == "Suliújság") {
     window.addEventListener("load", () => {
         setInterval(datumEsIdo, 1000);
         datumEsIdo();
+        diakAdatok();
         setLimit();
         cikkekBetoltese(oldalSzam);
         loginAdatokMegjelenitese();
