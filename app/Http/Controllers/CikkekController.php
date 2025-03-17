@@ -40,7 +40,7 @@ class CikkekController extends Controller
         $diakId = $request->input("diakId");
 
 
-        if(empty($postCim) || empty($postSzoveg))
+        if(empty($postCim) || empty($postSzoveg) || empty($diakId))
         {
             return response()->json(["valasz" => "Hiányos adatok!"]);
         }

@@ -1,12 +1,32 @@
+function $(id) {
+    return document.getElementById(id);
+}
+
 //Globális változók
 let oldalSzam = 1; // Kezdő oldal
-const limit = 8;   //Hány cikk jelenjen meg oldalanként
+let limit = 8;   //Hány cikk jelenjen meg oldalanként
 let oldalakSzama = 1; // Kezdetben 1 oldal, API frissíti
 let betoltodik = false;
 
+function setLimit() {
+    if(window.innerWidth < 992 && window.innerWidth > 767)
+    {
+        limit = 4;
+    }
+    else if(window.innerWidth < 768 && window.innerWidth > 0)
+    {
+        limit = 1;
+    }
+    else
+    {
+        limit = 8;
+    }
+}
 
-function $(id) {
-    return document.getElementById(id);
+async function diakAdatok() {
+    let felhasznalonev = cookies.split(";")[0].split("=")[1];
+    
+    let lekeres
 }
 
 async function ujCikk() {
@@ -14,13 +34,13 @@ async function ujCikk() {
     let cikkCim = $("cikkCim").value;
     let cikkSzoveg = $("cikkSzoveg").value;
     let cikkKep = $("cikkKep").files[0];
-
-    console.log(cookies);
+    let idCookie = parseInt(cookies.split(";")[1].split("=")[1]);
 
     if (cikkCim != "" && cikkSzoveg != "") {
         let formData = new FormData(); 
-        formData.append('cim', cikkCim); 
-        formData.append('szoveg', cikkSzoveg);
+        formData.append('postCim', cikkCim); 
+        formData.append('postSzoveg', cikkSzoveg);
+        formData.append('diakId', idCookie);
 
         if (cikkKep) {
             formData.append('kep', cikkKep); 
@@ -36,6 +56,9 @@ async function ujCikk() {
             $("cikkCim").value = "";
             $("cikkSzoveg").value = "";
             $("cikkKep").value = "";
+
+            setLimit();
+            cikkekBetoltese(oldalSzam);
 
         }
         else {
@@ -71,6 +94,14 @@ async function registerFormFeltoltes() {
 
 async function osztalyokFeltoltes() {
     let selectedIskola = $("registerIskola").value;
+    
+    if(selectedIskola == 1)  {
+        $("registerOsztaly").disabled = true;
+    }
+
+    else {
+        $("registerOsztaly").disabled = false;
+    }
 
     let evfolyamLekeres = await fetch("./api/evfolyamok", {
         method: "POST",
@@ -104,7 +135,7 @@ async function osztalyokFeltoltes() {
                 let opt = document.createElement("option");
 
                 opt.value = szak.id;
-                opt.innerHTML = i + ". " + szak.szakJeloles + " (" + szak.nev + ")";
+                opt.innerHTML = i + "." + szak.szakJeloles + " (" + szak.nev + ")";
 
                 osztalySelect.appendChild(opt);
             });
@@ -156,7 +187,6 @@ async function register() {
  
 
         if(lekeres.ok) {
-            alert("Sikeres regisztráció!");
             email.innerHTML = "";
             teljesNev = "";
             felhasznaloNev = "";
@@ -164,6 +194,13 @@ async function register() {
             osztaly = "";
             jelszo = "";
             jelszoUjra = "";
+
+            let url = document.location.href;
+            let ujUrl = url.replace("/login.html", "/index.html");
+            document.location.href = ujUrl;
+
+            document.cookie = "felhasznalonev=" + resp["valasz"] + ";";
+            document.cookie = "id=" + adatok[0]["id"] + ";";
         }
 
         else {
@@ -369,14 +406,33 @@ function frissitNyilak() {
     jobbraNyil.style.opacity = (oldalSzam === oldalakSzama) ? 0.5 : 1; //opacitás
 }
 
-function kijelentkezes()
-{
+function kijelentkezes() {
     document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
     let url = document.location.href;
     let ujUrl = url.replace("/index.html", "/login.html");
     document.location.href = ujUrl;
+}
+
+function osztalyValasztasEmailAlapjan(email) {
+    let evfolyam = email[0] + email[1];
+    let szak = email[2];
+
+    if(email.length >= 3) {
+        if(evfolyam[0] == "0") {
+            evfolyam = evfolyam[1];
+        }
+        
+        let osztaly = evfolyam + "." + szak.toUpperCase();
+        let valasztahtoOsztalyok = $("registerOsztaly");
+
+        valasztahtoOsztalyok.childNodes.forEach(vOsztaly => {
+         if(vOsztaly.innerText.includes(osztaly)) {
+                vOsztaly.selected = true;
+            }
+        });
+    }
 }
 
 function datumEsIdo() {
@@ -407,8 +463,14 @@ if(document.title == "Suliújság") {
     window.addEventListener("load", () => {
         setInterval(datumEsIdo, 1000);
         datumEsIdo();
+        setLimit();
         cikkekBetoltese(oldalSzam);
         loginAdatokMegjelenitese();
+    });
+
+    window.addEventListener("resize", () => {
+        setLimit();
+        cikkekBetoltese(oldalSzam);
     });
     
     $("cikkFeltoltes").addEventListener("click", () => {  
@@ -431,10 +493,16 @@ if(document.title == "Suliújság") {
 
     $("kijelentkezesButton").addEventListener("click", () => {
         kijelentkezes();
-    })
+    });
 }
 
 if(document.title == "Kezdőoldal") {
+    $("registerEmail").addEventListener("input", () => {
+        const email = $("registerEmail").value;
+
+        osztalyValasztasEmailAlapjan(email);
+    });
+
     $("registerSpan").addEventListener("click", () => {
         registerFormFeltoltes();
     });
