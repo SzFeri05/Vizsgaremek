@@ -10,6 +10,7 @@ Route::get("/posztok", [CikkekController::class, "CikkekLekerdezesse"]);
 Route::post("/ujcikk", [CikkekController::class, "ujCikkController"]);
 Route::get("/adminposztok", [CikkekController::class, "AdminCikkekLekerdezesse"]);
 Route::post("/cikkelfogadas", [CikkekController::class, "cikkElfogadasController"]);
+Route::post("/cikktorles", [CikkekController::class, "cikkTorlesController"]);
 
 
 Route::get("/iskolak", [IskolakController::class, "Iskolak"]);

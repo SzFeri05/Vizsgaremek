@@ -38,4 +38,10 @@ class Cikkek extends Model
     {
         return DB::update("UPDATE `cikkek` SET `elfogadva`='1',`elfogadta_id`='" . $adminId . "' WHERE cikkek.szoveg = '" . $cikkSzoveg . "'");
     }
+
+    // ./api/cikktorles
+    public static function cikkTorles($cikkSzoveg)
+    {
+        return DB::delete("DELETE FROM `cikkek` WHERE cikkek.szoveg = '" . $cikkSzoveg . "'");
+    }
 }

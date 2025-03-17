@@ -82,6 +82,30 @@ class CikkekController extends Controller
         }
     }
 
+    // ./api/cikktorles
+    public function cikkTorlesController(Request $request)
+    {
+        $cikkSzoveg = $request->input("cikkSzoveg");
+
+        if(empty($cikkSzoveg))
+        {
+            return response()->json(["valasz" => "Hiányos adat!"], 400);
+        }
+        else
+        {
+            $eredmeny = Cikkek::cikkTorles($cikkSzoveg);
+
+            if(empty($eredmeny))
+            {
+                return response()->json(["valasz" => "Sikertelen művelet!"], 400);
+            }
+            else
+            {
+                return response()->json(["valasz" => "Sikeres művelet!"], 200);
+            }
+        }
+    }
+
     // ./api/ujcikk
     public function ujCikkController(Request $request)
     {
