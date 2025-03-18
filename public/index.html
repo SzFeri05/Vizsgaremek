@@ -50,6 +50,45 @@
         </div>
     </div>
 
+    <!--Profil szerkesztése modal-->
+    <div class="modal fade" id="profilszerkesztese" tabindex="-1" aria-labelledby="profilszerkeszteseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profilszerkeszteseModalLabel">Profil szerkesztése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profilszerkeszteseForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="felhasznalonev" class="form-label">Felhasználónév:</label>
+                            <input type="text" class="form-control" id="felhasznalonev">
+                        </div>
+                        <div class="mb-3">
+                            <label for="teljesnev">Teljes név:</label>
+                            <input type="text" class="form-control" id="teljesnev">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email">E-mail cím:</label>
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Jelszó:</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" id="profilMentes">Mentés</button>
+                        <button type="button" class="btn btn-secondary" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" id="profilMegse">Mégse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <!--Fő "div", az újság lapjait tartamlazza-->
@@ -108,13 +147,21 @@
                 <hr>
 
                 <!--Gombok-->
-                <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
+                <span id="ujcikkGomb"><button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
                     data-bs-target="#ujCikkModal" data-bs-dismiss="offcanvas">Új cikk feltöltése</button>
-
-                <br>
-                <br>
+                    <br>
+                    <br>
+                </span>
+                
+                
 
                 <span id="adminGomb"></span>
+
+                <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                data-bs-target="#profilszerkesztese" data-bs-dismiss="offcanvas" id="profilSzerkesztes">Profil szerkesztése</button>
+
+                <br>
+                <br>
 
                 <button type="button" id="kijelentkezesButton" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#"
                 data-bs-dismiss="offcanvas">Kijelentkezés</button>

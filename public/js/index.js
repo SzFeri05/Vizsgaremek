@@ -9,6 +9,7 @@ let oldalakSzama = 1; // Kezdetben 1 oldal, API frissíti
 let betoltodik = false;
 let admin = false;
 let posztokDB;
+let bejelentkezveMarad;
 
 function setLimit() {
     if(window.innerWidth < 992 && window.innerWidth > 767)
@@ -282,7 +283,7 @@ async function login() {
                     let ujUrl = url.replace("/login.html", "/index.html");
                     document.location.href = ujUrl;
 
-                    let bejelentkezveMarad = $("loginMarad").checked;
+                    bejelentkezveMarad = $("loginMarad").checked;
 
                     if(bejelentkezveMarad) {
                         const d = new Date();
@@ -356,6 +357,10 @@ async function cikkekBetoltese(oldal) {
 
         adminGomb.innerHTML = '<button type="button" class="btn btn-info btn-lg" id="adminGomba" onclick="adminGomb()">Admin oldal</button> <br><br>';
     }
+
+    let ujcikkGomb = document.getElementById("ujcikkGomb");
+
+    ujcikkGomb.innerHTML = '<button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#ujCikkModal" data-bs-dismiss="offcanvas">Új cikk feltöltése</button><br><br>';
     
 
   if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
@@ -451,51 +456,6 @@ async function mentesElfogadvaEsTorles(oldal) {
     let eredmeny;
     let eredmeny2;
 
-    /*for (const box of elfogadvacheckBoxok) {
-        if(box.checked)
-        {
-            cikkSzoveg = box.value;
-            let cikkElfogadasa = await fetch(`./api/cikkelfogadas`, {
-                method: "POST",
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify({
-                    "adminId" : adminId,
-                    "cikkSzoveg" : cikkSzoveg
-                })
-            });
-
-            eredmeny = await cikkElfogadasa.json();
-        }
-        else
-        {
-            nemJelolt++;
-        }
-    }
-
-    for (const box of torolvecheckBoxok) {
-        if(box.checked)
-        {
-            cikkSzoveg2 = box.value;
-            let cikkTorles = await fetch(`./api/cikktorles`, {
-                method: "POST",
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify({
-                    "cikkSzoveg" : cikkSzoveg2
-                })
-            });
-
-            eredmeny2 = await cikkTorles.json();
-        }
-        else
-        {
-            torolvenemJelolt++;
-        }
-    }*/
-
     for(let i = 0; i < posztokDB; i++)
     {
         let radios = document.getElementsByName("radiobutton" + i);
@@ -577,8 +537,10 @@ async function mentesElfogadvaEsTorles(oldal) {
 
 async function nemElfogadottCikkek(oldal) {
     let adminGomb = document.getElementById("adminGomb");
+    let ujcikkGomb = document.getElementById("ujcikkGomb");
 
-    adminGomb.innerHTML += '<button type="button" class="btn btn-primary btn-lg" id="visszaSimaOldal" onclick="simaOldal()">Cikk oldal</button> <br><br>'
+    adminGomb.innerHTML += '<button type="button" class="btn btn-primary btn-lg" id="visszaSimaOldal" onclick="simaOldal()">Cikk oldal</button> <br><br>';
+    ujcikkGomb.innerHTML = "";
 
     if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
     betoltodik = true;
@@ -810,6 +772,97 @@ function simaOldal()
     adminGomb.innerHTML = '<button type="button" class="btn btn-info btn-lg" id="adminGomba" onclick="adminGomb()">Admin oldal</button> <br><br>'
 }
 
+async function profilModositasBetoltes()
+{
+    let cookies = document.cookie;
+    let id = parseInt(cookies.split(";")[1].split("=")[1]);
+
+    let fnev = document.getElementById("felhasznalonev");
+    let tnev = document.getElementById("teljesnev");
+    let emailcim = document.getElementById("email");
+
+    let lekeres = await fetch("./api/diakIdAlapjan", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+            "id" : id
+        })
+    })
+
+    if(lekeres.ok)
+    {
+        let eredmeny = await lekeres.json();
+
+        for (const e of eredmeny) {
+            fnev.value = e.felhasznalonev;
+            tnev.value = e.nev;
+            emailcim.value = e.email;
+        }
+    }
+}
+
+async function profilMentes()
+{
+    let cookies = document.cookie;
+    let id = parseInt(cookies.split(";")[1].split("=")[1]);
+
+    let fnev = document.getElementById("felhasznalonev");
+    let tnev = document.getElementById("teljesnev");
+    let emailcim = document.getElementById("email");
+    let jelszo = document.getElementById("password");
+
+    let kuldendoAdatok = {
+        "nev" : tnev.value,
+        "id" : id,
+        "felhasznalonev" : fnev.value,
+        "email" : emailcim.value,
+        "jelszo" : jelszo.value
+    }
+
+    let keres = await fetch("./api/diakmodositas", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify(kuldendoAdatok)
+    })
+
+    if(keres.ok)
+    {
+        let eredmeny = await keres.json();
+        alert("Sikeres módosítás!");
+
+        document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+        location.reload();
+
+        if(bejelentkezveMarad) {
+            const d = new Date();
+            let napigMaradBejelentkezve = 300;
+            d.setTime(d.getTime() + (napigMaradBejelentkezve*24*60*60*1000));
+            let lejaratiDatum = d.toUTCString();
+
+            document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";expires=" + lejaratiDatum + ";";
+            document.cookie = "id=" + eredmeny[0].id + ";expires=" + lejaratiDatum + ";";
+        }
+
+        else {
+            document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";";
+            document.cookie = "id=" + eredmeny[0].id + ";";
+        }
+    }
+    else
+    {
+        let eredmeny = await keres.json();
+        alert(eredmeny.valasz);
+    }
+    
+
+}
+
 if(document.title == "Suliújság") {
     window.addEventListener("load", () => {
         setInterval(datumEsIdo, 1000);
@@ -845,6 +898,14 @@ if(document.title == "Suliújság") {
 
     $("kijelentkezesButton").addEventListener("click", () => {
         kijelentkezes();
+    });
+
+    $("profilSzerkesztes").addEventListener("click", () => {
+        profilModositasBetoltes();
+    });
+
+    $("profilMentes").addEventListener("click", () => {
+        profilMentes();
     });
 }
 

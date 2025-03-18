@@ -22,6 +22,30 @@ class DiakokController extends Controller
         }        
     }
 
+    // ./api/diakIdAlapjan
+    public function DiakIdController(Request $request)
+    {
+        $id = $request->input("id");
+
+        if(empty($id))
+        {
+            return response()->json(["valasz" => "Hiányos adatok!"], 400);
+        }
+        else
+        {
+            $eredmeny = Diakok::DiakLekeresId($id);
+
+            if(empty($eredmeny))
+            {
+                return response()->json(["valasz" => "Nincsenek találatok!"], 400);
+            }
+            else
+            {
+                return response()->json($eredmeny, 200);
+            }
+        }
+    }
+
     // ./api/diakNevAlapjan
     public function DiakNevController(Request $request)
     {
@@ -101,5 +125,41 @@ class DiakokController extends Controller
         }
 
         return response()->json(["valasz" => $felhasznalonev], 200);
+    }
+
+    // ./api/diakmodositas
+    public function DiakModositController(Request $request)
+    {
+        $nev = $request->input("nev");
+        $email = $request->input("email");
+        $felhasznalonev = $request->input("felhasznalonev");
+        $jelszo = $request->input("jelszo");
+        $id = $request->input("id");
+
+        if(empty($nev) || empty($email) || empty($felhasznalonev) || empty($jelszo) || empty($id))
+        {
+            return response()->json(["valasz" => "Hiányos adatok!"], 400);
+        }
+        else
+        {
+            $eredmeny = Diakok::DiakJelszoId($id);
+
+            $hasheltJelszo = json_decode($eredmeny, true)[0]["jelszo"];
+
+            $egyezikE = password_verify($jelszo, $hasheltJelszo);
+
+            if($egyezikE)
+            {
+                $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id);
+
+                $modositott = Diakok::DiakLekeresId($id);
+
+                return response()->json($modositott, 200);
+            }
+            else
+            {
+                return response()->json(["valasz" => "Nem megfelelő jelszó!"], 400);
+            }
+        }
     }
 }

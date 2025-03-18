@@ -12,6 +12,12 @@ class Diakok extends Model
     {
         return DB::select("SELECT * FROM diakok");
     }
+
+    // ./api/diakIdAlapjan
+    public static function DiakLekeresId($id)
+    {
+        return DB::select("SELECT * FROM diakok WHERE diakok.id = " . $id);
+    }
     
     // ./api/diakNevAlapjan
     public static function DiakLekerdezesNev($nev)
@@ -43,5 +49,19 @@ class Diakok extends Model
             ->selectRaw("diakok.jelszo")
             ->whereLike("diakok.felhasznalonev", $felhasznaloNev)
             ->get();
+    }
+
+    public static function DiakJelszoId($id) {
+        return DB::table("diakok")
+            ->selectRaw("diakok.jelszo")
+            ->whereLike("diakok.id", $id)
+            ->get();
+    }
+
+
+    // ./api/diakmodositas
+    public static function DiakModositas($nev, $email, $felhasznalonev, $id)
+    {
+        return DB::update("UPDATE `diakok` SET `nev`='" . $nev . "',`email`='" . $email . "',`felhasznalonev`='" . $felhasznalonev . "' WHERE diakok.id = " . $id);
     }
 }
