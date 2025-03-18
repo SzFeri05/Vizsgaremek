@@ -353,7 +353,7 @@ async function cikkekBetoltese(oldal) {
     let cikkLekeres = await fetch(`./api/posztok?oldal=${oldal}&limit=${limit}`);
     let valasz = await cikkLekeres.json();
     let posztok = valasz.posztok;
-    oldalakSzama = (valasz.oldalakSzama - 1); // Globális változó frissítése
+    oldalakSzama = valasz.oldalakSzama; // Globális változó frissítése
 
     let cikkekHelye = document.getElementById("cikkekHelye");
 
