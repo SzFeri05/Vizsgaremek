@@ -7,6 +7,8 @@ let oldalSzam = 1; // Kezdő oldal
 let limit = 8;   //Hány cikk jelenjen meg oldalanként
 let oldalakSzama = 1; // Kezdetben 1 oldal, API frissíti
 let betoltodik = false;
+let admin = false;
+let posztokDB;
 
 function setLimit() {
     if(window.innerWidth < 992 && window.innerWidth > 767)
@@ -45,7 +47,9 @@ async function diakAdatok() {
         {
             let adminGomb = document.getElementById("adminGomb");
 
-            adminGomb.innerHTML = '<button type="button" class="btn btn-info btn-lg" id="adminGomba" onclick="adminGomb()">Admin oldal</button> <br><br>'
+            adminGomb.innerHTML = '<button type="button" class="btn btn-info btn-lg" id="adminGomba" onclick="adminGomb()">Admin oldal</button> <br><br>';
+
+            admin = true;
         }
     }
 }
@@ -346,6 +350,14 @@ async function loginAdatokMegjelenitese() {
 
 async function cikkekBetoltese(oldal) {
 
+    if(admin)
+    {
+        let adminGomb = document.getElementById("adminGomb");
+
+        adminGomb.innerHTML = '<button type="button" class="btn btn-info btn-lg" id="adminGomba" onclick="adminGomb()">Admin oldal</button> <br><br>';
+    }
+    
+
   if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
   betoltodik = true;
 
@@ -427,21 +439,19 @@ function frissitNyilak() {
     jobbraNyil.style.opacity = (oldalSzam === oldalakSzama) ? 0.5 : 1; //opacitás
 }
 
-async function mentesElfogadvaEsTorles() {
+async function mentesElfogadvaEsTorles(oldal) {
     let cookies = document.cookie;
     let adminId = parseInt(cookies.split(";")[1].split("=")[1]);
     let cikkSzoveg = "";
     let cikkSzoveg2 = "";
-    let elfogadvacheckBoxok = document.getElementsByName("elfogadva");
-    let elfogadvacheckboxHossz = elfogadvacheckBoxok.length;
-    let torolvecheckBoxok = document.getElementsByName("torles");
-    let torolvecheckboxHossz = torolvecheckBoxok.length;
+    let elfogadvacheckboxHossz;
+    let torolvecheckboxHossz;
     let nemJelolt = 0;
     let torolvenemJelolt = 0;
     let eredmeny;
     let eredmeny2;
 
-    for (const box of elfogadvacheckBoxok) {
+    /*for (const box of elfogadvacheckBoxok) {
         if(box.checked)
         {
             cikkSzoveg = box.value;
@@ -484,6 +494,49 @@ async function mentesElfogadvaEsTorles() {
         {
             torolvenemJelolt++;
         }
+    }*/
+
+    for(let i = 0; i < posztokDB; i++)
+    {
+        let radios = document.getElementsByName("radiobutton" + i);
+
+        for (let j = 0; j < radios.length; j++) {
+            if(radios[0].checked)
+            {
+                torolvenemJelolt++;
+                elfogadvacheckboxHossz++;
+                cikkSzoveg = radios[0].value;
+                let cikkElfogadasa = await fetch(`./api/cikkelfogadas`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify({
+                        "adminId" : adminId,
+                        "cikkSzoveg" : cikkSzoveg
+                    })
+                });
+    
+                eredmeny = await cikkElfogadasa.json();
+            }
+            else
+            {
+                nemJelolt++;
+                torolvecheckboxHossz++;
+                cikkSzoveg2 = radios[0].value;
+                let cikkTorles = await fetch(`./api/cikktorles`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify({
+                        "cikkSzoveg" : cikkSzoveg2
+                    })
+                });
+    
+                eredmeny2 = await cikkTorles.json();
+            }
+        }
     }
 
     if(nemJelolt == elfogadvacheckboxHossz && torolvenemJelolt == torolvecheckboxHossz)
@@ -492,8 +545,33 @@ async function mentesElfogadvaEsTorles() {
     }
     else
     {
-        alert(eredmeny2.valasz);
-        nemElfogadottCikkek(oldalSzam);
+        let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}`);
+        let valasz = await cikkLekeres.json();
+    
+        if(valasz.valasz == "Nincsenek találatok!")
+        {
+            if(nemJelolt < elfogadvacheckboxHossz)
+            {
+                alert(eredmeny.valasz);
+            }
+            else if(torolvenemJelolt < torolvecheckboxHossz)
+            {
+                alert(eredmeny2.valasz);
+            }
+            location.reload();
+        }
+        else
+        {
+            if(nemJelolt < elfogadvacheckboxHossz)
+            {
+                alert(eredmeny.valasz);
+            }
+            else if(torolvenemJelolt < torolvecheckboxHossz)
+            {
+                alert(eredmeny2.valasz);
+            }
+            nemElfogadottCikkek(oldalSzam);
+        }
     }
 }
 
@@ -535,10 +613,10 @@ async function nemElfogadottCikkek(oldal) {
             let p = document.createElement("p");
             let span = document.createElement("h5");
             let small = document.createElement("small");
-            let checkbox = document.createElement("input");
+            let radio = document.createElement("input");
             let label = document.createElement("label");
             let div3 = document.createElement("div");
-            let checkbox2 = document.createElement("input");
+            let radio2 = document.createElement("input");
             let label2 = document.createElement("label");
             let div4 = document.createElement("div");
     
@@ -563,12 +641,12 @@ async function nemElfogadottCikkek(oldal) {
 
             div3.classList = "form-check form-switch mb-3";
 
-            checkbox.classList = "form-check-input elfogadva";
-            checkbox.type = "checkbox";
-            checkbox.name = "elfogadva";
-            checkbox.style = "float: none;";
-            checkbox.id = "elfogadva" + seged;
-            checkbox.value = poszt.szoveg;
+            radio.classList = "form-check-input elfogadva";
+            radio.type = "radio";
+            radio.name = "radiobutton" + seged;
+            radio.style = "float: none;";
+            radio.id = "elfogadva" + seged;
+            radio.value = poszt.szoveg;
 
             label.classList = "form-check-label";
             label.setAttribute("for", "elfogadva" + seged);
@@ -577,12 +655,12 @@ async function nemElfogadottCikkek(oldal) {
 
             div4.classList = "form-check form-switch mb-3";
 
-            checkbox2.classList = "form-check-input torles";
-            checkbox2.type = "checkbox";
-            checkbox2.name = "torles";
-            checkbox2.style = "float: none;";
-            checkbox2.id = "torles" + seged;
-            checkbox2.value = poszt.szoveg;
+            radio2.classList = "form-check-input torles";
+            radio2.type = "radio";
+            radio2.name = "radiobutton" + seged;
+            radio2.style = "float: none;";
+            radio2.id = "torles" + seged;
+            radio2.value = poszt.szoveg;
 
             label2.classList = "form-check-label";
             label2.setAttribute("for", "torles" + seged);
@@ -593,10 +671,10 @@ async function nemElfogadottCikkek(oldal) {
     
             small.innerHTML = poszt.datum;
     
-            div3.appendChild(checkbox);
+            div3.appendChild(radio);
             div3.appendChild(label);
 
-            div4.appendChild(checkbox2);
+            div4.appendChild(radio2);
             div4.appendChild(label2);
 
             div2.appendChild(h5);
@@ -614,6 +692,7 @@ async function nemElfogadottCikkek(oldal) {
             cikkekHelye.appendChild(fodiv);
 
             seged++;
+            posztokDB = posztok.length;
         }
 
         let mentesButton = document.createElement("button");
@@ -636,7 +715,7 @@ async function nemElfogadottCikkek(oldal) {
 
         mentesButton.innerHTML = "Mentés";
         mentesButton.id = "mentesElfogadvaEsTorles";
-        mentesButton.onclick = mentesElfogadvaEsTorles;
+        mentesButton.onclick = () => {mentesElfogadvaEsTorles(1)};
 
         window.innerHeight = 912;
 
