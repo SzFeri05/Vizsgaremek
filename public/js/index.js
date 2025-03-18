@@ -357,10 +357,6 @@ async function cikkekBetoltese(oldal) {
 
         adminGomb.innerHTML = '<button type="button" class="btn btn-info btn-lg" id="adminGomba" onclick="adminGomb()">Admin oldal</button> <br><br>';
     }
-
-    let ujcikkGomb = document.getElementById("ujcikkGomb");
-
-    ujcikkGomb.innerHTML = '<button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#ujCikkModal" data-bs-dismiss="offcanvas">Új cikk feltöltése</button><br><br>';
     
 
   if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
@@ -537,10 +533,8 @@ async function mentesElfogadvaEsTorles(oldal) {
 
 async function nemElfogadottCikkek(oldal) {
     let adminGomb = document.getElementById("adminGomb");
-    let ujcikkGomb = document.getElementById("ujcikkGomb");
 
-    adminGomb.innerHTML += '<button type="button" class="btn btn-primary btn-lg" id="visszaSimaOldal" onclick="simaOldal()">Cikk oldal</button> <br><br>';
-    ujcikkGomb.innerHTML = "";
+    adminGomb.innerHTML = '<button type="button" class="btn btn-primary btn-lg" id="visszaSimaOldal" onclick="simaOldal()">Cikk oldal</button> <br><br>';
 
     if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
     betoltodik = true;
