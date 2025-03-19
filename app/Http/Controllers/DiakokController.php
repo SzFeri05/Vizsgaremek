@@ -93,7 +93,7 @@ class DiakokController extends Controller
             }
         }
 
-        if(empty($felhasznalonevCheck))
+        if($felhasznalonevCheck->isEmpty())
         {
             $eredmeny = Diakok::RegisterDiak($email, $teljesNev, $felhasznalonev, $iskola, $osztaly, $evfolyam, $jelszo);
 
@@ -150,9 +150,9 @@ class DiakokController extends Controller
         }
         else
         {
-            $felhasznalonevCheck = Diakok::DiakLekerdezesNev($felhasznalonev);
+            $felhasznalonevCheck = Diakok::DiakLekerdezesNev($nev);
 
-            if(empty($felhasznalonevCheck))
+            if($felhasznalonevCheck->isEmpty())
             {
                 $eredmeny = Diakok::DiakJelszoId($id);
 
@@ -173,7 +173,7 @@ class DiakokController extends Controller
                     return response()->json(["valasz" => "Nem megfelelő jelszó!"], 400);
                 }
         
-                return response()->json(["valasz" => "Sikeres mósoítás!"], 201);
+                return response()->json(["valasz" => "Sikeres módosítás!"], 201);
             }
             else
             {
