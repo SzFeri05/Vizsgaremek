@@ -85,6 +85,7 @@ class DiakokController extends Controller
         }
 
         $osszesDiak = Diakok::DiakLekeres();
+        $felhasznalonevCheck = Diakok::DiakLekerdezesNev($felhasznalonev);
 
         foreach($osszesDiak as $diak) {
             if(json_decode(json_encode($diak), true, JSON_UNESCAPED_UNICODE)["email"] == $email) {
@@ -92,13 +93,20 @@ class DiakokController extends Controller
             }
         }
 
-        $eredmeny = Diakok::RegisterDiak($email, $teljesNev, $felhasznalonev, $iskola, $osztaly, $evfolyam, $jelszo);
+        if(empty($felhasznalonevCheck))
+        {
+            $eredmeny = Diakok::RegisterDiak($email, $teljesNev, $felhasznalonev, $iskola, $osztaly, $evfolyam, $jelszo);
 
-        if($eredmeny == false) {
-            return response()->json(["valasz" => "Sikertelen regisztráció!"], 400);
+            if($eredmeny == false) {
+                return response()->json(["valasz" => "Sikertelen regisztráció!"], 400);
+            }
+    
+            return response()->json(["valasz" => "Sikeres regisztráció!"], 201);
         }
-
-        return response()->json(["valasz" => "Sikeres regisztráció!"], 201);
+        else
+        {
+            return response()->json(["valasz" => "Ez a felhasználónév már foglalt!"]);
+        }
     }
 
     // ./api/loginDiak
@@ -142,23 +150,34 @@ class DiakokController extends Controller
         }
         else
         {
-            $eredmeny = Diakok::DiakJelszoId($id);
+            $felhasznalonevCheck = Diakok::DiakLekerdezesNev($felhasznalonev);
 
-            $hasheltJelszo = json_decode($eredmeny, true)[0]["jelszo"];
-
-            $egyezikE = password_verify($jelszo, $hasheltJelszo);
-
-            if($egyezikE)
+            if(empty($felhasznalonevCheck))
             {
-                $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id);
+                $eredmeny = Diakok::DiakJelszoId($id);
 
-                $modositott = Diakok::DiakLekeresId($id);
+                $hasheltJelszo = json_decode($eredmeny, true)[0]["jelszo"];
 
-                return response()->json($modositott, 200);
+                $egyezikE = password_verify($jelszo, $hasheltJelszo);
+
+                if($egyezikE)
+                {
+                    $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id);
+
+                    $modositott = Diakok::DiakLekeresId($id);
+
+                    return response()->json($modositott, 200);
+                }
+                else
+                {
+                    return response()->json(["valasz" => "Nem megfelelő jelszó!"], 400);
+                }
+        
+                return response()->json(["valasz" => "Sikeres mósoítás!"], 201);
             }
             else
             {
-                return response()->json(["valasz" => "Nem megfelelő jelszó!"], 400);
+                return response()->json(["valasz" => "Ez a felhasználónév már foglalt!"]);
             }
         }
     }
