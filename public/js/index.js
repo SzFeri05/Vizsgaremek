@@ -534,7 +534,7 @@ async function mentesElfogadvaEsTorles(oldal) {
 async function nemElfogadottCikkek(oldal) {
     let adminGomb = document.getElementById("adminGomb");
 
-    adminGomb.innerHTML = '<button type="button" class="btn btn-primary btn-lg" id="visszaSimaOldal" onclick="simaOldal()">Cikk oldal</button> <br><br>';
+    adminGomb.innerHTML = '<button type="button" class="btn btn-info btn-lg" id="visszaSimaOldal" onclick="simaOldal()">Cikk oldal</button> <br><br>';
 
     if (betoltodik) return; // Ha már betöltődik, ne indítsunk újat
     betoltodik = true;
