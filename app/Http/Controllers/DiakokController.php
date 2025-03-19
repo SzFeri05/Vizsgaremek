@@ -181,4 +181,22 @@ class DiakokController extends Controller
             }
         }
     }
+
+    // ./api/diaktorles
+    public function DiakTorlesController(Request $request)
+    {
+        $id = $request->input("id");
+
+        $cikkeredmeny = Diakok::DiakCikkTorles($id);
+        $eredmeny = Diakok::DiakTorles($id);
+
+        if(empty($eredmeny))
+        {
+            return response()->json(["valasz" => "Sikertelen törlés!"], 400);
+        }
+        else
+        {
+            return response()->json(["valasz" => "Sikeres törlés!"], 204);
+        }
+    }
 }

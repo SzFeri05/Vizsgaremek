@@ -26,3 +26,4 @@ Route::post("/registerdiak", [DiakokController::class, "RegisterDiak"]);
 Route::post("/loginDiak", [DiakokController::class, "LoginDiak"]);
 Route::post("/diakIdAlapjan", [DiakokController::class, "DiakIdController"]);
 Route::post("/diakmodositas", [DiakokController::class, "DiakModositController"]);
+Route::post("/diaktorles", [DiakokController::class, "DiakTorlesController"]);

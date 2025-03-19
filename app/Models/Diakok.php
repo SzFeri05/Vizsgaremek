@@ -64,4 +64,14 @@ class Diakok extends Model
     {
         return DB::update("UPDATE `diakok` SET `nev`='" . $nev . "',`email`='" . $email . "',`felhasznalonev`='" . $felhasznalonev . "' WHERE diakok.id = " . $id);
     }
+
+    // ./api/diaktorles
+    public static function DiakTorles($id)
+    {
+        return DB::delete("DELETE FROM `diakok` WHERE diakok.id = " . $id);
+    }
+    public static function DiakCikkTorles($id)
+    {
+        return DB::delete("DELETE FROM `cikkek` WHERE diak_id = " . $id);
+    }
 }

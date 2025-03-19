@@ -406,9 +406,12 @@ async function cikkekBetoltese(oldal) {
       div.style = "width: auto; background-color: rgb(235, 200, 148);";
 
       img.src = "./favicon.png";
-      img.classList = "card-img-top";
-      img.style = "height: 75%;";
-      img.style = "width: 75%;";
+      img.classList = "card-img-top nagyitosKep";
+      img.addEventListener("click", () => {
+        KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
+      });
+      img.style = "height: 30%;";
+      img.style = "width: 30%;";
 
       div2.classList = "card-body";
 
@@ -421,7 +424,7 @@ async function cikkekBetoltese(oldal) {
 
       span.innerHTML = poszt.felhasznalonev;
 
-      small.innerHTML = poszt.datum;
+      small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ". " + poszt.datum.split(' ')[1];
 
       div2.appendChild(h5);
       div2.appendChild(p);
@@ -597,9 +600,12 @@ async function nemElfogadottCikkek(oldal) {
             div.style = "width: auto; background-color: rgb(235, 200, 148);";
     
             img.src = "./favicon.png";
-            img.classList = "card-img-top";
-            img.style = "height: 55%;";
-            img.style = "width: 55%;";
+            img.classList = "card-img-top nagyitosKep";
+            img.addEventListener("click", () => {
+                KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
+              });
+            img.style = "height: 30%;";
+            img.style = "width: 30%;";
     
             div2.classList = "card-body";
     
@@ -640,7 +646,7 @@ async function nemElfogadottCikkek(oldal) {
     
             span.innerHTML = poszt.felhasznalonev;
     
-            small.innerHTML = poszt.datum;
+            small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ". " + poszt.datum.split(' ')[1];
     
             div3.appendChild(radio);
             div3.appendChild(label);
@@ -868,8 +874,55 @@ async function profilMentes()
         let eredmeny = await keres.json();
         alert(eredmeny.valasz);
     }
-    
+}
 
+function KepKinagyitasa(src, feltoltoDiak, datum) {
+    const modal = $("kepModal");
+    const modalImg = $("nagyKep");
+    const modalText = $("caption");
+
+    modal.style.display = "block";
+    modalImg.src = src;
+    modalText.innerText = feltoltoDiak + "\n" + datum.split(' ')[0].replaceAll('-', '. ') + ".";
+
+    var span = $("kepModalBezaras");
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+}
+
+async function fiokTorles()
+{
+    let cookies = document.cookie;
+    let id = parseInt(cookies.split(";")[1].split("=")[1]);
+
+    let keres = await fetch("./api/diaktorles", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+            "id" : id
+        })
+    });
+
+    if(keres.ok)
+    {
+        document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+        alert("Sikeres törlés!");
+
+        let url = document.location.href;
+        let ujUrl = url.replace("/index.html", "/login.html");
+        document.location.href = ujUrl;
+    }
+    else
+    {
+        let eredmeny = await keres.json();
+        alert(eredmeny.valasz);
+    }
 }
 
 if(document.title == "Suliújság") {
@@ -916,6 +969,10 @@ if(document.title == "Suliújság") {
     $("profilMentes").addEventListener("click", () => {
         profilMentes();
     });
+
+    $("fiokTorlesIgen").addEventListener("click", () => {
+        fiokTorles();
+    })
 }
 
 if(document.title == "Kezdőoldal") {

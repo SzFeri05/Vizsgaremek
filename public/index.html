@@ -20,7 +20,7 @@
 <body>
 
     <!--Új cikk feltöltése modal-->
-    <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true" style="z-index: 2050 !important;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -50,8 +50,32 @@
         </div>
     </div>
 
+    <!--Fiók törlése megerősítés-->
+    <div class="modal fade" id="fioktorles" tabindex="-1" aria-labelledby="fioktorlesModalLabel" aria-hidden="true" style="z-index: 2070 !important;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fioktorlesModalLabel">Fiók törlése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="fioktorlesForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="felhasznalonev" class="form-label">Biztosan törölni szeretné fiókját?</label>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-danger" id="fiokTorlesIgen">Igen</button>
+                        <button type="button" class="btn btn-success" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" id="fiokTorlesNem">Nem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--Profil szerkesztése modal-->
-    <div class="modal fade" id="profilszerkesztese" tabindex="-1" aria-labelledby="profilszerkeszteseModalLabel" aria-hidden="true">
+    <div class="modal fade" id="profilszerkesztese" tabindex="-1" aria-labelledby="profilszerkeszteseModalLabel" aria-hidden="true" style="z-index: 2060 !important;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -76,6 +100,9 @@
                             <label for="password">Jelszó:</label>
                             <input type="password" class="form-control" id="password">
                         </div>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#fioktorles" data-bs-dismiss="offcanvas" id="fioktorles">Fiók törlése</button>
+                        <br>
                         <br>
                         <button type="button" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close" data-bs-toggle="offcanvas"
@@ -87,6 +114,14 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="kepModal" class="modal">
+        <span class="close" id="kepModalBezaras">&times;</span>
+
+        <img src="" id="nagyKep" class="modal-content">
+
+        <h2 id="caption"></h2>
     </div>
 
 
@@ -109,7 +144,7 @@
                     </div>
 
                     <!--Az első "újságoldal"-->
-                    <div class="col col-8" id="elsoLap">
+                    <div class="col col-8 p-3" id="elsoLap">
                         <!--Ide jön a BAL oldali újságlap tartalma-->
                         <div class="row mx-auto" id="cikkekHelye">
 
