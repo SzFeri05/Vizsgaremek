@@ -213,6 +213,17 @@ async function register() {
  
 
         if(lekeres.ok) {
+            let keres = await fetch("./api/diakNevAlapjan", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "nev" : felhasznaloNev
+                }),
+            });
+
+
             email.innerHTML = "";
             teljesNev = "";
             felhasznaloNev = "";
@@ -221,12 +232,16 @@ async function register() {
             jelszo = "";
             jelszoUjra = "";
 
-            let url = document.location.href;
-            let ujUrl = url.replace("/login.html", "/index.html");
-            document.location.href = ujUrl;
-
-            document.cookie = "felhasznalonev=" + resp["valasz"] + ";";
-            document.cookie = "id=" + adatok[0]["id"] + ";";
+            if(keres.ok)
+            {
+                let adatok = await keres.json();
+                let url = document.location.href;
+                let ujUrl = url.replace("/login.html", "/index.html");
+                document.location.href = ujUrl;
+    
+                document.cookie = "felhasznalonev=" + adatok[0]["felhasznalonev"] + ";";
+                document.cookie = "id=" + adatok[0]["id"] + ";";
+            }
         }
 
         else {
