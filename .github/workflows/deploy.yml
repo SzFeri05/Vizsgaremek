@@ -1,7 +1,7 @@
 name: Deploy Laravel App
 
 on:
-  pull:
+  push:
     branches:
       - laravelProject  # Vagy a fő fejlesztési branch
 
