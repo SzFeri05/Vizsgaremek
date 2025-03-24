@@ -3,7 +3,7 @@ name: Deploy Laravel App
 on:
   push:
     branches:
-      - main  # Vagy a fő fejlesztési branch
+      - laravelProject  # Vagy a fő fejlesztési branch
 
 jobs:
   deploy:

@@ -19,6 +19,19 @@
 
 <body>
 
+    <!--Toast a visszajelzésekhez-->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img src="" class="rounded me-2 img-fluid" style="width: 10%;" id="toastImg">
+            <strong class="me-auto" id="toastTitle"></strong>
+            <small id="toastSmallTitle"></small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" id="toastBody"></div>
+        </div>
+    </div>
+
     <!--Új cikk feltöltése modal-->
     <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true" style="z-index: 2050 !important;">
         <div class="modal-dialog">
@@ -42,8 +55,7 @@
                             <input type="file" class="form-control" id="cikkKep" name="cikkKep"> <!-- Fontos a "name" attribútum! -->
                         </div>
                         <button type="button" class="btn btn-success" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight" id="cikkFeltoltes">Feltöltés!</button>
+                            aria-label="Close" id="cikkFeltoltes">Feltöltés!</button>
                     </form>
                 </div>
             </div>

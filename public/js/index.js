@@ -78,7 +78,12 @@ async function ujCikk() {
         });
 
         if (lekeres.ok) {
-            alert("Sikeres cikkfeltöltés!");
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Sikeres cikkfeltöltés!";
+            $("toastBody").innerHTML = "A cikk megjelenítéséhez várjon a rendszergazda megerősítésére!";
+            $("toastImg").src = "./img/green.png";
+            toastBootstrap.show();
+
             $("cikkCim").value = "";
             $("cikkSzoveg").value = "";
             $("cikkKep").value = "";
@@ -88,11 +93,19 @@ async function ujCikk() {
 
         }
         else {
-            alert("Sikertelen cikkfeltöltés!");
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Sikertelen cikkfeltöltés!";
+            $("toastBody").innerHTML = "Próbálja újra később!";
+            $("toastImg").src = "./img/red.png";
+            toastBootstrap.show();
         }
     }
     else {
-        alert("Kérem minden mezőt töltsön ki!", "Hiányos adatok!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikertelen cikkfeltöltés!";
+        $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
+        $("toastImg").src = "./img/yellow.png";
+        toastBootstrap.show();
     }
 }
 
@@ -182,12 +195,21 @@ async function register() {
     let evfolyam = $("registerOsztaly").options[$("registerOsztaly").selectedIndex].text.split('.')[0];
 
     if(email == "" || teljesNev == "" || felhasznaloNev == "" || iskola == "" || osztaly == "" || jelszo == "" || jelszoUjra == "") {
-        alert("Kérem töltsön ki minden mezőt!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikertelen regisztráció!";
+        $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
+        $("toastImg").src = "./img/yellow.png";
+        toastBootstrap.show();
     }
 
 
     else if(jelszo != jelszoUjra) {
-        alert("A két jelszó nem egyezik!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikertelen regisztráció!";
+        $("toastBody").innerHTML = "A két jelszó nem egyezik!";
+        $("toastImg").src = "./img/yellow.png";
+        toastBootstrap.show();
+
         $("registerJelszo").innerHTML = "";
         $("registerJelszoUjra").innerHTML = "";
     }
@@ -245,7 +267,11 @@ async function register() {
         }
 
         else {
-            alert("Sikertelen regisztráció, próbálja újra később!", "Hiba!");
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Sikertelen regisztráció!";
+            $("toastBody").innerHTML = "Kérjük próbálja újra  később!";
+            $("toastImg").src = "./img/red.png";
+            toastBootstrap.show();
         }
     }
 }
@@ -255,7 +281,11 @@ async function login() {
     let jelszo = $("loginJelszo").value;
 
     if(felhasznalonev == "" || jelszo == "") {
-        alert("Kérem töltsön ki minden mezőt!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
+        $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
+        $("toastImg").src = "./img/yellow.png";
+        toastBootstrap.show();
     }
 
     else {
@@ -317,19 +347,31 @@ async function login() {
                 }
 
                 else {
-                    alert("IDK");
+                    const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                    $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
+                    $("toastBody").innerHTML = "Nincs ilyen nevű diák az adatbázisban!";
+                    $("toastImg").src = "./img/red.png";
+                    toastBootstrap.show();
                 }
             }
 
             else
             {
-                alert("Sikertelen bejelentkezés, próbálja újra később!", "Hiba!");
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
+                $("toastBody").innerHTML = "Kérjük próbálja újra  később!";
+                $("toastImg").src = "./img/red.png";
+                toastBootstrap.show();
             }
             
         }
     
         else {
-            alert("Hiba");
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
+            $("toastBody").innerHTML = "Kérjük próbálja újra  később!";
+            $("toastImg").src = "./img/red.png";
+            toastBootstrap.show();
         }
     }
 }
@@ -463,12 +505,13 @@ async function mentesElfogadvaEsTorles(oldal) {
     let adminId = parseInt(cookies.split(";")[1].split("=")[1]);
     let cikkSzoveg = "";
     let cikkSzoveg2 = "";
-    let elfogadvacheckboxHossz;
-    let torolvecheckboxHossz;
-    let nemJelolt = 0;
-    let torolvenemJelolt = 0;
     let eredmeny;
     let eredmeny2;
+    let cikkElfogadasa;
+    let cikkTorles;
+
+    let vantorles = false;
+    let vanelfogadas = false;
 
     for(let i = 0; i < posztokDB; i++)
     {
@@ -477,10 +520,8 @@ async function mentesElfogadvaEsTorles(oldal) {
         for (let j = 0; j < radios.length; j++) {
             if(radios[0].checked)
             {
-                torolvenemJelolt++;
-                elfogadvacheckboxHossz++;
                 cikkSzoveg = radios[0].value;
-                let cikkElfogadasa = await fetch(`./api/cikkelfogadas`, {
+                cikkElfogadasa = await fetch(`./api/cikkelfogadas`, {
                     method: "POST",
                     headers: {
                         "Content-Type" : "application/json"
@@ -492,13 +533,14 @@ async function mentesElfogadvaEsTorles(oldal) {
                 });
     
                 eredmeny = await cikkElfogadasa.json();
+                vanelfogadas = true;
+
+                break;
             }
-            else
+            else if(radios[1].checked)
             {
-                nemJelolt++;
-                torolvecheckboxHossz++;
                 cikkSzoveg2 = radios[0].value;
-                let cikkTorles = await fetch(`./api/cikktorles`, {
+                cikkTorles = await fetch(`./api/cikktorles`, {
                     method: "POST",
                     headers: {
                         "Content-Type" : "application/json"
@@ -509,13 +551,24 @@ async function mentesElfogadvaEsTorles(oldal) {
                 });
     
                 eredmeny2 = await cikkTorles.json();
+                vantorles = true;
+
+                break;
+            }
+            else
+            {
+                continue;
             }
         }
     }
 
-    if(nemJelolt == elfogadvacheckboxHossz && torolvenemJelolt == torolvecheckboxHossz)
+    if(vanelfogadas == false && vantorles == false)
     {
-        alert("Legalább egyet jelöljön ki!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikertelen mentés!";
+        $("toastBody").innerHTML = "Kérjük jelöljön ki legalább egy cikket elfogadásra/törlésre!";
+        $("toastImg").src = "./img/yellow.png";
+        toastBootstrap.show();
     }
     else
     {
@@ -524,25 +577,41 @@ async function mentesElfogadvaEsTorles(oldal) {
     
         if(valasz.valasz == "Nincsenek találatok!")
         {
-            if(nemJelolt < elfogadvacheckboxHossz)
-            {
-                alert(eredmeny.valasz);
-            }
-            else if(torolvenemJelolt < torolvecheckboxHossz)
-            {
-                alert(eredmeny2.valasz);
-            }
             location.reload();
         }
         else
         {
-            if(nemJelolt < elfogadvacheckboxHossz)
+            if(vanelfogadas && vantorles && cikkElfogadasa.ok && cikkTorles.ok)
             {
-                alert(eredmeny.valasz);
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                $("toastTitle").innerHTML = "Cikkek kezelése sikeres!";
+                $("toastBody").innerHTML = "A kiválasztott cikk(ek)et sikeresen elfogadta/törölte!";
+                $("toastImg").src = "./img/green.png";
+                toastBootstrap.show();
             }
-            else if(torolvenemJelolt < torolvecheckboxHossz)
+            else if(vanelfogadas && cikkElfogadasa.ok)
             {
-                alert(eredmeny2.valasz);
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                $("toastTitle").innerHTML = "Cikkek elfogadása sikeres!";
+                $("toastBody").innerHTML = "A kiválasztott cikk(ek)et a diákjai már olvashatják és élvezhetik is!";
+                $("toastImg").src = "./img/green.png";
+                toastBootstrap.show(); 
+            }
+            else if(vantorles && cikkTorles.ok)
+            {
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                $("toastTitle").innerHTML = "Cikkek törlése sikeres!";
+                $("toastBody").innerHTML = "A kiválasztott cikk(ek)et diákjai soha nem fogják elolvasni!";
+                $("toastImg").src = "./img/green.png";
+                toastBootstrap.show();    
+            }
+            else
+            {
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                $("toastTitle").innerHTML = "Cikkek kezelése sikertelen!";
+                $("toastBody").innerHTML = "Kérjük próbálja újra később!";
+                $("toastImg").src = "./img/red.png";
+                toastBootstrap.show(); 
             }
             nemElfogadottCikkek(oldalSzam);
         }
@@ -571,7 +640,12 @@ async function nemElfogadottCikkek(oldal) {
   
       if(valasz.valasz == "Nincsenek találatok!")
       {
-        alert("Nincs megjeleníthető cikk!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Nincs megjeleníthető cikk!";
+        $("toastBody").innerHTML = "Diákjai még nem töltöttek fel elfogadásra váró cikk(ek)et!";
+        $("toastImg").src = "./img/yellow.png";
+        toastBootstrap.show();
+
         location.reload();
       }
       else
@@ -847,7 +921,11 @@ async function profilMentes()
     if(keres.ok)
     {
         let eredmeny = await keres.json();
-        alert("Sikeres módosítás!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikeres profil módosítás!";
+        $("toastBody").innerHTML = "Sikeresen módosítottad a profilod adatait!";
+        $("toastImg").src = "./img/green.png";
+        toastBootstrap.show();
 
         document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
         document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
@@ -871,8 +949,11 @@ async function profilMentes()
     }
     else
     {
-        let eredmeny = await keres.json();
-        alert(eredmeny.valasz);
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikertelen profil módosítás!";
+        $("toastBody").innerHTML = "Kérlük próbáld újra  később!";
+        $("toastImg").src = "./img/red.png";
+        toastBootstrap.show();
     }
 }
 
@@ -912,7 +993,11 @@ async function fiokTorles()
         document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
         document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
-        alert("Sikeres törlés!");
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikeresen törölte profilját!";
+        $("toastBody").innerHTML = "Reméljük újralátjuk!";
+        $("toastImg").src = "./img/sad.png";
+        toastBootstrap.show();
 
         let url = document.location.href;
         let ujUrl = url.replace("/index.html", "/login.html");
@@ -920,8 +1005,11 @@ async function fiokTorles()
     }
     else
     {
-        let eredmeny = await keres.json();
-        alert(eredmeny.valasz);
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Sikertelen törlés!";
+        $("toastBody").innerHTML = "Kérjük próbálja újra később!";
+        $("toastImg").src = "./img/red.png";
+        toastBootstrap.show();
     }
 }
 
