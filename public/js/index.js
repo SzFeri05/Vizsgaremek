@@ -438,7 +438,6 @@ async function cikkekBetoltese(oldal) {
       let fodiv = document.createElement("div");
       let div = document.createElement("div");
       let div2 = document.createElement("div");
-      let img = document.createElement("img");
       let h5 = document.createElement("h3");
       let p = document.createElement("p");
       let span = document.createElement("h5");
@@ -449,13 +448,25 @@ async function cikkekBetoltese(oldal) {
       div.className = "card align-items-center";
       div.style = "width: auto; background-color: rgb(235, 200, 148);";
 
-      img.src = poszt.kep;
-      img.classList = "card-img-top nagyitosKep";
-      img.addEventListener("click", () => {
-        KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
-      });
-      img.style = "height: 30%;";
-      img.style = "width: 30%;";
+      div2.appendChild(h5);
+      div2.appendChild(p);
+      div2.appendChild(span);
+      div2.appendChild(small);
+
+      if(poszt.kep != "data:image\/ismeretlen;base64,")
+      {
+        let img = document.createElement("img");
+
+        img.src = poszt.kep;
+        img.classList = "card-img-top nagyitosKep";
+        img.addEventListener("click", () => {
+            KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
+        });
+        img.style = "height: 30%;";
+        img.style = "width: 30%;";
+
+        div.appendChild(img);  
+      }
 
       div2.classList = "card-body";
 
@@ -470,12 +481,6 @@ async function cikkekBetoltese(oldal) {
 
       small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ". " + poszt.datum.split(' ')[1];
 
-      div2.appendChild(h5);
-      div2.appendChild(p);
-      div2.appendChild(span);
-      div2.appendChild(small);
-
-      div.appendChild(img);  
       div.appendChild(div2);
 
       fodiv.appendChild(div);
@@ -658,7 +663,6 @@ async function nemElfogadottCikkek(oldal) {
             let fodiv = document.createElement("div");
             let div = document.createElement("div");
             let div2 = document.createElement("div");
-            let img = document.createElement("img");
             let h5 = document.createElement("h3");
             let p = document.createElement("p");
             let span = document.createElement("h5");
@@ -674,14 +678,38 @@ async function nemElfogadottCikkek(oldal) {
     
             div.className = "card align-items-center";
             div.style = "width: auto; background-color: rgb(235, 200, 148);";
+
+                
+            div3.appendChild(radio);
+            div3.appendChild(label);
+
+            div4.appendChild(radio2);
+            div4.appendChild(label2);
+
+            div2.appendChild(h5);
+            div2.appendChild(p);
+            div2.appendChild(div3);
+            div2.appendChild(div4);
+            div2.appendChild(span);
+            div2.appendChild(small);
+
+
+            if(poszt.kep != "data:image\/ismeretlen;base64,")
+            {
+                let img = document.createElement("img");
+        
+                img.src = poszt.kep;
+                img.classList = "card-img-top nagyitosKep";
+                img.addEventListener("click", () => {
+                    KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
+                });
+                img.style = "height: 30%;";
+                img.style = "width: 30%;";
+
+                div.appendChild(img); 
+            }
     
-            img.src = poszt.kep;
-            img.classList = "card-img-top nagyitosKep";
-            img.addEventListener("click", () => {
-                KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
-              });
-            img.style = "height: 30%;";
-            img.style = "width: 30%;";
+            
     
             div2.classList = "card-body";
     
@@ -724,20 +752,7 @@ async function nemElfogadottCikkek(oldal) {
     
             small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ". " + poszt.datum.split(' ')[1];
     
-            div3.appendChild(radio);
-            div3.appendChild(label);
-
-            div4.appendChild(radio2);
-            div4.appendChild(label2);
-
-            div2.appendChild(h5);
-            div2.appendChild(p);
-            div2.appendChild(div3);
-            div2.appendChild(div4);
-            div2.appendChild(span);
-            div2.appendChild(small);
-    
-            div.appendChild(img);  
+ 
             div.appendChild(div2);
     
             fodiv.appendChild(div);
