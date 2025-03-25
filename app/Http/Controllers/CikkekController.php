@@ -18,6 +18,31 @@ class CikkekController extends Controller
         $osszesCikkSzama = Cikkek::OsszesCikk();
         $oldalakSzama = ceil($osszesCikkSzama / $limit);
 
+        foreach($cikkek as $cikk)
+        {
+            $kepBin = $cikk->kep;
+
+            $png_header = hex2bin('89504e470d0a1a0a');
+            $jpeg_header1 = hex2bin('ffd8ffe0');
+            $jpeg_header2 = hex2bin('ffd8ffe1');
+        
+            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+        
+            if (substr($header, 0, strlen($png_header)) === $png_header) {
+                $imageType = 'png';
+            } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
+                $imageType = 'jpeg';
+            } else {
+                $imageType = 'ismeretlen'; // Ismeretlen formátum
+            } // A fentebb definiált függvény
+
+            $mimeType = 'image/' . $imageType;
+
+            $kepDataUri = 'data:' . $mimeType . ';base64,' . base64_encode($kepBin);
+
+            $cikk->kep = $kepDataUri;
+        }
+
 
         if (empty($cikkek)) {
             return response()->json(["valasz" => "Nincsenek találatok!"], 400);
@@ -42,6 +67,31 @@ class CikkekController extends Controller
         $cikkek = Cikkek::AdminCikkek($limit, $offset);
         $osszesCikkSzama = Cikkek::OsszesCikk();
         $oldalakSzama = ceil($osszesCikkSzama / $limit);
+        
+        foreach($cikkek as $cikk)
+        {
+            $kepBin = $cikk->kep;
+
+            $png_header = hex2bin('89504e470d0a1a0a');
+            $jpeg_header1 = hex2bin('ffd8ffe0');
+            $jpeg_header2 = hex2bin('ffd8ffe1');
+        
+            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+        
+            if (substr($header, 0, strlen($png_header)) === $png_header) {
+                $imageType = 'png';
+            } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
+                $imageType = 'jpeg';
+            } else {
+                $imageType = 'ismeretlen'; // Ismeretlen formátum
+            } // A fentebb definiált függvény
+
+            $mimeType = 'image/' . $imageType;
+
+            $kepDataUri = 'data:' . $mimeType . ';base64,' . base64_encode($kepBin);
+
+            $cikk->kep = $kepDataUri;
+        }
 
 
         if (empty($cikkek)) {
@@ -52,7 +102,7 @@ class CikkekController extends Controller
                 'oldal' => $oldal,
                 'limit' => $limit,
                 'osszes' => $osszesCikkSzama,
-                'oldalakSzama' => $oldalakSzama
+                'oldalakSzama' => $oldalakSzama,
             ], 200);
         }
     }
@@ -113,6 +163,12 @@ class CikkekController extends Controller
         $postSzoveg = $request->input("postSzoveg");
         $diakId = $request->input("diakId");
 
+        $request->validate([
+            'kep' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $kepadat = file_get_contents($request->file("kep"));
+
 
         if(empty($postCim) || empty($postSzoveg) || empty($diakId))
         {
@@ -120,7 +176,7 @@ class CikkekController extends Controller
         }
         else
         {
-            $eredmeny = Cikkek::ujCikk($postCim, $postSzoveg, $diakId);
+            $eredmeny = Cikkek::ujCikk($postCim, $postSzoveg, $diakId, $kepadat);
 
             if(empty($eredmeny))
             {

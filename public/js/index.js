@@ -68,7 +68,9 @@ async function ujCikk() {
         formData.append('postSzoveg', cikkSzoveg);
         formData.append('diakId', idCookie);
 
-        if (cikkKep) {
+        console.log(cikkKep.name);
+
+        if (cikkKep.name != "") {
             formData.append('kep', cikkKep); 
         }
 
@@ -447,7 +449,7 @@ async function cikkekBetoltese(oldal) {
       div.className = "card align-items-center";
       div.style = "width: auto; background-color: rgb(235, 200, 148);";
 
-      img.src = "./favicon.png";
+      img.src = poszt.kep;
       img.classList = "card-img-top nagyitosKep";
       img.addEventListener("click", () => {
         KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
@@ -673,7 +675,7 @@ async function nemElfogadottCikkek(oldal) {
             div.className = "card align-items-center";
             div.style = "width: auto; background-color: rgb(235, 200, 148);";
     
-            img.src = "./favicon.png";
+            img.src = poszt.kep;
             img.classList = "card-img-top nagyitosKep";
             img.addEventListener("click", () => {
                 KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
