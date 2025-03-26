@@ -458,7 +458,7 @@ async function cikkekBetoltese(oldal) {
         let img = document.createElement("img");
 
         img.src = poszt.kep;
-        img.classList = "card-img-top nagyitosKep";
+        img.classList = "card-img-top nagyitosKep mt-2"; 
         img.addEventListener("click", () => {
             KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
         });
@@ -699,7 +699,7 @@ async function nemElfogadottCikkek(oldal) {
                 let img = document.createElement("img");
         
                 img.src = poszt.kep;
-                img.classList = "card-img-top nagyitosKep";
+                img.classList = "card-img-top nagyitosKep mt-2";
                 img.addEventListener("click", () => {
                     KepKinagyitasa(img.src, poszt.felhasznalonev, poszt.datum);
                 });

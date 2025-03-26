@@ -164,7 +164,7 @@ class CikkekController extends Controller
         $diakId = $request->input("diakId");
 
         $request->validate([
-            'kep' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'kep' => 'required|image|mimes:jpeg,png,jpg,gif,jfif|max:2048',
         ]);
 
         $kepadat = file_get_contents($request->file("kep"));
