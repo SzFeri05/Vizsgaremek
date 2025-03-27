@@ -438,9 +438,6 @@ async function cikkekBetoltese(oldal) {
     let cikkSzama = 1;
 
     //cikkekHelye.innerHTML = "";
-    let cikkSzama = 1;
-
-    //cikkekHelye.innerHTML = "";
     for (const poszt of posztok) {
       let fodiv = document.createElement("div");
       let div = document.createElement("div");
