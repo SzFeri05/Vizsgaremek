@@ -23,6 +23,7 @@ function setLimit() {
     else
     {
         limit = 6;
+        limit = 6;
     }
 }
 
@@ -431,8 +432,12 @@ async function cikkekBetoltese(oldal) {
 
     if (oldal === 1) { // Első oldal betöltésekor töröljük a korábbi tartalmat
       //cikkekHelye.innerHTML = "";
+      //cikkekHelye.innerHTML = "";
     }
 
+    let cikkSzama = 1;
+
+    //cikkekHelye.innerHTML = "";
     let cikkSzama = 1;
 
     //cikkekHelye.innerHTML = "";
@@ -451,6 +456,9 @@ async function cikkekBetoltese(oldal) {
 
       //fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
 
+      div.className = "card align-items-center bg-transparent";
+      div.style.border = "2px solid black";
+      //div.style = "width: auto; background-color: rgb(235, 200, 148);";
       div.className = "card align-items-center bg-transparent";
       div.style.border = "2px solid black";
       //div.style = "width: auto; background-color: rgb(235, 200, 148);";
