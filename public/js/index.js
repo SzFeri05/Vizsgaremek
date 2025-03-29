@@ -4,7 +4,7 @@ function $(id) {
 
 //Globális változók
 let oldalSzam = 1; // Kezdő oldal
-let limit = 6;   //Hány cikk jelenjen meg oldalanként
+let limit = 8;   //Hány cikk jelenjen meg oldalanként
 let oldalakSzama = 1; // Kezdetben 1 oldal, API frissíti
 let betoltodik = false;
 let admin = false;
@@ -22,8 +22,7 @@ function setLimit() {
     }
     else
     {
-        limit = 6;
-        limit = 6;
+        limit = 8;
     }
 }
 
@@ -69,10 +68,12 @@ async function ujCikk() {
         formData.append('postSzoveg', cikkSzoveg);
         formData.append('diakId', idCookie);
 
-        console.log(cikkKep);
-
-        if (cikkKep.name != "") {
+        if (cikkKep != undefined) {
             formData.append('kep', cikkKep); 
+        }
+        else
+        {
+            formData.append('kep', "");
         }
 
         let lekeres = await fetch("./api/ujcikk", {
@@ -431,13 +432,10 @@ async function cikkekBetoltese(oldal) {
     let cikkekHelye = document.getElementById("cikkekHelye");
 
     if (oldal === 1) { // Első oldal betöltésekor töröljük a korábbi tartalmat
-      //cikkekHelye.innerHTML = "";
-      //cikkekHelye.innerHTML = "";
+      cikkekHelye.innerHTML = "";
     }
 
-    let cikkSzama = 1;
-
-    //cikkekHelye.innerHTML = "";
+    cikkekHelye.innerHTML = "";
     for (const poszt of posztok) {
       let fodiv = document.createElement("div");
       let div = document.createElement("div");
@@ -447,11 +445,8 @@ async function cikkekBetoltese(oldal) {
       let span = document.createElement("h5");
       let small = document.createElement("small");
 
-      let cikkHelye = document.getElementById("cikk" + cikkSzama);
-      cikkHelye.innerHTML = "";
-      //console.log(cikkHelye);
 
-      //fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
+      fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
 
       div.className = "card align-items-center bg-transparent";
       div.style.border = "2px solid black";
@@ -497,14 +492,7 @@ async function cikkekBetoltese(oldal) {
 
       fodiv.appendChild(div);
 
-      let egycikkMagassag = fodiv.innerHeight
-      let egycikkSzelesseg = fodiv.innerWidth
-
-      //console.log(egycikkMagassag);
-      //console.log(egycikkSzelesseg);
-
-      cikkHelye.appendChild(fodiv);
-      cikkSzama++;
+      cikkekHelye.appendChild(fodiv);
     }
 
     betoltodik = false;
