@@ -857,30 +857,6 @@ function osztalyValasztasEmailAlapjan(email) {
     }
 }
 
-function datumEsIdo() {
-    //Órát és dátumot kiíró dom elemek
-    let oraSpan = document.getElementById("ora");
-    let datumSmall = document.getElementById("datum");
-
-    //Dátumok
-    let teljesDatum = new Date();
-
-    let ev = teljesDatum.getFullYear();
-    let honap = teljesDatum.getMonth();
-    let nap = teljesDatum.getDate();
-
-    let ora = teljesDatum.getHours();
-    let perc = teljesDatum.getMinutes();
-
-    //Óra beállítása
-    oraSpan.innerHTML =
-        (ora < 10 ? "0" + ora : ora) + ":" + (perc < 10 ? "0" + perc : perc);
-
-    //Dátum beállítása
-    datumSmall.innerHTML =
-        ev + ". " + (honap < 9 ? "0" + (honap+1) : (honap+1)) + ". " + (nap < 10 ? "0" + nap : nap) + ".";
-}
-
 function adminGomb()
 {
     setLimit();
@@ -1049,14 +1025,34 @@ async function fiokTorles()
     }
 }
 
+async function datumEsIdo() {
+    let oraSpan = document.getElementById("ora");
+    let datumSmall = document.getElementById("datum");
+
+    let teljesDatum = new Date();
+
+    let ev = teljesDatum.getFullYear();
+    let honap = teljesDatum.getMonth();
+    let nap = teljesDatum.getDate();
+
+    let ora = teljesDatum.getHours();
+    let perc = teljesDatum.getMinutes();
+
+    oraSpan.innerHTML =
+        (ora < 10 ? "0" + ora : ora) + ":" + (perc < 10 ? "0" + perc : perc);
+
+    datumSmall.innerHTML =
+        ev + ". " + (honap < 9 ? "0" + (honap+1) : (honap+1)) + ". " + (nap < 10 ? "0" + nap : nap) + ".";
+}
+
 if(document.title == "Suliújság") {
-    window.addEventListener("load", () => {
-        setInterval(datumEsIdo, 1000);
-        datumEsIdo();
+    window.addEventListener("load", async () => {
         diakAdatok();
         setLimit();
         cikkekBetoltese(oldalSzam);
         loginAdatokMegjelenitese();
+        await datumEsIdo();
+        setInterval(datumEsIdo, 1000);
     });
 
     window.addEventListener("resize", () => {
