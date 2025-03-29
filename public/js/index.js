@@ -963,7 +963,12 @@ function KepKinagyitasa(src, feltoltoDiak, datum) {
     const modalText = $("caption");
 
     modal.style.display = "block";
+    modal.style.textAlign = "center";
+
+    modalImg.classList = "img-fluid";
+    modalImg.style.height = "50%";
     modalImg.src = src;
+
     modalText.innerText = feltoltoDiak + "\n" + datum.split(' ')[0].replaceAll('-', '. ') + ".";
 
     var span = $("kepModalBezaras");
