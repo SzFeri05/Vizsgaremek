@@ -3,10 +3,10 @@ name: Generate .env file
 on:
   push:
     branches:
-      - main  # Vagy bármelyik branch, amelyről pull-olni akarsz
+      - laravelProject  # Vagy bármelyik branch, amelyről pull-olni akarsz
   pull_request:
     branches:
-      - main
+      - laravelProject
 
 jobs:
   generate-env:
