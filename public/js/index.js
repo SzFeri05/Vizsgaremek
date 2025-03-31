@@ -407,6 +407,7 @@ async function loginAdatokMegjelenitese() {
         $("offcanvasTitle").innerHTML = felhaszNevCookie;
         $("offcanvasIskola").innerHTML = adatok[0]["iNev"];
         $("offcanvasNev").innerHTML = adatok[0]["dNev"];
+        $("profilKep").src = adatok[0]["profilKep"];
     }
 }
 
@@ -897,25 +898,33 @@ async function profilMentes()
     let cookies = document.cookie;
     let id = parseInt(cookies.split(";")[1].split("=")[1]);
 
-    let fnev = document.getElementById("felhasznalonev");
-    let tnev = document.getElementById("teljesnev");
-    let emailcim = document.getElementById("email");
-    let jelszo = document.getElementById("password");
+    let fnev = document.getElementById("felhasznalonev").value;
+    let tnev = document.getElementById("teljesnev").value;
+    let emailcim = document.getElementById("email").value;
+    let jelszo = document.getElementById("password").value;
+    let pfp = $("pfp").files[0];
 
-    let kuldendoAdatok = {
-        "nev" : tnev.value,
-        "id" : id,
-        "felhasznalonev" : fnev.value,
-        "email" : emailcim.value,
-        "jelszo" : jelszo.value
+    console.log(pfp)
+
+    let profil = new FormData(); 
+
+    profil.append('nev', tnev);
+    profil.append('id', id);
+    profil.append('felhasznalonev', fnev);
+    profil.append('email', emailcim);
+    profil.append('jelszo', jelszo);
+
+    if (pfp != undefined) {
+        profil.append('kep', pfp); 
+    }
+    else
+    {
+        profil.append('kep', pfp);
     }
 
     let keres = await fetch("./api/diakmodositas", {
         method: "POST",
-        headers: {
-            "Content-Type" : "application/json"
-        },
-        body: JSON.stringify(kuldendoAdatok)
+        body: profil
     })
 
     if(keres.ok)

@@ -43,6 +43,31 @@ class CikkekController extends Controller
             $cikk->kep = $kepDataUri;
         }
 
+        foreach($cikkek as $cikk)
+        {
+            $kepBin = $cikk->profilKep;
+
+            $png_header = hex2bin('89504e470d0a1a0a');
+            $jpeg_header1 = hex2bin('ffd8ffe0');
+            $jpeg_header2 = hex2bin('ffd8ffe1');
+        
+            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+        
+            if (substr($header, 0, strlen($png_header)) === $png_header) {
+                $imageType = 'png';
+            } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
+                $imageType = 'jpeg';
+            } else {
+                $imageType = 'ismeretlen'; // Ismeretlen formátum
+            } // A fentebb definiált függvény
+
+            $mimeType = 'image/' . $imageType;
+
+            $kepDataUri = 'data:' . $mimeType . ';base64,' . base64_encode($kepBin);
+
+            $cikk->profilKep = $kepDataUri;
+        }
+
 
         if (empty($cikkek)) {
             return response()->json(["valasz" => "Nincsenek találatok!"], 400);
@@ -91,6 +116,31 @@ class CikkekController extends Controller
             $kepDataUri = 'data:' . $mimeType . ';base64,' . base64_encode($kepBin);
 
             $cikk->kep = $kepDataUri;
+        }
+
+        foreach($cikkek as $cikk)
+        {
+            $kepBin = $cikk->profilKep;
+
+            $png_header = hex2bin('89504e470d0a1a0a');
+            $jpeg_header1 = hex2bin('ffd8ffe0');
+            $jpeg_header2 = hex2bin('ffd8ffe1');
+        
+            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+        
+            if (substr($header, 0, strlen($png_header)) === $png_header) {
+                $imageType = 'png';
+            } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
+                $imageType = 'jpeg';
+            } else {
+                $imageType = 'ismeretlen'; // Ismeretlen formátum
+            } // A fentebb definiált függvény
+
+            $mimeType = 'image/' . $imageType;
+
+            $kepDataUri = 'data:' . $mimeType . ';base64,' . base64_encode($kepBin);
+
+            $cikk->profilKep = $kepDataUri;
         }
 
 
