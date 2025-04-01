@@ -267,6 +267,7 @@ async function register() {
     
                 document.cookie = "felhasznalonev=" + adatok[0]["felhasznalonev"] + ";";
                 document.cookie = "id=" + adatok[0]["id"] + ";";
+                document.cookie = "iskola=" + adatok[0]["iId"] + ";";
             }
         }
 
@@ -340,20 +341,26 @@ async function login() {
                         d.setTime(d.getTime() + (napigMaradBejelentkezve*24*60*60*1000));
                         let lejaratiDatum = d.toUTCString();
 
+                        console.log(adatok[0]["iId"])
+
                         document.cookie = "felhasznalonev=" + adatok[0]["felhasznalonev"] + ";expires=" + lejaratiDatum + ";";
                         document.cookie = "id=" + adatok[0]["id"] + ";expires=" + lejaratiDatum + ";";
+                        document.cookie = "iskola=" + adatok[0]["iId"] + "expires=" + lejaratiDatum + ";";
                     }
 
                     else {
+                        console.log(adatok[0]["iId"])
+
                         document.cookie = "felhasznalonev=" + resp["valasz"] + ";";
                         document.cookie = "id=" + adatok[0]["id"] + ";";
+                        document.cookie = "iskola=" + adatok[0]["iId"] + ";";
                     }
                 }
 
                 else {
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
                     $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
-                    $("toastBody").innerHTML = "Nincs ilyen nevű diák az adatbázisban!";
+                    $("toastBody").innerHTML = resp["valasz"];
                     $("toastImg").src = "./img/red.png";
                     toastBootstrap.show();
                 }
@@ -363,7 +370,7 @@ async function login() {
             {
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
                 $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
-                $("toastBody").innerHTML = "Kérjük próbálja újra  később!";
+                $("toastBody").innerHTML = resp["valasz"];
                 $("toastImg").src = "./img/red.png";
                 toastBootstrap.show();
             }
@@ -371,9 +378,10 @@ async function login() {
         }
     
         else {
+            let res = await lekeres.json();
             const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
             $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
-            $("toastBody").innerHTML = "Kérjük próbálja újra  később!";
+            $("toastBody").innerHTML = res["valasz"];
             $("toastImg").src = "./img/red.png";
             toastBootstrap.show();
         }
@@ -405,7 +413,7 @@ async function loginAdatokMegjelenitese() {
         let adatok = await diakAdatai.json();
 
         $("offcanvasTitle").innerHTML = felhaszNevCookie;
-        $("offcanvasIskola").innerHTML = adatok[0]["iNev"];
+        $("offcanvasIskola").innerHTML = adatok[0]["iId"];
         $("offcanvasNev").innerHTML = adatok[0]["dNev"];
         if(adatok[0]["profilKep"] != "data:image/ismeretlen;base64,")
         {
@@ -432,7 +440,9 @@ async function cikkekBetoltese(oldal) {
   betoltodik = true;
 
   try {
-    let cikkLekeres = await fetch(`./api/posztok?oldal=${oldal}&limit=${limit}`);
+    let cookies = document.cookie;
+    let iskolaId = parseInt(cookies.split(";")[2].split("=")[1]);
+    let cikkLekeres = await fetch(`./api/posztok?oldal=${oldal}&limit=${limit}&iskola=${iskolaId}`);
     let valasz = await cikkLekeres.json();
     let posztok = valasz.posztok;
     oldalakSzama = valasz.oldalakSzama; // Globális változó frissítése
@@ -500,7 +510,7 @@ async function cikkekBetoltese(oldal) {
       span2.appendChild(pfp);
       span2.appendChild(span);
 
-      small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ". " + poszt.datum.split(' ')[1];
+      small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '. ') + ".";
 
       div2.appendChild(h5);
       div2.appendChild(p);
@@ -605,7 +615,9 @@ async function mentesElfogadvaEsTorles(oldal) {
     }
     else
     {
-        let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}`);
+        let cookies = document.cookie;
+        let iskolaId = parseInt(cookies.split(";")[2].split("=")[1]);
+        let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}&iskola=${iskolaId}`);
         let valasz = await cikkLekeres.json();
     
         if(valasz.valasz == "Nincsenek találatok!")
@@ -838,6 +850,7 @@ function adminNyilakFrissites()
 function kijelentkezes() {
     document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "iskola=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
 
     let url = document.location.href;
     let ujUrl = url.replace("/index.html", "/login.html");
@@ -956,6 +969,7 @@ async function profilMentes()
 
         document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
         document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        document.cookie = "iskola=;expires=Thu, 01 jan 1970 00:00:00 UTC;";
 
         location.reload();
 
@@ -967,11 +981,13 @@ async function profilMentes()
 
             document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";expires=" + lejaratiDatum + ";";
             document.cookie = "id=" + eredmeny[0].id + ";expires=" + lejaratiDatum + ";";
+            document.cookie = "iskola=" + eredmeny[0].iId + ";expires=" + lejaratiDatum + ";";
         }
 
         else {
             document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";";
             document.cookie = "id=" + eredmeny[0].id + ";";
+            document.cookie = "iskola=" + eredmeny[0].iId + ";expires=" + lejaratiDatum + ";";
         }
     }
     else
@@ -1024,6 +1040,7 @@ async function fiokTorles()
     {
         document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
         document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        document.cookie = "iskola=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
         $("toastTitle").innerHTML = "Sikeresen törölte profilját!";

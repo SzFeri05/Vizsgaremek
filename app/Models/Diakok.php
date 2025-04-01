@@ -23,7 +23,7 @@ class Diakok extends Model
     public static function DiakLekerdezesNev($nev)
     {
         return DB::table("diakok")
-            ->selectRaw("diakok.id, diakok.nev as dNev, iskolak.nev as iNev, diakok.felhasznalonev, diakok.adminE, diakok.profilKep")
+            ->selectRaw("diakok.id, diakok.nev as dNev, iskolak.nev as iNev, iskolak.id as iId, diakok.felhasznalonev, diakok.adminE, diakok.profilKep")
             ->join("iskolak", "diakok.iskola_id", "=", "iskolak.id")
             ->whereLike("diakok.felhasznalonev", $nev)
             ->get();
@@ -53,7 +53,7 @@ class Diakok extends Model
     public static function LoginDiak($felhasznaloNev) {
         return DB::table("diakok")
             ->selectRaw("diakok.jelszo")
-            ->whereLike("diakok.felhasznalonev", $felhasznaloNev)
+            ->whereLike("diakok.felhasznalonev", $felhasznaloNev, true)
             ->get();
     }
 

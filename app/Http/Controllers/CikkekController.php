@@ -11,10 +11,11 @@ class CikkekController extends Controller
     public function CikkekLekerdezesse(Request $request)
     {
         $oldal = $request->input('oldal', 1);      
-        $limit = $request->input('limit', 4);     
+        $limit = $request->input('limit', 4);
+        $iskola = $request->input("iskola");     
         $offset = ($oldal - 1) * $limit;            
 
-        $cikkek = Cikkek::Cikkek($limit, $offset);
+        $cikkek = Cikkek::Cikkek($limit, $offset, $iskola);
         $osszesCikkSzama = Cikkek::OsszesCikk();
         $oldalakSzama = ceil($osszesCikkSzama / $limit);
 
@@ -86,10 +87,11 @@ class CikkekController extends Controller
     public function AdminCikkekLekerdezesse(Request $request)
     {
         $oldal = $request->input('oldal', 1);      
-        $limit = $request->input('limit', 4);     
+        $limit = $request->input('limit', 4);   
+        $iskola = $request->input("iskola");  
         $offset = ($oldal - 1) * $limit;            
 
-        $cikkek = Cikkek::AdminCikkek($limit, $offset);
+        $cikkek = Cikkek::AdminCikkek($limit, $offset, $iskola);
         $osszesCikkSzama = Cikkek::OsszesCikk();
         $oldalakSzama = ceil($osszesCikkSzama / $limit);
         
