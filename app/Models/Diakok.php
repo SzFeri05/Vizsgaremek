@@ -29,6 +29,11 @@ class Diakok extends Model
             ->get();
     }
 
+    public static function DiakLekerdezesNevWhereNotId($nev, $id)
+    {
+        return DB::select("SELECT diakok.id, diakok.nev as dNev, iskolak.nev as iNev, diakok.felhasznalonev, diakok.adminE, diakok.profilKep FROM `diakok` INNER JOIN iskolak ON diakok.iskola_id = iskolak.id WHERE diakok.felhasznalonev = '" . $nev . "' AND diakok.id != " . $id);
+    }
+
     // ./api/registerDiak
     public static function RegisterDiak($email, $teljesNev, $felhasznalonev, $iskola, $osztaly, $evfolyam, $jelszo) {
         return DB::table("diakok")
@@ -39,7 +44,8 @@ class Diakok extends Model
                 "iskola_id" => $iskola,
                 "szak_id" => $osztaly,
                 "felhasznalonev" => $felhasznalonev,
-                "jelszo" => $jelszo
+                "jelszo" => $jelszo,
+                "profilKep" => NULL
             ]);
     }
 

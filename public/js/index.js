@@ -407,7 +407,14 @@ async function loginAdatokMegjelenitese() {
         $("offcanvasTitle").innerHTML = felhaszNevCookie;
         $("offcanvasIskola").innerHTML = adatok[0]["iNev"];
         $("offcanvasNev").innerHTML = adatok[0]["dNev"];
-        $("profilKep").src = adatok[0]["profilKep"];
+        if(adatok[0]["profilKep"] != "data:image/ismeretlen;base64,")
+        {
+            $("profilKep").src = adatok[0]["profilKep"];
+        }
+        else
+        {
+            $("profilKep").src = "../img/default_pfp.png";
+        }
     }
 }
 
@@ -443,7 +450,9 @@ async function cikkekBetoltese(oldal) {
       let div2 = document.createElement("div");
       let h5 = document.createElement("h3");
       let p = document.createElement("p");
+      let span2 = document.createElement("span");
       let span = document.createElement("h5");
+      let pfp = document.createElement("img");
       let small = document.createElement("small");
 
 
@@ -456,10 +465,6 @@ async function cikkekBetoltese(oldal) {
       div.style.border = "2px solid black";
       //div.style = "width: auto; background-color: rgb(235, 200, 148);";
 
-      div2.appendChild(h5);
-      div2.appendChild(p);
-      div2.appendChild(span);
-      div2.appendChild(small);
 
       if(poszt.kep != "data:image\/ismeretlen;base64,")
       {
@@ -485,9 +490,22 @@ async function cikkekBetoltese(oldal) {
       p.innerHTML = poszt.szoveg;
       p.style = "width: 100%;";
 
-      span.innerHTML = poszt.felhasznalonev;
+
+      pfp.src = poszt.profilKep;
+      pfp.style = "height: 30px !important;";
+      pfp.classList = "img-fluid rounded-circle";
+      
+      span.innerHTML = poszt.felhasznalonev + " - " + poszt.evfolyam + poszt.szakJeloles;
+
+      span2.appendChild(pfp);
+      span2.appendChild(span);
 
       small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ". " + poszt.datum.split(' ')[1];
+
+      div2.appendChild(h5);
+      div2.appendChild(p);
+      div2.appendChild(span2);
+      div2.appendChild(small);
 
       div.appendChild(div2);
 
@@ -919,7 +937,7 @@ async function profilMentes()
     }
     else
     {
-        profil.append('kep', pfp);
+        profil.append('kep', "");
     }
 
     let keres = await fetch("./api/diakmodositas", {

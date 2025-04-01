@@ -10,7 +10,7 @@ class Cikkek extends Model
     // ./api/posztok
     public static function Cikkek($limit, $offset)
     {
-        return DB::select("SELECT *, cikkek.kep, diakok.felhasznalonev FROM cikkek INNER JOIN diakok ON cikkek.diak_id = diakok.id WHERE cikkek.elfogadva = 1 ORDER BY cikkek.datum DESC LIMIT " . $limit . " OFFSET " . $offset);
+        return DB::select("SELECT *, cikkek.kep, diakok.felhasznalonev, diakok.evfolyam, diakok.profilKep, szakok.szakJeloles FROM cikkek INNER JOIN diakok ON cikkek.diak_id = diakok.id INNER JOIN szakok ON diakok.szak_id = szakok.id WHERE cikkek.elfogadva = 1 ORDER BY cikkek.datum DESC LIMIT " . $limit . " OFFSET " . $offset);
     }
 
     // ./api/adminposztok

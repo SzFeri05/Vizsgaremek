@@ -137,6 +137,31 @@ class DiakokController extends Controller
         $osszesDiak = Diakok::DiakLekeres();
         $felhasznalonevCheck = Diakok::DiakLekerdezesNev($felhasznalonev);
 
+        foreach($osszesDiak as $diakok)
+        {
+            $kepBin = $diakok->profilKep;
+
+            $png_header = hex2bin('89504e470d0a1a0a');
+            $jpeg_header1 = hex2bin('ffd8ffe0');
+            $jpeg_header2 = hex2bin('ffd8ffe1');
+        
+            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+        
+            if (substr($header, 0, strlen($png_header)) === $png_header) {
+                $imageType = 'png';
+            } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
+                $imageType = 'jpeg';
+            } else {
+                $imageType = 'ismeretlen'; // Ismeretlen formátum
+            } // A fentebb definiált függvény
+
+            $mimeType = 'image/' . $imageType;
+
+            $kepDataUri = 'data:' . $mimeType . ';base64,' . base64_encode($kepBin);
+
+            $diakok->profilKep = $kepDataUri;
+        }
+
         foreach($osszesDiak as $diak) {
             if(json_decode(json_encode($diak), true, JSON_UNESCAPED_UNICODE)["email"] == $email) {
                 return response()->json(["valasz" => "Az email cím már foglalt!"], 400);
@@ -193,15 +218,16 @@ class DiakokController extends Controller
         $felhasznalonev = $request->input("felhasznalonev");
         $jelszo = $request->input("jelszo");
         $id = $request->input("id");
+        $kep = $request->file("kep");
+        
 
-        if($request->input("kep") != "")
+        if($kep)
         {
-            var_dump("asd");
             $request->validate([
                 'kep' => 'required|image|mimes:jpeg,png,jpg,gif,jfif|max:2048',
             ]);
     
-            $kepadat = file_get_contents($request->file("kep"));
+            $kepadat = file_get_contents($kep);
         }
 
         if(empty($nev) || empty($email) || empty($felhasznalonev) || empty($jelszo) || empty($id))
@@ -210,9 +236,9 @@ class DiakokController extends Controller
         }
         else
         {
-            $felhasznalonevCheck = Diakok::DiakLekerdezesNev($nev);
-
-            if($felhasznalonevCheck->isEmpty())
+            $felhasznalonevCheck = Diakok::DiakLekerdezesNevWhereNotId($felhasznalonev, $id);
+            
+            if(empty($felhasznalonevCheck))
             {
                 $eredmeny = Diakok::DiakJelszoId($id);
 
@@ -225,6 +251,31 @@ class DiakokController extends Controller
                     $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id, $kepadat);
 
                     $modositott = Diakok::DiakLekeresId($id);
+
+                    foreach($modositott as $profil)
+                    {
+                        $kepBin = $profil->profilKep;
+            
+                        $png_header = hex2bin('89504e470d0a1a0a');
+                        $jpeg_header1 = hex2bin('ffd8ffe0');
+                        $jpeg_header2 = hex2bin('ffd8ffe1');
+                    
+                        $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+                    
+                        if (substr($header, 0, strlen($png_header)) === $png_header) {
+                            $imageType = 'png';
+                        } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
+                            $imageType = 'jpeg';
+                        } else {
+                            $imageType = 'ismeretlen'; // Ismeretlen formátum
+                        } // A fentebb definiált függvény
+            
+                        $mimeType = 'image/' . $imageType;
+            
+                        $kepDataUri = 'data:' . $mimeType . ';base64,' . base64_encode($kepBin);
+            
+                        $profil->profilKep = $kepDataUri;
+                    }
 
                     return response()->json($modositott, 200);
                 }

@@ -212,14 +212,15 @@ class CikkekController extends Controller
         $postCim = $request->input("postCim");
         $postSzoveg = $request->input("postSzoveg");
         $diakId = $request->input("diakId");
+        $kep = $request->file("kep");
 
-        if($request->input("kep") != "")
+        if($kep)
         {
             $request->validate([
                 'kep' => 'required|image|mimes:jpeg,png,jpg,gif,jfif|max:2048',
             ]);
     
-            $kepadat = file_get_contents($request->file("kep"));
+            $kepadat = file_get_contents($kep);
         }
         else
         {
