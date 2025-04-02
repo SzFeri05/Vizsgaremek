@@ -1,0 +1,256 @@
+<html lang="hu">
+
+<head>
+    <!--"meta" tagek-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+
+    <!--Bootstrap 5 CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!--Saját CSS-->
+    <link rel="stylesheet" href="./css/index.css">
+
+    <!--"title" tag-->
+    <title>Suliújság</title>
+</head>
+
+<body>
+
+    <!--Toast a visszajelzésekhez-->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <img src="" class="rounded-circle me-2 img-fluid" style="width: 10%;" id="toastImg">
+            <strong class="me-auto" id="toastTitle"></strong>
+            <small id="toastSmallTitle"></small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" id="toastBody"></div>
+        </div>
+    </div>
+
+    <!--Hosszú cikkeknek modal-->
+    <div class="modal fade" id="hosszuCikkModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 2100 !important;     ">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hosszuCikkLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="hosszuCikkBody">
+                    
+                </div>
+                <div class="modal-footer" id="hosszuCikkFooter">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Új cikk feltöltése modal-->
+    <div class="modal fade" id="ujcikkModal" tabindex="-1" aria-labelledby="ujcikkModalLabel" aria-hidden="true" style="z-index: 2050 !important;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ujcikkModalLabel">Új Cikk Létrehozása</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="ujCikkForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="cikkCim" class="form-label">Cím:</label>
+                            <input type="text" class="form-control" id="cikkCim">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cikkSzoveg">Szöveg:</label>
+                            <textarea class="form-control" id="cikkSzoveg" style="height: 100px"></textarea>
+                        </div>
+                        <br>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="cikkKep" name="cikkKep"> <!-- Fontos a "name" attribútum! -->
+                        </div>
+                        <button type="button" class="btn btn-success" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" id="cikkFeltoltes">Feltöltés!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Fiók törlése megerősítés-->
+    <div class="modal fade" id="fioktorles" tabindex="-1" aria-labelledby="fioktorlesModalLabel" aria-hidden="true" style="z-index: 2070 !important;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fioktorlesModalLabel">Fiók törlése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="fioktorlesForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="felhasznalonev" class="form-label">Biztosan törölni szeretné fiókját?</label>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-danger" id="fiokTorlesIgen">Igen</button>
+                        <button type="button" class="btn btn-success" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" id="fiokTorlesNem">Nem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Profil szerkesztése modal-->
+    <div class="modal fade" id="profilszerkesztese" tabindex="-1" aria-labelledby="profilszerkeszteseModalLabel" aria-hidden="true" style="z-index: 2060 !important;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profilszerkeszteseModalLabel">Profil szerkesztése</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profilszerkeszteseForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="felhasznalonev" class="form-label">Felhasználónév:</label>
+                            <input type="text" class="form-control" id="felhasznalonev">
+                        </div>
+                        <div class="mb-3">
+                            <label for="teljesnev">Teljes név:</label>
+                            <input type="text" class="form-control" id="teljesnev">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email">E-mail cím:</label>
+                            <input type="text" class="form-control" id="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pfp">Profilkép:</label>
+                            <input type="file" class="form-control" id="pfp" name="pfp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Jelszó:</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#fioktorles" data-bs-dismiss="offcanvas" id="fioktorles">Fiók törlése</button>
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-primary" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" id="profilMentes">Mentés</button>
+                        <button type="button" class="btn btn-secondary" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" id="profilMegse">Mégse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="kepModal" class="modal">
+        <span class="close" id="kepModalBezaras">&times;</span>
+
+        <img src="" id="nagyKep" class="modal-content">
+
+        <h2 id="caption"></h2>
+    </div>
+
+
+
+    <!--Fő "div", az újság lapjait tartamlazza-->
+    <div id="foDiv" class="container-fluid">
+        <div class="row">
+            <div class="col col-1">
+                <!--Navbar-->
+                <button class="btn btn-dark bg-secondary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="hamburgerButton"><img
+                        src="./img/hamburgerMenu.png" id="hamburgerIcon"></button>
+            </div>
+
+            <div class="col col-11">
+                <div class="row" id="foKep">
+                    <!--Bal oldalléptető nyíl-->
+                    <div class="oldalLeptetoNyil col col-2" id="balNyilDiv">
+                        <img id="balraNyil" src="./img/balNyíl.png">
+                    </div>
+
+                    <!--Az első "újságoldal"-->
+                    <div class="col col-8 p-3" id="elsoLap">
+                        <div class="row mx-auto" id="cikkekHelye">
+                            
+                        </div>
+                    </div>
+
+                    <!--Jobb oldalléptető nyíl-->
+                    <div class="oldalLeptetoNyil col col-2" id="jobbNyilDiv">
+                        <img id="jobbraNyil" src="./img/jobbNyíl.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Offcanvas-->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <img src="./img/default_pfp.png" alt="Profilkép" id="profilKep">
+
+                <h5 class="offcanvas-title" id="offcanvasTitle"></h5>
+
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+
+            <hr>
+
+            <div class="offcanvas-body">
+                <h4 class="h4OC">Iskola</h4>
+                <h5 class="h5OC" id="offcanvasIskola"></h5>
+
+                <h4 class="h4OC">Név</h4>
+                <h5 class="h5OC" id="offcanvasNev"></h5>
+
+                <hr>
+
+                <!--Gombok-->
+                <span id="ujcikkGomb"><button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal"
+                    data-bs-target="#ujCikkModal" data-bs-dismiss="offcanvas">Új cikk feltöltése</button>
+                    <br>
+                    <br>
+                </span>
+                
+                
+
+                <span id="adminGomb"></span>
+
+                <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                data-bs-target="#profilszerkesztese" data-bs-dismiss="offcanvas" id="profilSzerkesztes">Profil szerkesztése</button>
+
+                <br>
+                <br>
+
+                <button type="button" id="kijelentkezesButton" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#"
+                data-bs-dismiss="offcanvas">Kijelentkezés</button>
+                
+                <hr>
+
+                <!--Dátum és idő-->
+                <span id="ora"></span>
+                <br>
+                <small id="datum"></small>
+            </div>
+        </div>
+
+
+        <!--Bootstrap 5 JavaScript Bundle-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+        <!--Saját JavaScript-->
+        <script src="./js/index.js"></script>
+</body>
+
+</html>

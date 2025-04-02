@@ -1,0 +1,30 @@
+name: Generate .env file
+
+on:
+  push:
+    branches:
+      - laravelProject  # Vagy bármelyik branch, amelyről pull-olni akarsz
+  pull_request:
+    branches:
+      - laravelProject
+
+jobs:
+  generate-env:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Create .env file from GitHub secrets
+      run: |
+          echo "APP_NAME=${{ secrets.APP_NAME }}" >> .env
+          echo "APP_ENV=${{ secrets.APP_ENV }}" >> .env
+          echo "APP_KEY=${{ secrets.APP_KEY }}" >> .env
+          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+      shell: bash

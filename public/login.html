@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Bootstrap 5 CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!--Saját CSS-->
+    <style>
+        html, body, div.container {
+            height: 100%;
+        }
+
+        span {
+            text-decoration: underline;
+            text-decoration-color: blue;
+            color: blue;
+            cursor: pointer;
+        }
+
+        img {
+            width: 15%;
+            height: 15%;
+        }
+    </style>
+
+    <title>Kezdőoldal</title>
+</head>
+<body>
+    <!--Toast a visszajelzésekhez-->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="" class="rounded me-2 img-fluid" style="width: 10%;" id="toastImg">
+            <strong class="me-auto" id="toastTitle"></strong>
+            <small id="toastSmallTitle"></small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toastBody"></div>
+        </div>
+    </div>
+
+    <!--register-->
+    <div class="modal fade" id="registerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Regisztráció</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email cím:</label>
+                            <input type="email" class="form-control" id="registerEmail">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerTeljesNev" class="form-label">Teljes név:</label>
+                            <input type="text" class="form-control" id="registerTeljesNev">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerFelahsznaloNev" class="form-label">Felhasználónév:</label>
+                            <input type="text" class="form-control" id="registerFelahsznaloNev">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerIskola" class="form-label">Iskola:</label>
+
+                            <select class="form-select" id="registerIskola">
+
+                            </select>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="registerOsztaly">Osztály:</label>
+                            <select class="form-select" id="registerOsztaly">
+
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerJelszo" class="form-label">Jelszó:</label>
+                            <input type="password" class="form-control" id="registerJelszo">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="registerJelszoUjra" class="form-label">Jelszó újra:</label>
+                            <input type="password" class="form-control" id="registerJelszoUjra">
+                        </div>
+
+                        <button type="button" id="registerButton" class="btn btn-info" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight">Regisztráció!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="container d-flex align-items-center justify-content-center">
+        <form>
+            <div class="mb-3">
+                <label for="loginFelahsznaloNev" class="form-label">Felhasználónév:</label>
+                <input type="email" class="form-control" id="loginFelahsznaloNev">
+            </div>
+
+            <div class="mb-3">
+                <label for="loginJelszo" class="form-label">Jelszó:</label>
+                <input type="password" class="form-control" id="loginJelszo">
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="loginMarad">
+                <label class="form-check-label" for="loginMarad">Maradjak bejelentkezve</label>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button class="btn btn-info" type="button" id="loginButton">Bejelentekzés!</button>
+            </div>
+
+            <br>
+
+            <p>Még nincs fiókod?
+                <span id="registerSpan" data-bs-toggle="modal" data-bs-target="#registerModal"
+                data-bs-dismiss="offcanvas">Hozz létre egyet!</span>
+            </p>
+        </form>
+    </div>
+
+    <!--Saját JS-->
+    <script src="./js/index.js"></script>
+
+    <!--BS 5 JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
