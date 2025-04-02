@@ -424,7 +424,7 @@ async function loginAdatokMegjelenitese() {
 
         $("offcanvasTitle").innerHTML = felhaszNevCookie;
         $("offcanvasIskola").innerHTML = adatok[0]["iNev"];
-        $("offcanvasNev").innerHTML = adatok[0]["dNev"];
+        $("offcanvasNev").innerHTML = adatok[0]["dNev"]; 
         if(adatok[0]["profilKep"] != "data:image/ismeretlen;base64,")
         {
             $("profilKep").src = adatok[0]["profilKep"];
@@ -434,6 +434,35 @@ async function loginAdatokMegjelenitese() {
             $("profilKep").src = "../img/default_pfp.png";
         }
     }
+}
+
+async function HosszuCikkModalMutatas(cim, szoveg, nev, datum, kep) {
+    let hCLabel = $("hosszuCikkLabel");
+    let hCBody = $("hosszuCikkBody");
+    let hCFooter = $("hosszuCikkFooter");
+
+    hCLabel.innerHTML = "";
+    hCBody.innerHTML = "";
+    hCFooter.innerHTML = "";
+
+    hCLabel.innerHTML = cim;
+
+    if(kep != null)
+    {
+        let img = document.createElement("img");
+        img.src = kep;
+        img.classList = "my-2 mx-auto d-block rounded"; 
+        img.style = "height: 40%;";
+        img.style = "width: 40%;";
+        hCBody.appendChild(img);
+        hCBody.innerHTML += "<br>" + szoveg;
+    }
+
+    else {
+        hCBody.innerHTML = szoveg;
+    }
+
+    hCFooter.innerHTML = nev + " - " + datum;
 }
 
 async function cikkekBetoltese(oldal) {
@@ -455,7 +484,7 @@ async function cikkekBetoltese(oldal) {
     let cikkLekeres = await fetch(`./api/posztok?oldal=${oldal}&limit=${limit}&iskola=${iskolaId}`);
     let valasz = await cikkLekeres.json();
     let posztok = valasz.posztok;
-    oldalakSzama = valasz.oldalakSzama; // Globális változó frissítése
+    oldalakSzama = valasz.oldalakSzama-1; // Globális változó frissítése
 
     let cikkekHelye = document.getElementById("cikkekHelye");
 
@@ -475,6 +504,8 @@ async function cikkekBetoltese(oldal) {
       let pfp = document.createElement("img");
       let small = document.createElement("small");
 
+      let karakterSzam = poszt["szoveg"].length;
+
 
       fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
 
@@ -489,6 +520,7 @@ async function cikkekBetoltese(oldal) {
       if(poszt.kep != "data:image\/ismeretlen;base64,")
       {
         let img = document.createElement("img");
+        karakterSzam += 50;
 
         img.src = poszt.kep;
         img.classList = "card-img-top nagyitosKep mt-2"; 
@@ -509,9 +541,41 @@ async function cikkekBetoltese(oldal) {
       p.classList = "card-text";
       p.innerHTML = poszt.szoveg;
       p.style = "width: 100%;";
+      if(karakterSzam >= 125)
+      {
+        let img = null;
+
+        if(poszt.kep != "data:image\/ismeretlen;base64,")
+        {
+            img = poszt["kep"];
+        }
+
+        let button = document.createElement("button");
+        button.type = "button";
+        button.classList.add("btn", "btn-outline-dark");
+        button.innerHTML = "Tovább olvasom";
+        button.setAttribute("data-bs-target", "#hosszuCikkModal");
+        button.setAttribute("data-bs-toggle", "modal");
+        button.addEventListener("click", () => {
+            HosszuCikkModalMutatas(poszt["cim"], poszt["szoveg"], poszt["felhasznalonev"], poszt.datum.split(' ')[0].replaceAll('-', '. ') + ".", img);
+        });
+        button.style.marginLeft = "10px";
+
+        p.innerHTML = poszt.szoveg.substring(0, 123) + "...";
+
+        p.appendChild(button);
+      }
 
 
-      pfp.src = poszt.profilKep;
+      if(poszt.profilKep != "data:image/ismeretlen;base64,")
+      {
+        pfp.src = poszt.profilKep;
+      }
+      else
+      {
+        pfp.src = "../img/default_pfp.png";
+      }
+      
       pfp.style = "height: 30px !important;";
       pfp.classList = "img-fluid rounded-circle";
       
@@ -687,7 +751,9 @@ async function nemElfogadottCikkek(oldal) {
     betoltodik = true;
   
     try {
-      let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}`);
+        let cookies = document.cookie;
+        let iskolaId = parseInt(cookies.split(";")[2].split("=")[1]);
+        let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}&iskola=${iskolaId}`);
       let valasz = await cikkLekeres.json();
       let posztok = valasz.posztok;
       oldalakSzama = 1; // Globális változó frissítése
@@ -719,7 +785,9 @@ async function nemElfogadottCikkek(oldal) {
             let div2 = document.createElement("div");
             let h5 = document.createElement("h3");
             let p = document.createElement("p");
+            let span2 = document.createElement("span");
             let span = document.createElement("h5");
+            let pfp = document.createElement("img");
             let small = document.createElement("small");
             let radio = document.createElement("input");
             let label = document.createElement("label");
@@ -744,7 +812,7 @@ async function nemElfogadottCikkek(oldal) {
             div2.appendChild(p);
             div2.appendChild(div3);
             div2.appendChild(div4);
-            div2.appendChild(span);
+            div2.appendChild(span2);
             div2.appendChild(small);
 
 
@@ -801,8 +869,23 @@ async function nemElfogadottCikkek(oldal) {
             label2.setAttribute("for", "torles" + seged);
             label2.style = "font-weight: bolder;";
             label2.innerHTML = "Törlendő";
-    
-            span.innerHTML = poszt.felhasznalonev;
+
+            if(poszt.profilKep != "data:image/ismeretlen;base64,")
+            {
+                pfp.src = poszt.profilKep;
+            }
+            else
+            {
+                pfp.src = "../img/default_pfp.png";
+            }
+            
+            pfp.style = "height: 30px !important;";
+            pfp.classList = "img-fluid rounded-circle";
+
+            span.innerHTML = poszt.felhasznalonev + " - " + poszt.evfolyam + poszt.szakJeloles;
+
+            span2.appendChild(pfp);
+            span2.appendChild(span);
     
             small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ". " + poszt.datum.split(' ')[1];
     
@@ -998,13 +1081,13 @@ async function profilMentes()
 
             document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";expires=" + lejaratiDatum + ";";
             document.cookie = "id=" + eredmeny[0].id + ";expires=" + lejaratiDatum + ";";
-            document.cookie = "iskola=" + eredmeny[0].iId + ";expires=" + lejaratiDatum + ";";
+            document.cookie = "iskola=" + eredmeny[0].iskola_id + ";expires=" + lejaratiDatum + ";";
         }
 
         else {
             document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";";
             document.cookie = "id=" + eredmeny[0].id + ";";
-            document.cookie = "iskola=" + eredmeny[0].iId + ";expires=" + lejaratiDatum + ";";
+            document.cookie = "iskola=" + eredmeny[0].iskola_id + ";";
         }
     }
     else

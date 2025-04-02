@@ -229,6 +229,10 @@ class DiakokController extends Controller
     
             $kepadat = file_get_contents($kep);
         }
+        else
+        {
+            $kepadat = NULL;
+        }
 
         if(empty($nev) || empty($email) || empty($felhasznalonev) || empty($jelszo) || empty($id))
         {

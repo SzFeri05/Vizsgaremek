@@ -18,7 +18,7 @@ class Cikkek extends Model
     // ./api/adminposztok
     public static function AdminCikkek($limit, $offset, $iskola)
     {
-        return DB::select("SELECT *, cikkek.kep,  diakok.felhasznalonev FROM cikkek INNER JOIN diakok ON cikkek.diak_id = diakok.id WHERE cikkek.elfogadva = 0 AND diakok.iskola_id = ". $iskola ." ORDER BY cikkek.datum DESC LIMIT " . $limit . " OFFSET " . $offset);
+        return DB::select("SELECT *, cikkek.kep, diakok.felhasznalonev, diakok.evfolyam, diakok.profilKep, szakok.szakJeloles FROM cikkek INNER JOIN diakok ON cikkek.diak_id = diakok.id INNER JOIN szakok ON diakok.szak_id = szakok.id WHERE cikkek.elfogadva = 0 AND diakok.iskola_id = ". $iskola ." ORDER BY cikkek.datum DESC LIMIT " . $limit . " OFFSET " . $offset);
     }
 
 
@@ -35,8 +35,8 @@ class Cikkek extends Model
     public static function ujCikk($postCim, $postSzoveg, $diakId, $kep)
     {
         return DB::insert("
-            INSERT INTO `cikkek` (`id`, `cim`, `szoveg`, `diak_id`, `datum`, `elfogadva`, `elfogadta_id`, `kep`)
-            VALUES (NULL, ?, ?, ?, NOW(), '0', NULL, ?)
+            INSERT INTO `cikkek` (`cim`, `szoveg`, `diak_id`, `datum`, `elfogadva`, `elfogadta_id`, `kep`)
+            VALUES (?, ?, ?, NOW(), '0', NULL, ?)
         ", [$postCim, $postSzoveg, $diakId, $kep]);
     }
 
