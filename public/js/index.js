@@ -413,7 +413,7 @@ async function loginAdatokMegjelenitese() {
         let adatok = await diakAdatai.json();
 
         $("offcanvasTitle").innerHTML = felhaszNevCookie;
-        $("offcanvasIskola").innerHTML = adatok[0]["iId"];
+        $("offcanvasIskola").innerHTML = adatok[0]["iNev"];
         $("offcanvasNev").innerHTML = adatok[0]["dNev"];
         if(adatok[0]["profilKep"] != "data:image/ismeretlen;base64,")
         {
