@@ -86,6 +86,7 @@ async function ujCikk() {
             $("toastTitle").innerHTML = "Sikeres cikkfeltöltés!";
             $("toastBody").innerHTML = "A cikk megjelenítéséhez várjon a rendszergazda megerősítésére!";
             $("toastImg").src = "./img/green.png";
+            $("toastImg").classList.add("rounded-circle");
             toastBootstrap.show();
 
             $("cikkCim").value = "";
@@ -101,6 +102,7 @@ async function ujCikk() {
             $("toastTitle").innerHTML = "Sikertelen cikkfeltöltés!";
             $("toastBody").innerHTML = "Próbálja újra később!";
             $("toastImg").src = "./img/red.png";
+            $("toastImg").classList.add("rounded-circle");
             toastBootstrap.show();
         }
     }
@@ -109,6 +111,7 @@ async function ujCikk() {
         $("toastTitle").innerHTML = "Sikertelen cikkfeltöltés!";
         $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
         $("toastImg").src = "./img/yellow.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
     }
 }
@@ -203,6 +206,7 @@ async function register() {
         $("toastTitle").innerHTML = "Sikertelen regisztráció!";
         $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
         $("toastImg").src = "./img/yellow.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
     }
 
@@ -212,6 +216,7 @@ async function register() {
         $("toastTitle").innerHTML = "Sikertelen regisztráció!";
         $("toastBody").innerHTML = "A két jelszó nem egyezik!";
         $("toastImg").src = "./img/yellow.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
 
         $("registerJelszo").innerHTML = "";
@@ -276,6 +281,7 @@ async function register() {
             $("toastTitle").innerHTML = "Sikertelen regisztráció!";
             $("toastBody").innerHTML = "Kérjük próbálja újra  később!";
             $("toastImg").src = "./img/red.png";
+            $("toastImg").classList.add("rounded-circle");
             toastBootstrap.show();
         }
     }
@@ -290,6 +296,7 @@ async function login() {
         $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
         $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
         $("toastImg").src = "./img/yellow.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
     }
 
@@ -362,6 +369,7 @@ async function login() {
                     $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
                     $("toastBody").innerHTML = resp["valasz"];
                     $("toastImg").src = "./img/red.png";
+                    $("toastImg").classList.add("rounded-circle");
                     toastBootstrap.show();
                 }
             }
@@ -372,6 +380,7 @@ async function login() {
                 $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
                 $("toastBody").innerHTML = resp["valasz"];
                 $("toastImg").src = "./img/red.png";
+                $("toastImg").classList.add("rounded-circle");
                 toastBootstrap.show();
             }
             
@@ -383,6 +392,7 @@ async function login() {
             $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
             $("toastBody").innerHTML = res["valasz"];
             $("toastImg").src = "./img/red.png";
+        $("toastImg").classList.add("rounded-circle");
             toastBootstrap.show();
         }
     }
@@ -611,6 +621,7 @@ async function mentesElfogadvaEsTorles(oldal) {
         $("toastTitle").innerHTML = "Sikertelen mentés!";
         $("toastBody").innerHTML = "Kérjük jelöljön ki legalább egy cikket elfogadásra/törlésre!";
         $("toastImg").src = "./img/yellow.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
     }
     else
@@ -632,6 +643,7 @@ async function mentesElfogadvaEsTorles(oldal) {
                 $("toastTitle").innerHTML = "Cikkek kezelése sikeres!";
                 $("toastBody").innerHTML = "A kiválasztott cikk(ek)et sikeresen elfogadta/törölte!";
                 $("toastImg").src = "./img/green.png";
+                $("toastImg").classList.add("rounded-circle");
                 toastBootstrap.show();
             }
             else if(vanelfogadas && cikkElfogadasa.ok)
@@ -640,6 +652,7 @@ async function mentesElfogadvaEsTorles(oldal) {
                 $("toastTitle").innerHTML = "Cikkek elfogadása sikeres!";
                 $("toastBody").innerHTML = "A kiválasztott cikk(ek)et a diákjai már olvashatják és élvezhetik is!";
                 $("toastImg").src = "./img/green.png";
+                $("toastImg").classList.add("rounded-circle");
                 toastBootstrap.show(); 
             }
             else if(vantorles && cikkTorles.ok)
@@ -648,6 +661,7 @@ async function mentesElfogadvaEsTorles(oldal) {
                 $("toastTitle").innerHTML = "Cikkek törlése sikeres!";
                 $("toastBody").innerHTML = "A kiválasztott cikk(ek)et diákjai soha nem fogják elolvasni!";
                 $("toastImg").src = "./img/green.png";
+                $("toastImg").classList.add("rounded-circle");
                 toastBootstrap.show();    
             }
             else
@@ -656,6 +670,7 @@ async function mentesElfogadvaEsTorles(oldal) {
                 $("toastTitle").innerHTML = "Cikkek kezelése sikertelen!";
                 $("toastBody").innerHTML = "Kérjük próbálja újra később!";
                 $("toastImg").src = "./img/red.png";
+                $("toastImg").classList.add("rounded-circle");
                 toastBootstrap.show(); 
             }
             nemElfogadottCikkek(oldalSzam);
@@ -689,6 +704,7 @@ async function nemElfogadottCikkek(oldal) {
         $("toastTitle").innerHTML = "Nincs megjeleníthető cikk!";
         $("toastBody").innerHTML = "Diákjai még nem töltöttek fel elfogadásra váró cikk(ek)et!";
         $("toastImg").src = "./img/yellow.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
 
         location.reload();
@@ -965,6 +981,7 @@ async function profilMentes()
         $("toastTitle").innerHTML = "Sikeres profil módosítás!";
         $("toastBody").innerHTML = "Sikeresen módosítottad a profilod adatait!";
         $("toastImg").src = "./img/green.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
 
         document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
@@ -996,6 +1013,7 @@ async function profilMentes()
         $("toastTitle").innerHTML = "Sikertelen profil módosítás!";
         $("toastBody").innerHTML = "Kérlük próbáld újra  később!";
         $("toastImg").src = "./img/red.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
     }
 }
@@ -1058,6 +1076,7 @@ async function fiokTorles()
         $("toastTitle").innerHTML = "Sikertelen törlés!";
         $("toastBody").innerHTML = "Kérjük próbálja újra később!";
         $("toastImg").src = "./img/red.png";
+        $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
     }
 }
