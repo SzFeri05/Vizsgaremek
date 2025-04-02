@@ -27,15 +27,15 @@ class CikkekController extends Controller
             $jpeg_header1 = hex2bin('ffd8ffe0');
             $jpeg_header2 = hex2bin('ffd8ffe1');
         
-            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+            $header = substr($kepBin, 0, 8);
         
             if (substr($header, 0, strlen($png_header)) === $png_header) {
                 $imageType = 'png';
             } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
                 $imageType = 'jpeg';
             } else {
-                $imageType = 'ismeretlen'; // Ismeretlen formátum
-            } // A fentebb definiált függvény
+                $imageType = 'ismeretlen'; 
+            } 
 
             $mimeType = 'image/' . $imageType;
 
@@ -52,15 +52,15 @@ class CikkekController extends Controller
             $jpeg_header1 = hex2bin('ffd8ffe0');
             $jpeg_header2 = hex2bin('ffd8ffe1');
         
-            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+            $header = substr($kepBin, 0, 8); 
         
             if (substr($header, 0, strlen($png_header)) === $png_header) {
                 $imageType = 'png';
             } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
                 $imageType = 'jpeg';
             } else {
-                $imageType = 'ismeretlen'; // Ismeretlen formátum
-            } // A fentebb definiált függvény
+                $imageType = 'ismeretlen'; 
+            } 
 
             $mimeType = 'image/' . $imageType;
 
@@ -89,7 +89,7 @@ class CikkekController extends Controller
         $oldal = $request->input('oldal', 1);      
         $limit = $request->input('limit', 4);   
         $iskola = $request->input("iskola");  
-        $offset = ($oldal - 1) * $limit;            
+        $offset = ($oldal - 1) * $limit; 
 
         $cikkek = Cikkek::AdminCikkek($limit, $offset, $iskola);
         $osszesCikkSzama = Cikkek::OsszesCikk();
@@ -103,15 +103,15 @@ class CikkekController extends Controller
             $jpeg_header1 = hex2bin('ffd8ffe0');
             $jpeg_header2 = hex2bin('ffd8ffe1');
         
-            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+            $header = substr($kepBin, 0, 8); 
         
             if (substr($header, 0, strlen($png_header)) === $png_header) {
                 $imageType = 'png';
             } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
                 $imageType = 'jpeg';
             } else {
-                $imageType = 'ismeretlen'; // Ismeretlen formátum
-            } // A fentebb definiált függvény
+                $imageType = 'ismeretlen'; 
+            } 
 
             $mimeType = 'image/' . $imageType;
 
@@ -128,15 +128,15 @@ class CikkekController extends Controller
             $jpeg_header1 = hex2bin('ffd8ffe0');
             $jpeg_header2 = hex2bin('ffd8ffe1');
         
-            $header = substr($kepBin, 0, 8); // Az első 8 byte beolvasása
+            $header = substr($kepBin, 0, 8); 
         
             if (substr($header, 0, strlen($png_header)) === $png_header) {
                 $imageType = 'png';
             } elseif (substr($header, 0, strlen($jpeg_header1)) === $jpeg_header1 || substr($header, 0, strlen($jpeg_header2)) === $jpeg_header2) {
                 $imageType = 'jpeg';
             } else {
-                $imageType = 'ismeretlen'; // Ismeretlen formátum
-            } // A fentebb definiált függvény
+                $imageType = 'ismeretlen';
+            } 
 
             $mimeType = 'image/' . $imageType;
 

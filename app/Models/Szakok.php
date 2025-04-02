@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Szakok extends Model
 {
+    //Összes szak lekérdezése iskola id alapján
     // ./api/szakok
     public static function Szakok($id) {
         return DB::table("szakok")

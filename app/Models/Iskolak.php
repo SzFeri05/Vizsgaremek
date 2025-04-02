@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Iskolak extends Model
 {
+    //Összes iskola lekérdezése
     // ./api/iskolak
     public static function Iskolak() {
         return DB::table("iskolak")
@@ -15,6 +16,7 @@ class Iskolak extends Model
     }
 
 
+    //Iskolához tartozó évfolyamok lekérdezése
     // ./api/evfolyamok
     public static function Evfolyamok($id) {
         return DB::table("iskolak")
