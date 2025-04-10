@@ -563,7 +563,7 @@ async function cikkekBetoltese(oldal) {
         button.setAttribute("data-bs-target", "#hosszuCikkModal");
         button.setAttribute("data-bs-toggle", "modal");
         button.addEventListener("click", () => {
-            HosszuCikkModalMutatas(poszt["cim"], poszt["szoveg"], poszt["felhasznalonev"], poszt.datum.split(' ')[0].replaceAll('-', '. ') + ".", img);
+            HosszuCikkModalMutatas(poszt["cim"], poszt["szoveg"], poszt["felhasznalonev"], poszt.datum.split(' ')[0].replaceAll('-', '.') + ".", img);
         });
         button.style.marginLeft = "10px";
 
@@ -707,10 +707,26 @@ async function mentesElfogadvaEsTorles(oldal) {
         let iskolaId = parseInt(cookies.split(";")[2].split("=")[1]);
         let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}&iskola=${iskolaId}`);
         let valasz = await cikkLekeres.json();
+
+        nemElfogadottCikkek(oldalSzam);
     
         if(valasz.valasz == "Nincsenek találatok!")
         {
-            location.reload();
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Nincs megjeleníthető cikk!";
+            $("toastBody").innerHTML = "Diákjai még nem töltöttek fel elfogadásra váró cikk(ek)et!";
+            $("toastImg").src = "./img/yellow.png";
+            $("toastImg").classList.add("rounded-circle");
+            toastBootstrap.show();
+
+            setTimeout(() => { const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                $("toastTitle").innerHTML = "Visszairányítás a főoldalra!";
+                $("toastBody").innerHTML = "Automatikusan visszairányítjuk a főoldalra!";
+                $("toastImg").src = "./img/green.png";
+                $("toastImg").classList.add("rounded-circle");
+                toastBootstrap.show(); }, 4000)
+
+            setTimeout(() => { location.reload(); }, 6000);
         }
         else
         {
@@ -750,7 +766,6 @@ async function mentesElfogadvaEsTorles(oldal) {
                 $("toastImg").classList.add("rounded-circle");
                 toastBootstrap.show(); 
             }
-            nemElfogadottCikkek(oldalSzam);
         }
     }
 }
@@ -764,6 +779,7 @@ async function nemElfogadottCikkek(oldal) {
     betoltodik = true;
   
     try {
+        oldal = 1;
         let cookies = document.cookie;
         let iskolaId = parseInt(cookies.split(";")[2].split("=")[1]);
         let cikkLekeres = await fetch(`./api/adminposztok?oldal=${oldal}&limit=${limit}&iskola=${iskolaId}`);
@@ -786,7 +802,14 @@ async function nemElfogadottCikkek(oldal) {
         $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
 
-        location.reload();
+        setTimeout(() => { const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Visszairányítás a főoldalra!";
+            $("toastBody").innerHTML = "Automatikusan visszairányítjuk a főoldalra!";
+            $("toastImg").src = "./img/green.png";
+            $("toastImg").classList.add("rounded-circle");
+            toastBootstrap.show(); }, 4000)
+
+        setTimeout(() => { location.reload(); }, 6000); 
       }
       else
       {
