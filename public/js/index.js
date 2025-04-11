@@ -488,6 +488,8 @@ async function cikkekBetoltese(oldal) {
     let posztok = valasz.posztok;
     oldalakSzama = valasz.oldalakSzama-1; // Globális változó frissítése
 
+    let oldalszamozas = document.createElement("footer");
+
     let cikkekHelye = document.getElementById("cikkekHelye");
 
     if (oldal === 1) { // Első oldal betöltésekor töröljük a korábbi tartalmat
@@ -503,6 +505,7 @@ async function cikkekBetoltese(oldal) {
       let fodiv = document.createElement("div");
       let div = document.createElement("div");
       let div2 = document.createElement("div");
+      let cardfooter = document.createElement("div");
       let h5 = document.createElement("h3");
       let p = document.createElement("p");
       let span2 = document.createElement("span");
@@ -516,11 +519,8 @@ async function cikkekBetoltese(oldal) {
       fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
 
       div.className = "card align-items-center bg-transparent";
+      div.style = "height: 27rem;";
       div.style.border = "2px solid black";
-      //div.style = "width: auto; background-color: rgb(235, 200, 148);";
-      div.className = "card align-items-center bg-transparent";
-      div.style.border = "2px solid black";
-      //div.style = "width: auto; background-color: rgb(235, 200, 148);";
 
 
       if(poszt.kep != "data:image\/ismeretlen;base64,")
@@ -599,17 +599,31 @@ async function cikkekBetoltese(oldal) {
 
       small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ".";
 
+      oldalszamozas.classList = "fixed-bottom bg-transparent text-white text-center py-2";
+      oldalszamozas.style = "color: black !important; font-size: 20px; font-weight: 800;";
+      oldalszamozas.innerHTML = oldalSzam;
+
+      cardfooter.classList = "card-footer";
+      cardfooter.appendChild(span2);
+      cardfooter.appendChild(small);
+      cardfooter.style = "border-top: none !important; background-color: transparent !important;";
+
+
       div2.appendChild(h5);
       div2.appendChild(p);
-      div2.appendChild(span2);
-      div2.appendChild(small);
+      
 
       div.appendChild(div2);
+      div.appendChild(cardfooter);
 
       fodiv.appendChild(div);
+     
 
+      
       cikkekHelye.appendChild(fodiv);
     }
+
+    cikkekHelye.appendChild(oldalszamozas);
 
     betoltodik = false;
     frissitNyilak(); // Nyilak állapotának frissítése
@@ -819,6 +833,7 @@ async function nemElfogadottCikkek(oldal) {
             let fodiv = document.createElement("div");
             let div = document.createElement("div");
             let div2 = document.createElement("div");
+            let cardfooter = document.createElement("div");
             let h5 = document.createElement("h3");
             let p = document.createElement("p");
             let span2 = document.createElement("span");
@@ -834,8 +849,9 @@ async function nemElfogadottCikkek(oldal) {
     
             fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
     
-            div.className = "card align-items-center";
-            div.style = "width: auto; background-color: rgb(235, 200, 148);";
+            div.className = "card align-items-center bg-transparent";
+            div.style = "height: 27rem;";
+            div.style.border = "2px solid black";
 
                 
             div3.appendChild(radio);
@@ -846,8 +862,8 @@ async function nemElfogadottCikkek(oldal) {
 
             div2.appendChild(h5);
             div2.appendChild(p);
-            div2.appendChild(div3);
-            div2.appendChild(div4);
+            //div2.appendChild(div3);
+            //div2.appendChild(div4);
             div2.appendChild(span2);
             div2.appendChild(small);
 
@@ -932,9 +948,16 @@ async function nemElfogadottCikkek(oldal) {
             span2.appendChild(span);
     
             small.innerHTML = poszt.datum.split(' ')[0].replaceAll('-', '.') + ".";
-    
+ 
+            cardfooter.classList = "card-footer";
+            cardfooter.appendChild(div3);
+            cardfooter.appendChild(div4);
+            cardfooter.appendChild(span2);
+            cardfooter.appendChild(small);
+            cardfooter.style = "border-top: none !important; background-color: transparent !important;";
  
             div.appendChild(div2);
+            div.appendChild(cardfooter);
     
             fodiv.appendChild(div);
     
@@ -1081,10 +1104,9 @@ async function profilMentes()
     let fnev = document.getElementById("felhasznalonev").value;
     let tnev = document.getElementById("teljesnev").value;
     let emailcim = document.getElementById("email").value;
+    let ujjelszo = document.getElementById("ujjelszo").value;
     let jelszo = document.getElementById("password").value;
     let pfp = $("pfp").files[0];
-
-    console.log(pfp)
 
     let profil = new FormData(); 
 
@@ -1092,62 +1114,85 @@ async function profilMentes()
     profil.append('id', id);
     profil.append('felhasznalonev', fnev);
     profil.append('email', emailcim);
-    profil.append('jelszo', jelszo);
+    profil.append("ujjelszo", ujjelszo);
 
-    if (pfp != undefined) {
-        profil.append('kep', pfp); 
-    }
-    else
-    {
-        profil.append('kep', "");
-    }
+    console.log(jelszo)
 
-    let keres = await fetch("./api/diakmodositas", {
-        method: "POST",
-        body: profil
-    })
-
-    if(keres.ok)
-    {
-        let eredmeny = await keres.json();
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
-        $("toastTitle").innerHTML = "Sikeres profil módosítás!";
-        $("toastBody").innerHTML = "Sikeresen módosítottad a profilod adatait!";
-        $("toastImg").src = "./img/green.png";
-        $("toastImg").classList.add("rounded-circle");
-        toastBootstrap.show();
-
-        document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        document.cookie = "iskola=;expires=Thu, 01 jan 1970 00:00:00 UTC;";
-
-        location.reload();
-
-        if(bejelentkezveMarad) {
-            const d = new Date();
-            let napigMaradBejelentkezve = 300;
-            d.setTime(d.getTime() + (napigMaradBejelentkezve*24*60*60*1000));
-            let lejaratiDatum = d.toUTCString();
-
-            document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";expires=" + lejaratiDatum + ";";
-            document.cookie = "id=" + eredmeny[0].id + ";expires=" + lejaratiDatum + ";";
-            document.cookie = "iskola=" + eredmeny[0].iskola_id + ";expires=" + lejaratiDatum + ";";
-        }
-
-        else {
-            document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";";
-            document.cookie = "id=" + eredmeny[0].id + ";";
-            document.cookie = "iskola=" + eredmeny[0].iskola_id + ";";
-        }
-    }
-    else
+    if(jelszo == "")
     {
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
-        $("toastTitle").innerHTML = "Sikertelen profil módosítás!";
-        $("toastBody").innerHTML = "Kérlük próbáld újra  később!";
+        $("toastTitle").innerHTML = "Hiányos adat!";
+        $("toastBody").innerHTML = "Kérem adja meg a jelszavát!";
         $("toastImg").src = "./img/red.png";
         $("toastImg").classList.add("rounded-circle");
         toastBootstrap.show();
+    }
+    else
+    {
+        profil.append('jelszo', jelszo);
+
+        if (pfp != undefined) {
+            profil.append('kep', pfp); 
+        }
+        else
+        {
+            profil.append('kep', "");
+        }
+    
+        let keres = await fetch("./api/diakmodositas", {
+            method: "POST",
+            body: profil
+        })
+    
+        if(keres.ok)
+        {
+            let eredmeny = await keres.json();
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Sikeres profil módosítás!";
+            $("toastBody").innerHTML = "Sikeresen módosítottad a profilod adatait!";
+            $("toastImg").src = "./img/green.png";
+            $("toastImg").classList.add("rounded-circle");
+            toastBootstrap.show();
+    
+            document.cookie = "felhasznalonev=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            document.cookie = "id=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            document.cookie = "iskola=;expires=Thu, 01 jan 1970 00:00:00 UTC;";
+
+            setTimeout(() => { const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                $("toastTitle").innerHTML = "Frissítjük az adatokat!";
+                $("toastBody").innerHTML = "Frissítjük az oldalt, hogy frissüljenek az adatok";
+                $("toastImg").src = "./img/green.png";
+                $("toastImg").classList.add("rounded-circle");
+                toastBootstrap.show(); }, 4000)
+
+            setTimeout(() => { location.reload(); }, 6000);
+    
+            if(bejelentkezveMarad) {
+                const d = new Date();
+                let napigMaradBejelentkezve = 300;
+                d.setTime(d.getTime() + (napigMaradBejelentkezve*24*60*60*1000));
+                let lejaratiDatum = d.toUTCString();
+    
+                document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";expires=" + lejaratiDatum + ";";
+                document.cookie = "id=" + eredmeny[0].id + ";expires=" + lejaratiDatum + ";";
+                document.cookie = "iskola=" + eredmeny[0].iskola_id + ";expires=" + lejaratiDatum + ";";
+            }
+    
+            else {
+                document.cookie = "felhasznalonev=" + eredmeny[0].felhasznalonev + ";";
+                document.cookie = "id=" + eredmeny[0].id + ";";
+                document.cookie = "iskola=" + eredmeny[0].iskola_id + ";";
+            }
+        }
+        else
+        {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Sikertelen profil módosítás!";
+            $("toastBody").innerHTML = "Kérlük próbáld újra  később!";
+            $("toastImg").src = "./img/red.png";
+            $("toastImg").classList.add("rounded-circle");
+            toastBootstrap.show();
+        }
     }
 }
 

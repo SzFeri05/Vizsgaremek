@@ -216,6 +216,7 @@ class DiakokController extends Controller
         $nev = $request->input("nev");
         $email = $request->input("email");
         $felhasznalonev = $request->input("felhasznalonev");
+        $ujjelszo = $request->input("ujjelszo");
         $jelszo = $request->input("jelszo");
         $id = $request->input("id");
         $kep = $request->file("kep");
@@ -252,10 +253,19 @@ class DiakokController extends Controller
 
                 if($egyezikE)
                 {
-                    $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id, $kepadat);
+                    if($ujjelszo)
+                    {
+                        $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id, $kepadat, password_hash($ujjelszo, PASSWORD_DEFAULT));
 
-                    $modositott = Diakok::DiakLekeresId($id);
+                        $modositott = Diakok::DiakLekeresId($id);
+                    }
+                    else
+                    {
+                        $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id, $kepadat, password_hash($jelszo, PASSWORD_DEFAULT));
 
+                        $modositott = Diakok::DiakLekeresId($id);
+                    }
+                    
                     foreach($modositott as $profil)
                     {
                         $kepBin = $profil->profilKep;

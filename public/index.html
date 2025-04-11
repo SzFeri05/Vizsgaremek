@@ -114,6 +114,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="profilszerkeszteseForm" enctype="multipart/form-data">
+                        <div class="alert alert-info" role="alert">
+                            A *-al jelölt mezők kitöltése kötelező!
+                          </div>
                         <div class="mb-3">
                             <label for="felhasznalonev" class="form-label">Felhasználónév:</label>
                             <input type="text" class="form-control" id="felhasznalonev">
@@ -131,7 +134,11 @@
                             <input type="file" class="form-control" id="pfp" name="pfp">
                         </div>
                         <div class="mb-3">
-                            <label for="password">Jelszó:</label>
+                            <label for="pfp">Új jelszó:</label>
+                            <input type="password" class="form-control" id="ujjelszo" name="ujjelszo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">*Jelenlegi jelszó:</label>
                             <input type="password" class="form-control" id="password">
                         </div>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
