@@ -529,7 +529,7 @@ async function HosszuCikkModalMutatas(cim, szoveg, nev, datum, kep) {
 async function cikkekBetoltese(oldal) {
 
     if (oldal === 1) {
-        // cikkekHelye.innerHTML = '';
+        cikkekHelye.innerHTML = '<h1 class="mb-5" style="text-decoration: underline; font-variant: small-caps; font-size: 4rem; height: fit-content;">Digitális Iskolaújság</h1><div class="col col-6 d-flex justify-content-center" style="height: 88%;"><!--Alap adatok a felhasználóról, tájékoztató--><div class="row"><div class="col col-12" style="height: 50%;"><fieldset><legend>Köszöntünk <span id="adatNev"></span>!</legend><ul><li>Iskola: <span id="adatIskola"></span></li><li>E-mail cím: <span id="adatEmail"></span></li><li>Felhasználónév: <span id="adatFelhasz"></span></li><li>Osztály: <span id="adatOsztaly"></span></li></ul></fieldset></div><div class="col col-12" style="height: 50%;"><fieldset><legend>Az oldalról:</legend><p>Ez egy digitális iskola újság alapvetően. A neve talán leír mindent, amnit tudni kell. A diákok tudnak regisztrálni, cikekket feltölteni és más diákok által feltöltött cikkeket olvasgatni, böngészni. Ahhoz hogy a Te cikked is megjelenjen az oldalon, először az iskolád admin felhasználójának el kell fogadni!</p></fieldset></div></div></div><div class="col col-6"><fieldset><legend>Rólunk:</legend><figure><img src="./img/alkotok.jpeg" id="alkotok" class="img-thumbnail nagyitosKep" alt="Az oldal készítői" title="Az oldal készítői" style="width: 50%; height: auto;"><figure>Szammer Ferenc - Tivadari Soma</figure></figure><p>A digitális iskolaújság büszke alkotói. Az oldal a 2024/2025-ös tanévben készült, amikor A Veszprémi SZC Ipari Technikumba jártuk végzős szoftverfejlesztő- és tesztelőként. Célunk az volt, hogy a hagyományos papírújságot leváltsuk, megőrizve a diákok hozzáférését a legfrissebb hírekhez az iskolájukban!</p></fieldset></div>';
 
 
         let oldalszamozas = document.createElement("footer");
@@ -1474,7 +1474,14 @@ async function AdatokBetoltese() {
 
         const szakEredmeny = await szakLekeres.json();
 
-        adatOsztaly.innerHTML = res[0]["evfolyam"] + "." + szakEredmeny[0]["szakJeloles"] + " (" + szakEredmeny[0]["nev"] + ")";
+        if(admin)
+        {
+            adatOsztaly.innerHTML = szakEredmeny[0]["szakJeloles"] + " (" + szakEredmeny[0]["nev"] + ")";
+        }
+        else
+        {
+            adatOsztaly.innerHTML = res[0]["evfolyam"] + "." + szakEredmeny[0]["szakJeloles"] + " (" + szakEredmeny[0]["nev"] + ")";
+        }
     }
 }
 
@@ -1483,18 +1490,18 @@ async function AdatokBetoltese() {
 if(document.title == "Suliújság") {
     window.addEventListener("load", async () => {
         await IndexEllenorzes();
-        await AdatokBetoltese();
         await diakAdatok();
         setLimit();
         cikkekBetoltese(oldalSzam);
+        await AdatokBetoltese();
         loginAdatokMegjelenitese();
         await datumEsIdo();
         setInterval(datumEsIdo, 1000);
     });
 
-    $("alkotok").addEventListener("click", () => {
-        KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
-    })
+    // setTimeout($("alkotok").addEventListener("click", () => {
+    //     KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
+    // }), 2000);
 
     window.addEventListener("resize", () => {
         setLimit();
