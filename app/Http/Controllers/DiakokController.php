@@ -234,7 +234,7 @@ class DiakokController extends Controller
             $kepadat = NULL;
         }
 
-        if(empty($nev) || empty($email) || empty($felhasznalonev) || empty($jelszo) || empty($id))
+        if(empty($nev) || empty($felhasznalonev) || empty($jelszo) || empty($id))
         {
             return response()->json(["valasz" => "Hiányos adatok!"], 400);
         }

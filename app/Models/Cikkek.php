@@ -51,6 +51,6 @@ class Cikkek extends Model
     // ./api/cikktorles
     public static function cikkTorles($cikkSzoveg)
     {
-        return DB::delete("DELETE FROM `cikkek` WHERE cikkek.szoveg = '" . $cikkSzoveg . "'");
+        return DB::delete("DELETE FROM `cikkek` WHERE cikkek.szoveg = '" . $cikkSzoveg . "' AND cikkek.elfogadva = 0");
     }
 }

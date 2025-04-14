@@ -66,14 +66,45 @@ class DiakokTest extends TestCase
 
     public function test_api_loginDiak(): void
     {
+        //Bejelentkezés xX_Gabor_Xx fiókjába
         $diakAdat = [
             "felhasznalonev" => "xX_Gabor_Xx",
-            "jelszo" => "1"
+            "jelszo" => "2"
         ];
 
         $response = $this
             ->post("/api/loginDiak", $diakAdat);
 
         $response->assertStatus(200);
+    }
+
+    public function test_api_diakModositas(): void
+    {
+        //Szabó Gábor diák adatainak módosítása (itt csak a jelszót módosítjuk)
+        $ujAdatok = [
+            "nev" => "Szabó Gábor",
+            "felhasznalonev" => "xX_Gabor_Xx",
+            "jelszo" => "2",
+            "id" => 20,
+            "ujjelszo" => "1"
+        ];
+
+        $response = $this
+            ->post("/api/diakmodositas", $ujAdatok);
+
+        $response->assertStatus(200);
+    }
+
+    public function test_api_diakTorles():void 
+    {
+        //A teszt eredményeképp létrejött felhasználó (és általa [nem] feltöltött cikke) törlése
+        $diakAdatai = [
+            "id" => 29
+        ];
+
+        $response = $this
+            ->post("/api/diaktorles", $diakAdatai);
+
+        $response->assertStatus(204);
     }
 }

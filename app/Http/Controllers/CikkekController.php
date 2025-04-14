@@ -232,7 +232,7 @@ class CikkekController extends Controller
         
         if(empty($postCim) || empty($postSzoveg) || empty($diakId))
         {
-            return response()->json(["valasz" => "Hiányos adatok!"]);
+            return response()->json(["valasz" => "Hiányos adatok!"], 400);
         }
         else
         {
@@ -240,11 +240,11 @@ class CikkekController extends Controller
 
             if(empty($eredmeny))
             {
-                return response()->json(["valasz" => "Sikertelen cikkfelvitel!"]);
+                return response()->json(["valasz" => "Sikertelen cikkfelvitel!"], 400);
             }
             else
             {
-                return response()->json(["valasz" => "Sikeres feltöltés!"]);
+                return response()->json(["valasz" => "Sikeres feltöltés!"], 200);
             }   
         }     
     }

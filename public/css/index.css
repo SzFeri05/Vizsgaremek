@@ -7,6 +7,33 @@
     border: 1px solid black;
 }
 
+fieldset {
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+fieldset > legend {
+    text-align: left;
+    text-decoration: underline dashed;
+    font-variant: small-caps;
+    font-size: xx-large;
+}
+
+fieldset > ul {
+    text-align: left;
+    font-size: x-large;
+}
+
+fieldset > p {
+    text-align: justify;
+    font-size: x-large;
+}
+
+fieldset > figure {
+    padding: 10px;
+}
+
 
 /*Teljes oldal háttérszíne*/
 body, html {

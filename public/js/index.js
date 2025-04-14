@@ -1326,7 +1326,13 @@ function KepKinagyitasa(src, feltoltoDiak, datum) {
     modalImg.style.height = "50%";
     modalImg.src = src;
 
-    modalText.innerText = feltoltoDiak + "\n" + datum.split(' ')[0].replaceAll('-', '. ') + ".";
+    if(src == "./img/alkotok.jpeg") {
+        modalText.innerText = feltoltoDiak;
+    }
+
+    else {
+        modalText.innerText = feltoltoDiak + "\n" + datum.split(' ')[0].replaceAll('-', '. ') + ".";
+    }
 
     var span = $("kepModalBezaras");
 
@@ -1426,18 +1432,69 @@ async function datumEsIdo() {
         ev + ". " + (honap < 9 ? "0" + (honap+1) : (honap+1)) + ". " + (nap < 10 ? "0" + nap : nap) + ".";
 }
 
+async function AdatokBetoltese() {
+    const sutik = decodeURIComponent(document.cookie);
+    const bontottSutik = sutik.split(";");
+
+    const id = bontottSutik[1].split("=");
+
+    const req = await fetch("./api/diakIdAlapjan", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            "id" : id[1]
+        })
+    });
+
+    if(req.ok) {
+        const res = await req.json();
+
+        let adatNev = $("adatNev");
+        let adatIskola = $("adatIskola");
+        let adatEmail = $("adatEmail");
+        let adatFelhasz = $("adatFelhasz");
+        let adatOsztaly = $("adatOsztaly");
+
+        adatNev.innerHTML = res[0]["nev"];
+        adatIskola.innerHTML = res[0]["iNev"];
+        adatEmail.innerHTML = res[0]["email"];
+        adatFelhasz.innerHTML = res[0]["felhasznalonev"];
+
+        const szakLekeres = await fetch("./api/szakok", {
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({
+                "id" : res[0]["szak_id"]
+            })
+        });
+
+        const szakEredmeny = await szakLekeres.json();
+
+        adatOsztaly.innerHTML = res[0]["evfolyam"] + "." + szakEredmeny[0]["szakJeloles"] + " (" + szakEredmeny[0]["nev"] + ")";
+    }
+}
+
 
 
 if(document.title == "Suliújság") {
     window.addEventListener("load", async () => {
         await IndexEllenorzes();
-        diakAdatok();
+        await AdatokBetoltese();
+        await diakAdatok();
         setLimit();
         cikkekBetoltese(oldalSzam);
         loginAdatokMegjelenitese();
         await datumEsIdo();
         setInterval(datumEsIdo, 1000);
     });
+
+    $("alkotok").addEventListener("click", () => {
+        KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
+    })
 
     window.addEventListener("resize", () => {
         setLimit();

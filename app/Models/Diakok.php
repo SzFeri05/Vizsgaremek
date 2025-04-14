@@ -18,7 +18,7 @@ class Diakok extends Model
     // ./api/diakIdAlapjan
     public static function DiakLekeresId($id)
     {
-        return DB::select("SELECT * FROM diakok WHERE diakok.id = " . $id);
+        return DB::select("SELECT diakok.*, iskolak.nev AS iNev FROM diakok INNER JOIN iskolak on diakok.iskola_id = iskolak.id WHERE diakok.id = " . $id);
     }
     
     //Diák adatainak lekérése név alapján
