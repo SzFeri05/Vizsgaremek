@@ -21,6 +21,7 @@ Route::post("/evfolyamok", [IskolakController::class, "Evfolyamok"]);
 
 //Szakok(Controller)
 Route::post("/szakok", [SzakokController::class, "Szakok"]);
+Route::post("/szakokId", [SzakokController::class, "SzakokId"]);
 
 
 //Diakok(Controller)

@@ -12,6 +12,7 @@ let posztokDB;
 let bejelentkezveMarad;
 let footer;
 let body = document.getElementById("body");
+let alkotok;
 
 function setLimit() {
     if(window.innerWidth < 1700/*992*/ && window.innerWidth > 1099/*767*/ || window.innerHeight < 880 && window.innerHeight > 480)
@@ -1451,6 +1452,7 @@ async function AdatokBetoltese() {
     if(req.ok) {
         const res = await req.json();
 
+        const iskolaid = bontottSutik[2].split("=");
         let adatNev = $("adatNev");
         let adatIskola = $("adatIskola");
         let adatEmail = $("adatEmail");
@@ -1462,13 +1464,14 @@ async function AdatokBetoltese() {
         adatEmail.innerHTML = res[0]["email"];
         adatFelhasz.innerHTML = res[0]["felhasznalonev"];
 
-        const szakLekeres = await fetch("./api/szakok", {
+        const szakLekeres = await fetch("./api/szakokId", {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json"
             },
             body : JSON.stringify({
-                "id" : res[0]["szak_id"]
+                "id" : res[0]["szak_id"],
+                "iskolaId" : iskolaid[1]
             })
         });
 
@@ -1499,9 +1502,11 @@ if(document.title == "Suliújság") {
         setInterval(datumEsIdo, 1000);
     });
 
-    // setTimeout($("alkotok").addEventListener("click", () => {
-    //     KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
-    // }), 2000);
+    setTimeout(() => { alkotok = $("alkotok"); }, 1000)
+    
+    setTimeout(() => {alkotok.addEventListener("click", () => {
+        KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
+     })}, 1000);
 
     window.addEventListener("resize", () => {
         setLimit();
