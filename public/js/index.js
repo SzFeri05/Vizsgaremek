@@ -541,6 +541,12 @@ async function cikkekBetoltese(oldal) {
 
         cikkekHelye.appendChild(oldalszamozas);
         frissitNyilak();
+        AdatokBetoltese();
+        setTimeout(() => { alkotok = $("alkotok"); }, 1000)
+    
+        setTimeout(() => {alkotok.addEventListener("click", () => {
+            KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
+        })}, 1000);
         return;
     }
 
