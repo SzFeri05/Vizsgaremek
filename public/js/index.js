@@ -529,7 +529,7 @@ async function HosszuCikkModalMutatas(cim, szoveg, nev, datum, kep) {
 async function cikkekBetoltese(oldal) {
 
     if (oldal === 1) {
-        cikkekHelye.innerHTML = "";
+        // cikkekHelye.innerHTML = '';
 
 
         let oldalszamozas = document.createElement("footer");
