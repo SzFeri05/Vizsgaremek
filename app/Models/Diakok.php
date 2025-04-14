@@ -74,16 +74,16 @@ class Diakok extends Model
 
     //Diák adatainak módosítása
     // ./api/diakmodositas
-    public static function DiakModositas($nev, $email, $felhasznalonev, $id, $kep = NULL, $jelszo)
+    public static function DiakModositas($nev, $felhasznalonev, $id, $kep = NULL, $jelszo)
     {
         if($kep == NULL) 
         {
-            return DB::update("UPDATE `diakok` SET `nev`= ?,`email`= ?,`felhasznalonev`= ?, `jelszo` = ? WHERE diakok.id = ?", [$nev, $email, $felhasznalonev, $jelszo, $id]);
+            return DB::update("UPDATE `diakok` SET `nev`= ?,`felhasznalonev`= ?, `jelszo` = ? WHERE diakok.id = ?", [$nev, $felhasznalonev, $jelszo, $id]);
         }
 
         else
         {
-            return DB::update("UPDATE `diakok` SET `nev`= ?,`email`= ?,`felhasznalonev`= ?, `profilKep` = ?, `jelszo` = ? WHERE diakok.id = ?", [$nev, $email, $felhasznalonev, $kep, $jelszo, $id]);
+            return DB::update("UPDATE `diakok` SET `nev`= ?,`felhasznalonev`= ?, `profilKep` = ?, `jelszo` = ? WHERE diakok.id = ?", [$nev, $felhasznalonev, $kep, $jelszo, $id]);
         }
     }
 

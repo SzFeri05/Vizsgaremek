@@ -204,7 +204,7 @@ class DiakokController extends Controller
         $egyezikE = password_verify($jelszo, $hasheltJelszo);
 
         if(!$egyezikE) {
-            return response()->json(["valasz" => "Sikertelen bejelentkezés!"], 400);
+            return response()->json(["valasz" => "Nem megfelelő jelszó!"], 400);
         }
 
         return response()->json(["valasz" => $felhasznalonev], 200);
@@ -214,7 +214,6 @@ class DiakokController extends Controller
     public function DiakModositController(Request $request)
     {
         $nev = $request->input("nev");
-        $email = $request->input("email");
         $felhasznalonev = $request->input("felhasznalonev");
         $ujjelszo = $request->input("ujjelszo");
         $jelszo = $request->input("jelszo");
@@ -255,13 +254,13 @@ class DiakokController extends Controller
                 {
                     if($ujjelszo)
                     {
-                        $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id, $kepadat, password_hash($ujjelszo, PASSWORD_DEFAULT));
+                        $modosit = Diakok::DiakModositas($nev, $felhasznalonev, $id, $kepadat, password_hash($ujjelszo, PASSWORD_DEFAULT));
 
                         $modositott = Diakok::DiakLekeresId($id);
                     }
                     else
                     {
-                        $modosit = Diakok::DiakModositas($nev, $email, $felhasznalonev, $id, $kepadat, password_hash($jelszo, PASSWORD_DEFAULT));
+                        $modosit = Diakok::DiakModositas($nev, $felhasznalonev, $id, $kepadat, password_hash($jelszo, PASSWORD_DEFAULT));
 
                         $modositott = Diakok::DiakLekeresId($id);
                     }

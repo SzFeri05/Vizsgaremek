@@ -5,7 +5,7 @@ function $(id) {
 //Globális változók
 let oldalSzam = 1; // Kezdő oldal
 let limit = 8;   //Hány cikk jelenjen meg oldalanként
-let oldalakSzama = 1; // Kezdetben 1 oldal, API frissíti
+let oldalakSzama = 5; // Kezdetben 1 oldal, API frissíti
 let betoltodik = false;
 let admin = false;
 let posztokDB;
@@ -14,13 +14,13 @@ let footer;
 let body = document.getElementById("body");
 
 function setLimit() {
-    if(window.innerWidth < 992 && window.innerWidth > 767)
+    if(window.innerWidth < 1700/*992*/ && window.innerWidth > 1099/*767*/ || window.innerHeight < 880 && window.innerHeight > 480)
     {
         limit = 4;
     }
-    else if(window.innerWidth < 768 && window.innerWidth > 0)
+    else if(window.innerWidth < 1100/*768*/ && window.innerWidth > 0)
     {
-        limit = 1;
+        limit = 2;
     }
     else
     {
@@ -290,83 +290,91 @@ async function register() {
 }
 
 async function login() {
-    let felhasznalonev = $("loginFelahsznaloNev").value;
-    let jelszo = $("loginJelszo").value;
+    try {
+        let felhasznalonev = $("loginFelahsznaloNev").value;
+        let jelszo = $("loginJelszo").value;
 
-    if(felhasznalonev == "" || jelszo == "") {
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
-        $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
-        $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
-        $("toastImg").src = "./img/yellow.png";
-        $("toastImg").classList.add("rounded-circle");
-        toastBootstrap.show();
-    }
-
-    else {
-        let kuldendoAdatok = {
-            "felhasznalonev" : felhasznalonev,
-            "jelszo" : jelszo
+        if(felhasznalonev == "" || jelszo == "") {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
+            $("toastBody").innerHTML = "Kérjük töltsön ki minden kötelező mezőt!";
+            $("toastImg").src = "./img/yellow.png";
+            $("toastImg").classList.add("rounded-circle");
+            toastBootstrap.show();
         }
 
-        let lekeres = await fetch("./api/loginDiak", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(kuldendoAdatok),
-        });
+        else {
+            let kuldendoAdatok = {
+                "felhasznalonev" : felhasznalonev,
+                "jelszo" : jelszo
+            }
 
-        if(lekeres.ok) {
-            let resp = await lekeres.json();
+            let lekeres = await fetch("./api/loginDiak", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(kuldendoAdatok),
+            });
 
-            if(!resp["valasz"].includes("Sikertelen"))
-            {
-                let diakAdatai = await fetch("/api/diakNevAlapjan", {
-                    method : "POST",
-                    headers : {
-                        "Content-Type" : "application/json"
-                    },
-                    body : JSON.stringify({
-                        "nev" : resp["valasz"]
-                    })
-                });
+            if(lekeres.ok) {
+                let resp = await lekeres.json();
 
-                if(diakAdatai.ok) {
-                    let adatok = await diakAdatai.json();
+                if(!resp["valasz"].includes("Sikertelen"))
+                {
+                    let diakAdatai = await fetch("/api/diakNevAlapjan", {
+                        method : "POST",
+                        headers : {
+                            "Content-Type" : "application/json"
+                        },
+                        body : JSON.stringify({
+                            "nev" : resp["valasz"]
+                        })
+                    });
 
-                    $("loginFelahsznaloNev").value = "";
-                    $("loginJelszo").value = "";
-                    $("loginMarad").checked = false;
+                    if(diakAdatai.ok) {
+                        let adatok = await diakAdatai.json();
 
-                    let url = document.location.href;
-                    let ujUrl = url.replace("/login.html", "/index.html");
-                    document.location.href = ujUrl;
+                        let url = document.location.href;
+                        let ujUrl = url.replace("/login.html", "/index.html");
+                        document.location.href = ujUrl;
 
-                    bejelentkezveMarad = $("loginMarad").checked;
+                        bejelentkezveMarad = $("loginMarad").checked;
 
-                    if(bejelentkezveMarad) {
-                        const d = new Date();
-                        let napigMaradBejelentkezve = 300;
-                        d.setTime(d.getTime() + (napigMaradBejelentkezve*24*60*60*1000));
-                        let lejaratiDatum = d.toUTCString();
+                        if(bejelentkezveMarad) {
+                            let d = new Date();
+                            let napigMaradBejelentkezve = 31;
+                            d.setTime(d.getTime() + (napigMaradBejelentkezve*24*60*60*1000));
+                            let lejaratiDatum = d.toUTCString();
 
-                        console.log(adatok[0]["iId"])
+                            document.cookie = "felhasznalonev=" + adatok[0]["felhasznalonev"] + ";expires=" + lejaratiDatum + ";path=/;";
+                            document.cookie = "id=" + adatok[0]["id"] + ";expires=" + lejaratiDatum + ";path=/;";
+                            document.cookie = "iskola=" + adatok[0]["iId"] + ";expires=" + lejaratiDatum + ";path=/;";
+                        }
 
-                        document.cookie = "felhasznalonev=" + adatok[0]["felhasznalonev"] + ";expires=" + lejaratiDatum + ";";
-                        document.cookie = "id=" + adatok[0]["id"] + ";expires=" + lejaratiDatum + ";";
-                        document.cookie = "iskola=" + adatok[0]["iId"] + "expires=" + lejaratiDatum + ";";
+                        else {
+                            document.cookie = "felhasznalonev=" + resp["valasz"] + ";path=/;";
+                            document.cookie = "id=" + adatok[0]["id"] + ";path=/;";
+                            document.cookie = "iskola=" + adatok[0]["iId"] + ";path=/;";
+                        }
+
+                        $("loginFelahsznaloNev").value = "";
+                        $("loginJelszo").value = "";
+                        $("loginMarad").checked = false;
                     }
 
                     else {
-                        console.log(adatok[0]["iId"])
-
-                        document.cookie = "felhasznalonev=" + resp["valasz"] + ";";
-                        document.cookie = "id=" + adatok[0]["id"] + ";";
-                        document.cookie = "iskola=" + adatok[0]["iId"] + ";";
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+                        $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
+                        $("toastBody").innerHTML = resp["valasz"];
+                        $("toastImg").src = "./img/red.png";
+                        $("toastImg").classList.add("rounded-circle");
+                        toastBootstrap.show();
                     }
                 }
 
-                else {
+                else
+                {
                     const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
                     $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
                     $("toastBody").innerHTML = resp["valasz"];
@@ -374,29 +382,80 @@ async function login() {
                     $("toastImg").classList.add("rounded-circle");
                     toastBootstrap.show();
                 }
+                
             }
-
-            else
-            {
+        
+            else {
+                let res = await lekeres.json();
                 const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
                 $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
-                $("toastBody").innerHTML = resp["valasz"];
+                $("toastBody").innerHTML = res["valasz"];
                 $("toastImg").src = "./img/red.png";
                 $("toastImg").classList.add("rounded-circle");
                 toastBootstrap.show();
             }
-            
-        }
-    
-        else {
-            let res = await lekeres.json();
-            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
-            $("toastTitle").innerHTML = "Sikertelen bejelentkezés!";
-            $("toastBody").innerHTML = res["valasz"];
-            $("toastImg").src = "./img/red.png";
+        }   
+    } catch (error) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Szerver hiba!";
+        $("toastBody").innerHTML = "A szerver jelenleg nem működik. Próbálja újra később!";
+        $("toastImg").src = "./img/red.png";
         $("toastImg").classList.add("rounded-circle");
-            toastBootstrap.show();
+        toastBootstrap.show();
+    }
+}
+
+async function LoginEllenorzes() {
+    const decoded = decodeURI(document.cookie);
+    const cookies = decoded.split('; ');
+
+    const felhasz = cookies[0].split("=");
+    const jelszo = cookies[2].split("=");
+
+    let kuldendoAdatok = {
+        "felhasznalonev" : felhasz[1],
+        "jelszo" : jelszo[1]
+    }
+
+    let lekeres = await fetch("./api/loginDiak", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(kuldendoAdatok),
+    });
+
+    if(lekeres.ok) {
+        let resp = await lekeres.json();
+
+        if(!resp["valasz"].includes("Sikertelen"))
+        {
+            let diakAdatai = await fetch("/api/diakNevAlapjan", {
+                method : "POST",
+                headers : {
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify({
+                    "nev" : resp["valasz"]
+                })
+            });
+
+            if(diakAdatai.ok) {
+                let url = document.location.href;
+                let ujUrl = url.replace("/login.html", "/index.html");
+                document.location.href = ujUrl;
+            }
         }
+    }
+}
+
+async function IndexEllenorzes() {
+    const decoded = decodeURI(document.cookie);
+
+    if(decoded == "") {
+        let url = document.location.href;
+        let ujUrl = url.replace("/index.html", "/login.html");
+        document.location.href = ujUrl;
     }
 }
 
@@ -469,6 +528,21 @@ async function HosszuCikkModalMutatas(cim, szoveg, nev, datum, kep) {
 
 async function cikkekBetoltese(oldal) {
 
+    if (oldal === 1) {
+        cikkekHelye.innerHTML = "";
+
+
+        let oldalszamozas = document.createElement("footer");
+
+        oldalszamozas.classList = "fixed-bottom bg-transparent text-white text-center py-2";
+        oldalszamozas.style = "color: black !important; font-size: 20px; font-weight: 800;";
+        oldalszamozas.innerHTML = oldalSzam;
+
+        cikkekHelye.appendChild(oldalszamozas);
+        frissitNyilak();
+        return;
+    }
+
     if(admin)
     {
         let adminGomb = document.getElementById("adminGomb");
@@ -483,10 +557,10 @@ async function cikkekBetoltese(oldal) {
   try {
     let cookies = document.cookie;
     let iskolaId = parseInt(cookies.split(";")[2].split("=")[1]);
-    let cikkLekeres = await fetch(`./api/posztok?oldal=${oldal}&limit=${limit}&iskola=${iskolaId}`);
+    let cikkLekeres = await fetch(`./api/posztok?oldal=${oldal-1}&limit=${limit}&iskola=${iskolaId}`);
     let valasz = await cikkLekeres.json();
     let posztok = valasz.posztok;
-    oldalakSzama = valasz.oldalakSzama-1; // Globális változó frissítése
+    oldalakSzama = valasz.oldalakSzama; // Globális változó frissítése
 
     let oldalszamozas = document.createElement("footer");
 
@@ -499,7 +573,7 @@ async function cikkekBetoltese(oldal) {
        }
       cikkekHelye.innerHTML = "";
     }
-
+    
     cikkekHelye.innerHTML = "";
     for (const poszt of posztok) {
       let fodiv = document.createElement("div");
@@ -515,8 +589,19 @@ async function cikkekBetoltese(oldal) {
 
       let karakterSzam = poszt["szoveg"].length;
 
-
-      fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
+        if(limit == 8)
+        {
+            fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
+        }
+        else if(limit == 4)
+        {
+            fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-4 mx-auto";
+        }
+        else if(limit == 1)
+        {
+            fodiv.className = "col-12 col-sm-12 col-md-6 col-lg-3 mx-auto";
+        }
+      
 
       div.className = "card align-items-center bg-transparent";
       div.style = "height: 27rem;";
@@ -547,7 +632,7 @@ async function cikkekBetoltese(oldal) {
       p.classList = "card-text";
       p.innerHTML = poszt.szoveg;
       p.style = "width: 100%;";
-      if(karakterSzam >= 350)
+      if(karakterSzam >= 325)
       {
         let img = null;
 
@@ -568,7 +653,7 @@ async function cikkekBetoltese(oldal) {
             });
             button.style.marginLeft = "10px";
 
-            p.innerHTML = poszt.szoveg.substring(0, 347) + "...";
+            p.innerHTML = poszt.szoveg.substring(0, 322) + "...";
 
             p.appendChild(button);
         }
@@ -844,6 +929,26 @@ async function nemElfogadottCikkek(oldal) {
       }
       else
       {
+        if(posztok.length >= limit)
+        {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+        $("toastTitle").innerHTML = "Információ";
+        $("toastBody").innerHTML = "Megjelenített cikkek: " + limit + ". Összes cikk: " + posztok.length;
+        $("toastImg").src = "./img/blue.png";
+        $("toastImg").classList.add("rounded-circle");
+        toastBootstrap.show();
+        }
+        else
+        {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance($("liveToast"));
+            $("toastTitle").innerHTML = "Információ";
+            $("toastBody").innerHTML = "Megjelenített cikkek: " + posztok.length + ". Összes cikk: " + posztok.length;
+            $("toastImg").src = "./img/blue.png";
+            $("toastImg").classList.add("rounded-circle");
+            toastBootstrap.show();
+        }
+        
+
         cikkekHelye.innerHTML = "";
         let seged = 0;
         for (const poszt of posztok) {
@@ -1089,7 +1194,6 @@ async function profilModositasBetoltes()
 
     let fnev = document.getElementById("felhasznalonev");
     let tnev = document.getElementById("teljesnev");
-    let emailcim = document.getElementById("email");
 
     let lekeres = await fetch("./api/diakIdAlapjan", {
         method: "POST",
@@ -1108,7 +1212,6 @@ async function profilModositasBetoltes()
         for (const e of eredmeny) {
             fnev.value = e.felhasznalonev;
             tnev.value = e.nev;
-            emailcim.value = e.email;
         }
     }
 }
@@ -1120,7 +1223,6 @@ async function profilMentes()
 
     let fnev = document.getElementById("felhasznalonev").value;
     let tnev = document.getElementById("teljesnev").value;
-    let emailcim = document.getElementById("email").value;
     let ujjelszo = document.getElementById("ujjelszo").value;
     let jelszo = document.getElementById("password").value;
     let pfp = $("pfp").files[0];
@@ -1130,7 +1232,6 @@ async function profilMentes()
     profil.append('nev', tnev);
     profil.append('id', id);
     profil.append('felhasznalonev', fnev);
-    profil.append('email', emailcim);
     profil.append("ujjelszo", ujjelszo);
 
     console.log(jelszo)
@@ -1325,8 +1426,11 @@ async function datumEsIdo() {
         ev + ". " + (honap < 9 ? "0" + (honap+1) : (honap+1)) + ". " + (nap < 10 ? "0" + nap : nap) + ".";
 }
 
+
+
 if(document.title == "Suliújság") {
     window.addEventListener("load", async () => {
+        await IndexEllenorzes();
         diakAdatok();
         setLimit();
         cikkekBetoltese(oldalSzam);
@@ -1344,7 +1448,7 @@ if(document.title == "Suliújság") {
         ujCikk();
     });
 
-    $("jobbNyilDiv").addEventListener("click", () => {
+    $("jobbNyilDiv").addEventListener("click", () => {  
         if (oldalSzam < oldalakSzama) {
             oldalSzam++;
             cikkekBetoltese(oldalSzam);
@@ -1392,4 +1496,8 @@ if(document.title == "Kezdőoldal") {
 
     $("loginButton").addEventListener("click", login);
     $("registerButton").addEventListener("click", register);
+
+    window.addEventListener("load", () => {
+        LoginEllenorzes();
+    });
 }
