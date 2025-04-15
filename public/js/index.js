@@ -542,11 +542,11 @@ async function cikkekBetoltese(oldal) {
         cikkekHelye.appendChild(oldalszamozas);
         frissitNyilak();
         AdatokBetoltese();
-        setTimeout(() => { alkotok = $("alkotok"); }, 1000)
+        setTimeout(() => { alkotok = $("alkotok"); }, 500)
     
         setTimeout(() => {alkotok.addEventListener("click", () => {
-            KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
-        })}, 1000);
+            KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók \n Szammer Ferenc - Tivadari Soma", "");
+        })}, 500);
         return;
     }
 
@@ -1508,11 +1508,11 @@ if(document.title == "Suliújság") {
         setInterval(datumEsIdo, 1000);
     });
 
-    setTimeout(() => { alkotok = $("alkotok"); }, 1000)
+    setTimeout(() => { alkotok = $("alkotok"); }, 500)
     
     setTimeout(() => {alkotok.addEventListener("click", () => {
-        KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók", "");
-     })}, 1000);
+        KepKinagyitasa("./img/alkotok.jpeg", "Az Alkotók \n Szammer Ferenc - Tivadari Soma", "");
+     })}, 500);
 
     window.addEventListener("resize", () => {
         setLimit();
