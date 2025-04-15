@@ -14,7 +14,7 @@ fieldset {
 }
 
 fieldset > legend {
-    text-align: left;
+    text-align: center;
     text-decoration: underline dashed;
     font-variant: small-caps;
     font-size: xx-large;
