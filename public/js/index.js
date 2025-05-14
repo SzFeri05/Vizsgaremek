@@ -639,13 +639,28 @@ async function cikkekBetoltese(oldal) {
       p.classList = "card-text";
       p.innerHTML = poszt.szoveg;
       p.style = "width: 100%;";
-      if(karakterSzam >= 325)
+      if(karakterSzam >= 200)
       {
         let img = null;
 
         if(poszt.kep != "data:image\/ismeretlen;base64,")
         {
             img = poszt["kep"];
+
+            let button = document.createElement("button");
+            button.type = "button";
+            button.classList.add("btn", "btn-outline-dark");
+            button.innerHTML = "Tovább olvasom";
+            button.setAttribute("data-bs-target", "#hosszuCikkModal");
+            button.setAttribute("data-bs-toggle", "modal");
+            button.addEventListener("click", () => {
+                HosszuCikkModalMutatas(poszt["cim"], poszt["szoveg"], poszt["felhasznalonev"], poszt.datum.split(' ')[0].replaceAll('-', '.') + ".", img);
+            });
+            button.style.marginLeft = "10px";
+
+            p.innerHTML = poszt.szoveg.substring(0, 52) + "...";
+
+            p.appendChild(button);
         }
         else
         {
@@ -660,25 +675,10 @@ async function cikkekBetoltese(oldal) {
             });
             button.style.marginLeft = "10px";
 
-            p.innerHTML = poszt.szoveg.substring(0, 322) + "...";
+            p.innerHTML = poszt.szoveg.substring(0, 202) + "...";
 
             p.appendChild(button);
         }
-
-        let button = document.createElement("button");
-        button.type = "button";
-        button.classList.add("btn", "btn-outline-dark");
-        button.innerHTML = "Tovább olvasom";
-        button.setAttribute("data-bs-target", "#hosszuCikkModal");
-        button.setAttribute("data-bs-toggle", "modal");
-        button.addEventListener("click", () => {
-            HosszuCikkModalMutatas(poszt["cim"], poszt["szoveg"], poszt["felhasznalonev"], poszt.datum.split(' ')[0].replaceAll('-', '.') + ".", img);
-        });
-        button.style.marginLeft = "10px";
-
-        p.innerHTML = poszt.szoveg.substring(0, 97) + "...";
-
-        p.appendChild(button);
       }
 
 
