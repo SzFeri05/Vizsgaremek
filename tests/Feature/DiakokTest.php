@@ -66,10 +66,10 @@ class DiakokTest extends TestCase
 
     public function test_api_loginDiak(): void
     {
-        //Bejelentkezés xX_Gabor_Xx fiókjába
+        //Bejelentkezés az újjonan létrehozott felhasználó fiókjába
         $diakAdat = [
-            "felhasznalonev" => "xX_Gabor_Xx",
-            "jelszo" => "2"
+            "felhasznalonev" => "Teszter",
+            "jelszo" => "1"
         ];
 
         $response = $this
@@ -80,13 +80,13 @@ class DiakokTest extends TestCase
 
     public function test_api_diakModositas(): void
     {
-        //Szabó Gábor diák adatainak módosítása (itt csak a jelszót módosítjuk)
+        //Teszt Sándor diák adatainak módosítása (itt csak a jelszót módosítjuk)
         $ujAdatok = [
-            "nev" => "Szabó Gábor",
-            "felhasznalonev" => "xX_Gabor_Xx",
-            "jelszo" => "2",
-            "id" => 20,
-            "ujjelszo" => "1"
+            "nev" => "Teszt Sándor",
+            "felhasznalonev" => "Teszter",
+            "jelszo" => "1",
+            "id" => 40,
+            "ujjelszo" => "2"
         ];
 
         $response = $this
@@ -99,7 +99,7 @@ class DiakokTest extends TestCase
     {
         //A teszt eredményeképp létrejött felhasználó (és általa [nem] feltöltött cikke) törlése
         $diakAdatai = [
-            "id" => 29
+            "id" => 40
         ];
 
         $response = $this

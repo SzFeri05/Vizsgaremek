@@ -38,6 +38,21 @@ class CikkekTest extends TestCase
         $this->assertNotEmpty($response->getContent());
     }
 
+    public function test_api_ujElfogadandoCikk(): void
+    {
+        //Új cikk felvitele az adatbázisba
+        $adatok = [
+            "postCim" => "Új cikk",
+            "postSzoveg" => "asd",
+            "diakId" => "19"
+        ];
+
+        $response = $this
+            ->post("/api/ujcikk", $adatok);
+
+        $response->assertStatus(200);
+    }
+
     public function test_api_cikkElfogadas(): void
     {
         //Nem elfogadott cikk elfogadása
@@ -52,7 +67,7 @@ class CikkekTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_api_ujCikk(): void
+    public function test_api_ujTorlendoCikk(): void
     {
         //Új cikk felvitele az adatbázisba
         $adatok = [
